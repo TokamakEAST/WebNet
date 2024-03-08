@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -14,23 +13,22 @@
             background-image: url(background.jpg);/*背景图片地址*/
             background-repeat: no-repeat;
             background-size: cover;
+            font-family: Arial, sans-serif; /* 使用备选字体 */
         }
 
-        #sidebar {
-            width: 320px;/*更改侧边栏宽度*/
-            padding: 20px;
-            background-color: rgba(238, 238, 238, 0.8); /* 设置半透明背景颜色 */
-            position: fixed;
-            left: -300px;
-            top: 0;
-            bottom: 0;
-            transition: left 0.3s ease;
-            z-index: 1;
+        #buttonContainer {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: rgba(238, 238, 238, 0.2);
         }
 
-        #content {
-            padding: 20px;
-            transition: margin-left 0.3s ease;
+        #toggleSidebarBtn {
+            background-color: #EEEEEE;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
         }
 
         #sidebar.visible {
@@ -42,25 +40,9 @@
         }
 
         button {
-            width: 100%;
-            height: 50px;
+            width: 150px;
+            height: 40px;
             margin-bottom: 10px;
-        }
-
-        #toggleSidebarBtn {/*侧边栏状态切换按钮*/
-            position: fixed;
-            top: 500px;
-            left: 20px;
-            width: 80px;
-            height: 20px;
-            background-color:rgba(238, 238, 238, 0.2);/*设置半透明背景颜色*/
-            background-color: #EEEEEE;
-            padding: 10px;
-            cursor: pointer;
-            z-index: 2;
-            transition: opacity 0.3 ease;
-            border: none ;
-            border-radius: 25%; /* 设置按钮为圆形 */
         }
 
         .expanded-content {
@@ -88,63 +70,60 @@
                 margin-left: 0;
             }
         }
+
         table {
             width: 100%;
-            max-width: 950px; /* 控制表格最大宽度 */
-            margin: 0 auto; /* 水平居中 */
-            text-align: center; /* 表格中的文本水平居中 */
-       
+            max-width: 950px;
+            margin: 0 auto;
+            text-align: center;
         }
 
-        td, th {
+        td,
+        th {
             padding: 10px;
-            vertical-align: middle; /* 表格单元格中的内容垂直居中 */
-        }
-
-        #buttonContainer {
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            vertical-align: middle;
         }
 
         table {
-            background-color: rgba(255, 255, 255, 0.5); /* 设置透明度为0.5 */
-        } 
+            background-color: rgba(255, 255, 255, 0.5);
+        }
 
-/* 让表格在没有数据的时候具有边框 */
-        #t1 td, #t1 th, #t2 td, #t2 th  {
-        min-width: 50px; /* 设置单元格的最小宽度 */
-        min-height: 20px; /* 设置单元格的最小高度 */
-        border: 1px solid black; /* 设置单元格的边框 */
-        padding: 5px; /* 设置单元格的内边距 */
-    }
-        
+        /* 让表格在没有数据的时候具有边框 */
+        #t1 td,
+        #t1 th,
+        #t2 td,
+        #t2 th {
+            min-width: 50px;
+            min-height: 20px;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        .table-container {
+    text-align: center;
+}
 
-        
     </style>
 </head>
 
 <body>
+    
     <div id="sidebar">
-        
-        <h2>切换列表</h2>
         <button onclick="t1Shift()"><b>分布矩阵</b></button>
         <button onclick="t2Shift()"><b>其他数据</b></button>
     </div>
 
     <div id="content">
         <h1 style="text-align: center;">电力碳排放分析</h1>
-        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> <!-- 调用jQuery库 -->
+        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
         <script>
             var userAgent = navigator.userAgent.toLowerCase();
-            var isMobile = /mobile|iphone|ipod|ipad|android/.test(userAgent);
-    
+
+
             if (isMobile) {
-                window.location.href = "mobile.html"; // 在移动设备上重定向到移动页面
+                window.location.href = "mobile.html";
             }
         </script>
-       
+
         <table width="100%" border="0">
             <tr>
                 <td id="bg" height="50" colspan="2" bgcolor="#000000"
@@ -162,7 +141,7 @@
                             <th width="200">负荷碳流率向量</th>
                             <th colspan="2" width="400">支路有功损耗引起的碳排放</th>
                         </tr>
-                         
+
                         </tr>
                         <tr>
                             <td>12</td>
@@ -170,193 +149,186 @@
                             <td>12</td>
                             <td>12</td>
                         </tr>
-                       
+
                     </table>
-                    <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t2"
-                        style="border-collapse:collapse;display:none;">
+                    <td class="table-container" style="text-align: center;">
+                    <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t2" style="border-collapse:collapse;display:none;">
                         <tr style="background-color: #ffffff">
-                            <th width="200">支路碳流分布矩阵</th>
-                            <th width="200"> </th>
-                            <th width="200"> </th>
-                            <th width="200"> </th>
-                            <th width="200"> </th>
+                            <th colspan="14" width="2800" style="text-align: left;">支路碳流分布矩阵</th>
                             <tr>
-                                <td id="01_Temp"></td>
-                                <td id="11_Temp"></td>
-                                <td id="21_Temp"></td>
-                                <td id="31_Temp"></td>
-                                <td id="41_Temp"></td>
+                                <td>0</td>
+                                <td>58.5360954424703</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>34.9487928231621</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
                             </tr>
-                          
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>9.00121662140902</td>
+                                <td>28.0177010985007</td>
+                                <td>22.2793556253472</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0.569674857985397</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>3.04664500355975</td>
+                                <td>0</td>
+                                <td>4.14072552259122</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+
                     </table>
+                
                 </td>
             </tr>
         </table>
     </div>
 
 
-    <div id="toggleSidebarBtn" onclick="toggleSidebar()">
-        展开列表
-    </div>
+    <!--定向将数据存放在表格中-->
+    <!--向危险气体中存-->
+    <script type="text/javascript">
+        setTimeout("requestTdata()", 1000);
 
-        <!--定向将数据存放在表格中-->
-        <!--向危险气体中存-->
-        <script type="text/javascript">
-            setTimeout("requestTdata()", 1000);
-    
-            function requestTdata() {
-                $.ajax({
-                    url: 'getGas.php',
-                    success: function(data) {
-                        var jsdata = JSON.parse(data);
-                        var time_jsdata = jsdata[0];
-                        var IA_jsdata = jsdata[1];
-                        var IB_jsdata = jsdata[2];
-                        var IC_jsdata = jsdata[3];
-                        var Switch_jsdata = jsdata[4];
-    
-                        document.getElementById("01_Gas").innerHTML = time_jsdata[0];
-                        document.getElementById("11_Gas").innerHTML = IA_jsdata[0];
-                        document.getElementById("21_Gas").innerHTML = IB_jsdata[0];
-                        document.getElementById("31_Gas").innerHTML = IC_jsdata[0];
-                        document.getElementById("41_Gas").innerHTML = Switch_jsdata[0];
-    
-                        document.getElementById("02_Gas").innerHTML = time_jsdata[1];
-                        document.getElementById("12_Gas").innerHTML = IA_jsdata[1];
-                        document.getElementById("22_Gas").innerHTML = IB_jsdata[1];
-                        document.getElementById("32_Gas").innerHTML = IC_jsdata[1];
-                        document.getElementById("42_Gas").innerHTML = Switch_jsdata[1];
-    
-                        document.getElementById("03_Gas").innerHTML = time_jsdata[2];
-                        document.getElementById("13_Gas").innerHTML = IA_jsdata[2];
-                        document.getElementById("23_Gas").innerHTML = IB_jsdata[2];
-                        document.getElementById("33_Gas").innerHTML = IC_jsdata[2];
-                        document.getElementById("43_Gas").innerHTML = Switch_jsdata[2];
-                        
-                        document.getElementById("04_Gas").innerHTML = time_jsdata[3];
-                        document.getElementById("14_Gas").innerHTML = IA_jsdata[3];
-                        document.getElementById("24_Gas").innerHTML = IB_jsdata[3];
-                        document.getElementById("34_Gas").innerHTML = IC_jsdata[3];
-                        document.getElementById("44_Gas").innerHTML = Switch_jsdata[3];
-                        
-                        document.getElementById("05_Gas").innerHTML = time_jsdata[4];
-                        document.getElementById("15_Gas").innerHTML = IA_jsdata[4];
-                        document.getElementById("25_Gas").innerHTML = IB_jsdata[4];
-                        document.getElementById("35_Gas").innerHTML = IC_jsdata[4];
-                        document.getElementById("45_Gas").innerHTML = Switch_jsdata[4];
-                        
-                        document.getElementById("06_Gas").innerHTML = time_jsdata[5];
-                        document.getElementById("16_Gas").innerHTML = IA_jsdata[5];
-                        document.getElementById("26_Gas").innerHTML = IB_jsdata[5];
-                        document.getElementById("36_Gas").innerHTML = IC_jsdata[5];
-                        document.getElementById("46_Gas").innerHTML = Switch_jsdata[5];
-                        
-                        document.getElementById("07_Gas").innerHTML = time_jsdata[6];
-                        document.getElementById("17_Gas").innerHTML = IA_jsdata[6];
-                        document.getElementById("27_Gas").innerHTML = IB_jsdata[6];
-                        document.getElementById("37_Gas").innerHTML = IC_jsdata[6];
-                        document.getElementById("47_Gas").innerHTML = Switch_jsdata[6];
-                        
-                        document.getElementById("08_Gas").innerHTML = time_jsdata[7];
-                        document.getElementById("18_Gas").innerHTML = IA_jsdata[7];
-                        document.getElementById("28_Gas").innerHTML = IB_jsdata[7];
-                        document.getElementById("38_Gas").innerHTML = IC_jsdata[7];
-                        document.getElementById("48_Gas").innerHTML = Switch_jsdata[7];
-                        
-                        document.getElementById("09_Gas").innerHTML = time_jsdata[8];
-                        document.getElementById("19_Gas").innerHTML = IA_jsdata[8];
-                        document.getElementById("29_Gas").innerHTML = IB_jsdata[8];
-                        document.getElementById("39_Gas").innerHTML = IC_jsdata[8];
-                        document.getElementById("49_Gas").innerHTML = Switch_jsdata[8];
-                        
-                        document.getElementById("0X_Gas").innerHTML = time_jsdata[9];
-                        document.getElementById("1X_Gas").innerHTML = IA_jsdata[9];
-                        document.getElementById("2X_Gas").innerHTML = IB_jsdata[9];
-                        document.getElementById("3X_Gas").innerHTML = IC_jsdata[9];
-                        document.getElementById("4X_Gas").innerHTML = Switch_jsdata[9];
-                        
-                        setTimeout("requestTdata()", 1000);
-                    }
-                });
-            }
-            /*向温湿度中存*/
-            setTimeout("tempdata()", 1000);
-    
-            function tempdata() {
-                $.ajax({
-                    url: 'getTemp.php',
-                    success: function(data) {
-                        var jsdata = JSON.parse(data);
-                        var timer_jsdata = jsdata[0];
-                        var VA_jsdata = jsdata[1];
-                        var VB_jsdata = jsdata[2];
-                        var VC_jsdata = jsdata[3];
-                        var Switch_jsdata = jsdata[4];
-                        
-                        document.getElementById("01_Temp").innerHTML = timer_jsdata[0];
-                        document.getElementById("11_Temp").innerHTML = VA_jsdata[0];
-                        document.getElementById("21_Temp").innerHTML = VB_jsdata[0];
-                        document.getElementById("31_Temp").innerHTML = VC_jsdata[0];
-                        document.getElementById("41_Temp").innerHTML = Switch_jsdata[0];
-    
-                        document.getElementById("02_Temp").innerHTML = timer_jsdata[1];
-                        document.getElementById("12_Temp").innerHTML = VA_jsdata[1];
-                        document.getElementById("22_Temp").innerHTML = VB_jsdata[1];
-                        document.getElementById("32_Temp").innerHTML = VC_jsdata[1];
-                        document.getElementById("42_Temp").innerHTML = Switch_jsdata[1];
-    
-                        document.getElementById("03_Temp").innerHTML = timer_jsdata[2];
-                        document.getElementById("13_Temp").innerHTML = VA_jsdata[2];
-                        document.getElementById("23_Temp").innerHTML = VB_jsdata[2];
-                        document.getElementById("33_Temp").innerHTML = VC_jsdata[2];
-                        document.getElementById("43_Temp").innerHTML = Switch_jsdata[2];
-    
-                        document.getElementById("04_Temp").innerHTML = timer_jsdata[3];
-                        document.getElementById("14_Temp").innerHTML = VA_jsdata[3];
-                        document.getElementById("24_Temp").innerHTML = VB_jsdata[3];
-                        document.getElementById("34_Temp").innerHTML = VC_jsdata[3];
-                        document.getElementById("44_Temp").innerHTML = Switch_jsdata[3];
-    
-                        document.getElementById("05_Temp").innerHTML = timer_jsdata[4];
-                        document.getElementById("15_Temp").innerHTML = VA_jsdata[4];
-                        document.getElementById("25_Temp").innerHTML = VB_jsdata[4];
-                        document.getElementById("35_Temp").innerHTML = VC_jsdata[4];
-                        document.getElementById("45_Temp").innerHTML = Switch_jsdata[4];
-    
-                        document.getElementById("06_Temp").innerHTML = timer_jsdata[5];
-                        document.getElementById("16_Temp").innerHTML = VA_jsdata[5];
-                        document.getElementById("26_Temp").innerHTML = VB_jsdata[5];
-                        document.getElementById("36_Temp").innerHTML = VC_jsdata[5];
-                        document.getElementById("46_Temp").innerHTML = Switch_jsdata[5];
-    
-                        document.getElementById("07_Temp").innerHTML = timer_jsdata[6];
-                        document.getElementById("17_Temp").innerHTML = VA_jsdata[6];
-                        document.getElementById("27_Temp").innerHTML = VB_jsdata[6];
-                        document.getElementById("37_Temp").innerHTML = VC_jsdata[6];
-                        document.getElementById("47_Temp").innerHTML = Switch_jsdata[6];
-    
-                        document.getElementById("08_Temp").innerHTML = timer_jsdata[7];
-                        document.getElementById("18_Temp").innerHTML = VA_jsdata[7];
-                        document.getElementById("28_Temp").innerHTML = VB_jsdata[7];
-                        document.getElementById("38_Temp").innerHTML = VC_jsdata[7];
-                        document.getElementById("48_Temp").innerHTML = Switch_jsdata[7];
-    
-                        document.getElementById("09_Temp").innerHTML = timer_jsdata[8];
-                        document.getElementById("19_Temp").innerHTML = VA_jsdata[8];
-                        document.getElementById("29_Temp").innerHTML = VB_jsdata[8];
-                        document.getElementById("39_Temp").innerHTML = VC_jsdata[8];
-                        document.getElementById("49_Temp").innerHTML = Switch_jsdata[8];
-    
-                        document.getElementById("0X_Temp").innerHTML = timer_jsdata[9];
-                        document.getElementById("1X_Temp").innerHTML = VA_jsdata[9];
-                        document.getElementById("2X_Temp").innerHTML = VB_jsdata[9];
-                        document.getElementById("3X_Temp").innerHTML = VC_jsdata[9];
-                        document.getElementById("4X_Temp").innerHTML = Switch_jsdata[9];
-    
-                        setTimeout("tempdata()", 1000);
-                    }
-                });
-            }
         function t1Shift() {
             document.getElementById("t1").style.display = "block";
             document.getElementById("t2").style.display = "none";
@@ -373,35 +345,16 @@
             var sidebar = document.getElementById("sidebar");
             var content = document.getElementById("content");
             var toggleBtn = document.getElementById("toggleSidebarBtn");
-            var expandedContent = document.getElementsByClassName("expanded-content")[0];
-            var toggleBtn = document.getElementById("toggleSidebarBtn");
-            var toggleText = document.getElementById("toggleText");
 
             sidebar.classList.toggle("visible");
             content.classList.toggle("hidden");
             content.classList.toggle("expanded");
 
-            if (sidebar.classList.contains("visible")) {
-                toggleBtn.classList.add("hidden");
-            } else {
-                toggleBtn.classList.remove("hidden");
-            }
-
-
-            if (sidebar.classList.contains("hidden")) {
-                sidebar.classList.remove("hidden");
-                content.classList.add("expanded");
-                toggleBtn.innerText = "展开-->";
-            } else {
-                sidebar.classList.add("hidden");
-                content.classList.remove("expanded");
-                toggleBtn.innerText = "<--收起";
-            }
         }
-        </script>
+
+    </script>
 
 
 </body>
 
 </html>
-
