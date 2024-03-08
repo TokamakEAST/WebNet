@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>三相电 电压&电流</title>
+    <style>
+        /* 样式表中定义按钮的大小和侧边栏布局 */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-image: url(background.jpg);/*背景图片地址*/
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        #sidebar {
+            width: 320px;/*更改侧边栏宽度*/
+            padding: 20px;
+            background-color: rgba(238, 238, 238, 0.8); /* 设置半透明背景颜色 */
+            position: fixed;
+            left: -300px;
+            top: 0;
+            bottom: 0;
+            transition: left 0.3s ease;
+            z-index: 1;
+        }
+
+        #content {
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        #sidebar.visible {
+            left: 0;
+        }
+
+        #content.hidden {
+            margin-left: 300px;
+        }
+
+        button {
+            width: 100%;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        #toggleSidebarBtn {/*侧边栏状态切换按钮*/
+            position: fixed;
+            top: 500px;
+            left: 20px;
+            width: 80px;
+            height: 20px;
+            background-color:rgba(238, 238, 238, 0.2);/*设置半透明背景颜色*/
+            background-color: #EEEEEE;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 2;
+            transition: opacity 0.3 ease;
+            border: none ;
+            border-radius: 25%; /* 设置按钮为圆形 */
+        }
+
+        .expanded-content {
+            transform: scale(1.2);
+            transition: transform 0.3s ease;
+        }
+
+        .expanded-content.hidden {
+            transform: scale(1);
+        }
+
+        @media screen and (max-width: 768px) {
+            #sidebar {
+                width: 100%;
+                height: 100%;
+                left: -100%;
+                transition: left 0.3s ease;
+            }
+
+            #sidebar.visible {
+                left: 0;
+            }
+
+            #content.hidden {
+                margin-left: 0;
+            }
+        }
+        table {
+            width: 100%;
+            max-width: 950px; /* 控制表格最大宽度 */
+            margin: 0 auto; /* 水平居中 */
+            text-align: center; /* 表格中的文本水平居中 */
+       
+        }
+
+        td, th {
+            padding: 10px;
+            vertical-align: middle; /* 表格单元格中的内容垂直居中 */
+        }
+
+        #buttonContainer {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        table {
+            background-color: rgba(255, 255, 255, 0.5); /* 设置透明度为0.5 */
+        } 
+        
+    </style>
+</head>
+
+<body>
+    <div id="sidebar">
+        
+        <h2>切换列表</h2>
+        <button onclick="t1Shift()"><b>三相电 电流表格</b></button>
+        <button onclick="t2Shift()"><b>三相电 电压表格</b></button>
+    </div>
+
+    <div id="content">
+        <h1 style="text-align: center;">三相电 电压&电流</h1>
+        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> <!-- 调用jQuery库 -->
+        <script>
+            var userAgent = navigator.userAgent.toLowerCase();
+            var isMobile = /mobile|iphone|ipod|ipad|android/.test(userAgent);
+    
+            if (isMobile) {
+                window.location.href = "mobile.html"; // 在移动设备上重定向到移动页面
+            }
+        </script>
+       
+        <table width="100%" border="0">
+            <tr>
+                <td id="bg" height="50" colspan="2" bgcolor="#000000"
+                    style="background-color: #AEAEAE; text-align: left; color: #000000;">
+                    <!-- 这里可以自定义更多内容 -->
+                    <h3 style="text-align: center;">powered by L77F</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t1"
+                        style="border-collapse:collapse;">
+                        <tr style="background-color: #fdfdfd">
+                            <th width="200">时间</th>
+                            <th width="200">I/A</th>
+                            <th width="200">I/B</th>
+                            <th width="200">I/C</th>
+                            <th width="200">开关状态（1/0）</th>
+                        </tr>
+                        <tr>
+                            <td id="01_Gas"></td>
+                            <td id="11_Gas"></td>
+                            <td id="21_Gas"></td>
+                            <td id="31_Gas"></td>
+                            <td id="41_Gas"></td>
+                        </tr>
+                        <tr>
+                            <td id="02_Gas"></td>
+                            <td id="12_Gas"></td>
+                            <td id="22_Gas"></td>
+                            <td id="32_Gas"></td>
+                            <td id="42_Gas"></td>
+                        </tr>
+                        <tr>
+                            <td id="03_Gas"></td>
+                            <td id="13_Gas"></td>
+                            <td id="23_Gas"></td>
+                            <td id="33_Gas"></td>
+                            <td id="43_Gas"></td>
+                        </tr>
+                        <tr>
+                            <td id="04_Gas"></td>
+                            <td id="14_Gas"></td>
+                            <td id="24_Gas"></td>
+                            <td id="34_Gas"></td>
+                            <td id="44_Gas"></td>
+                        </tr>
+                        <tr>
+                            <td id="05_Gas"></td>
+                            <td id="15_Gas"></td>
+                            <td id="25_Gas"></td>
+                            <td id="35_Gas"></td>
+                            <td id="45_Gas"></td>
+                        </tr>
+                        <tr>
+                            <td id="06_Gas"></td>
+                            <td id="16_Gas"></td>
+                            <td id="26_Gas"></td>
+                            <td id="36_Gas"></td>
+                            <td id="46_Gas"></td>
+                        </tr>
+                        <tr>
+
+                             <td id="07_Gas"></td>
+                             <td id="17_Gas"></td>
+                             <td id="27_Gas"></td>
+                             <td id="37_Gas"></td>
+                             <td id="47_Gas"></td>
+                        </tr>
+                        <tr>
+                             <td id="08_Gas"></td>
+                             <td id="18_Gas"></td>
+                             <td id="28_Gas"></td>
+                             <td id="38_Gas"></td>
+                             <td id="48_Gas"></td>
+                        </tr>
+                        <tr>
+                             <td id="09_Gas"></td>
+                             <td id="19_Gas"></td>
+                             <td id="29_Gas"></td>
+                             <td id="39_Gas"></td>
+                             <td id="49_Gas"></td>
+                        </tr>
+                        <tr>
+                             <td id="0X_Gas"></td>
+                             <td id="1X_Gas"></td>
+                             <td id="2X_Gas"></td>
+                             <td id="3X_Gas"></td>
+                             <td id="4X_Gas"></td>
+                        </tr>
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t2"
+                        style="border-collapse:collapse;display:none;">
+                        <tr style="background-color: #ffffff">
+                            <th width="200">时间</th>
+                            <th width="200">V/A</th>
+                            <th width="200">V/B</th>
+                            <th width="200">V/C</th>
+                            <th width="200">开关状态（1/0）</th>
+                            <tr>
+                                <td id="01_Temp"></td>
+                                <td id="11_Temp"></td>
+                                <td id="21_Temp"></td>
+                                <td id="31_Temp"></td>
+                                <td id="41_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="02_Temp"></td>
+                                <td id="12_Temp"></td>
+                                <td id="22_Temp"></td>
+                                <td id="32_Temp"></td>
+                                <td id="42_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="03_Temp"></td>
+                                <td id="13_Temp"></td>
+                                <td id="23_Temp"></td>
+                                <td id="33_Temp"></td>
+                                <td id="43_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="04_Temp"></td>
+                                <td id="14_Temp"></td>
+                                <td id="24_Temp"></td>
+                                <td id="34_Temp"></td>
+                                <td id="44_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="05_Temp"></td>
+                                <td id="15_Temp"></td>
+                                <td id="25_Temp"></td>
+                                <td id="35_Temp"></td>
+                                <td id="45_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="06_Temp"></td>
+                                <td id="16_Temp"></td>
+                                <td id="26_Temp"></td>
+                                <td id="36_Temp"></td>
+                                <td id="46_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="07_Temp"></td>
+                                <td id="17_Temp"></td>
+                                <td id="27_Temp"></td>
+                                <td id="37_Temp"></td>
+                                <td id="47_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="08_Temp"></td>
+                                <td id="18_Temp"></td>
+                                <td id="28_Temp"></td>
+                                <td id="38_Temp"></td>
+                                <td id="48_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="09_Temp"></td>
+                                <td id="19_Temp"></td>
+                                <td id="29_Temp"></td>
+                                <td id="39_Temp"></td>
+                                <td id="49_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="0X_Temp"></td>
+                                <td id="1X_Temp"></td>
+                                <td id="2X_Temp"></td>
+                                <td id="3X_Temp"></td>
+                                <td id="4X_Temp"></td>
+                            </tr>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div id="toggleSidebarBtn" onclick="toggleSidebar()">
+        展开列表
+    </div>
+
+        <!--定向将数据存放在表格中-->
+        <!--向危险气体中存-->
+        <script type="text/javascript">
+            setTimeout("requestTdata()", 1000);
+    
+            function requestTdata() {
+                $.ajax({
+                    url: 'getGas.php',
+                    success: function(data) {
+                        var jsdata = JSON.parse(data);
+                        var time_jsdata = jsdata[0];
+                        var IA_jsdata = jsdata[1];
+                        var IB_jsdata = jsdata[2];
+                        var IC_jsdata = jsdata[3];
+                        var Switch_jsdata = jsdata[4];
+    
+                        document.getElementById("01_Gas").innerHTML = time_jsdata[0];
+                        document.getElementById("11_Gas").innerHTML = IA_jsdata[0];
+                        document.getElementById("21_Gas").innerHTML = IB_jsdata[0];
+                        document.getElementById("31_Gas").innerHTML = IC_jsdata[0];
+                        document.getElementById("41_Gas").innerHTML = Switch_jsdata[0];
+    
+                        document.getElementById("02_Gas").innerHTML = time_jsdata[1];
+                        document.getElementById("12_Gas").innerHTML = IA_jsdata[1];
+                        document.getElementById("22_Gas").innerHTML = IB_jsdata[1];
+                        document.getElementById("32_Gas").innerHTML = IC_jsdata[1];
+                        document.getElementById("42_Gas").innerHTML = Switch_jsdata[1];
+    
+                        document.getElementById("03_Gas").innerHTML = time_jsdata[2];
+                        document.getElementById("13_Gas").innerHTML = IA_jsdata[2];
+                        document.getElementById("23_Gas").innerHTML = IB_jsdata[2];
+                        document.getElementById("33_Gas").innerHTML = IC_jsdata[2];
+                        document.getElementById("43_Gas").innerHTML = Switch_jsdata[2];
+                        
+                        document.getElementById("04_Gas").innerHTML = time_jsdata[3];
+                        document.getElementById("14_Gas").innerHTML = IA_jsdata[3];
+                        document.getElementById("24_Gas").innerHTML = IB_jsdata[3];
+                        document.getElementById("34_Gas").innerHTML = IC_jsdata[3];
+                        document.getElementById("44_Gas").innerHTML = Switch_jsdata[3];
+                        
+                        document.getElementById("05_Gas").innerHTML = time_jsdata[4];
+                        document.getElementById("15_Gas").innerHTML = IA_jsdata[4];
+                        document.getElementById("25_Gas").innerHTML = IB_jsdata[4];
+                        document.getElementById("35_Gas").innerHTML = IC_jsdata[4];
+                        document.getElementById("45_Gas").innerHTML = Switch_jsdata[4];
+                        
+                        document.getElementById("06_Gas").innerHTML = time_jsdata[5];
+                        document.getElementById("16_Gas").innerHTML = IA_jsdata[5];
+                        document.getElementById("26_Gas").innerHTML = IB_jsdata[5];
+                        document.getElementById("36_Gas").innerHTML = IC_jsdata[5];
+                        document.getElementById("46_Gas").innerHTML = Switch_jsdata[5];
+                        
+                        document.getElementById("07_Gas").innerHTML = time_jsdata[6];
+                        document.getElementById("17_Gas").innerHTML = IA_jsdata[6];
+                        document.getElementById("27_Gas").innerHTML = IB_jsdata[6];
+                        document.getElementById("37_Gas").innerHTML = IC_jsdata[6];
+                        document.getElementById("47_Gas").innerHTML = Switch_jsdata[6];
+                        
+                        document.getElementById("08_Gas").innerHTML = time_jsdata[7];
+                        document.getElementById("18_Gas").innerHTML = IA_jsdata[7];
+                        document.getElementById("28_Gas").innerHTML = IB_jsdata[7];
+                        document.getElementById("38_Gas").innerHTML = IC_jsdata[7];
+                        document.getElementById("48_Gas").innerHTML = Switch_jsdata[7];
+                        
+                        document.getElementById("09_Gas").innerHTML = time_jsdata[8];
+                        document.getElementById("19_Gas").innerHTML = IA_jsdata[8];
+                        document.getElementById("29_Gas").innerHTML = IB_jsdata[8];
+                        document.getElementById("39_Gas").innerHTML = IC_jsdata[8];
+                        document.getElementById("49_Gas").innerHTML = Switch_jsdata[8];
+                        
+                        document.getElementById("0X_Gas").innerHTML = time_jsdata[9];
+                        document.getElementById("1X_Gas").innerHTML = IA_jsdata[9];
+                        document.getElementById("2X_Gas").innerHTML = IB_jsdata[9];
+                        document.getElementById("3X_Gas").innerHTML = IC_jsdata[9];
+                        document.getElementById("4X_Gas").innerHTML = Switch_jsdata[9];
+                        
+                        setTimeout("requestTdata()", 1000);
+                    }
+                });
+            }
+            /*向温湿度中存*/
+            setTimeout("tempdata()", 1000);
+    
+            function tempdata() {
+                $.ajax({
+                    url: 'getTemp.php',
+                    success: function(data) {
+                        var jsdata = JSON.parse(data);
+                        var timer_jsdata = jsdata[0];
+                        var VA_jsdata = jsdata[1];
+                        var VB_jsdata = jsdata[2];
+                        var VC_jsdata = jsdata[3];
+                        var Switch_jsdata = jsdata[4];
+                        
+                        document.getElementById("01_Temp").innerHTML = timer_jsdata[0];
+                        document.getElementById("11_Temp").innerHTML = VA_jsdata[0];
+                        document.getElementById("21_Temp").innerHTML = VB_jsdata[0];
+                        document.getElementById("31_Temp").innerHTML = VC_jsdata[0];
+                        document.getElementById("41_Temp").innerHTML = Switch_jsdata[0];
+    
+                        document.getElementById("02_Temp").innerHTML = timer_jsdata[1];
+                        document.getElementById("12_Temp").innerHTML = VA_jsdata[1];
+                        document.getElementById("22_Temp").innerHTML = VB_jsdata[1];
+                        document.getElementById("32_Temp").innerHTML = VC_jsdata[1];
+                        document.getElementById("42_Temp").innerHTML = Switch_jsdata[1];
+    
+                        document.getElementById("03_Temp").innerHTML = timer_jsdata[2];
+                        document.getElementById("13_Temp").innerHTML = VA_jsdata[2];
+                        document.getElementById("23_Temp").innerHTML = VB_jsdata[2];
+                        document.getElementById("33_Temp").innerHTML = VC_jsdata[2];
+                        document.getElementById("43_Temp").innerHTML = Switch_jsdata[2];
+    
+                        document.getElementById("04_Temp").innerHTML = timer_jsdata[3];
+                        document.getElementById("14_Temp").innerHTML = VA_jsdata[3];
+                        document.getElementById("24_Temp").innerHTML = VB_jsdata[3];
+                        document.getElementById("34_Temp").innerHTML = VC_jsdata[3];
+                        document.getElementById("44_Temp").innerHTML = Switch_jsdata[3];
+    
+                        document.getElementById("05_Temp").innerHTML = timer_jsdata[4];
+                        document.getElementById("15_Temp").innerHTML = VA_jsdata[4];
+                        document.getElementById("25_Temp").innerHTML = VB_jsdata[4];
+                        document.getElementById("35_Temp").innerHTML = VC_jsdata[4];
+                        document.getElementById("45_Temp").innerHTML = Switch_jsdata[4];
+    
+                        document.getElementById("06_Temp").innerHTML = timer_jsdata[5];
+                        document.getElementById("16_Temp").innerHTML = VA_jsdata[5];
+                        document.getElementById("26_Temp").innerHTML = VB_jsdata[5];
+                        document.getElementById("36_Temp").innerHTML = VC_jsdata[5];
+                        document.getElementById("46_Temp").innerHTML = Switch_jsdata[5];
+    
+                        document.getElementById("07_Temp").innerHTML = timer_jsdata[6];
+                        document.getElementById("17_Temp").innerHTML = VA_jsdata[6];
+                        document.getElementById("27_Temp").innerHTML = VB_jsdata[6];
+                        document.getElementById("37_Temp").innerHTML = VC_jsdata[6];
+                        document.getElementById("47_Temp").innerHTML = Switch_jsdata[6];
+    
+                        document.getElementById("08_Temp").innerHTML = timer_jsdata[7];
+                        document.getElementById("18_Temp").innerHTML = VA_jsdata[7];
+                        document.getElementById("28_Temp").innerHTML = VB_jsdata[7];
+                        document.getElementById("38_Temp").innerHTML = VC_jsdata[7];
+                        document.getElementById("48_Temp").innerHTML = Switch_jsdata[7];
+    
+                        document.getElementById("09_Temp").innerHTML = timer_jsdata[8];
+                        document.getElementById("19_Temp").innerHTML = VA_jsdata[8];
+                        document.getElementById("29_Temp").innerHTML = VB_jsdata[8];
+                        document.getElementById("39_Temp").innerHTML = VC_jsdata[8];
+                        document.getElementById("49_Temp").innerHTML = Switch_jsdata[8];
+    
+                        document.getElementById("0X_Temp").innerHTML = timer_jsdata[9];
+                        document.getElementById("1X_Temp").innerHTML = VA_jsdata[9];
+                        document.getElementById("2X_Temp").innerHTML = VB_jsdata[9];
+                        document.getElementById("3X_Temp").innerHTML = VC_jsdata[9];
+                        document.getElementById("4X_Temp").innerHTML = Switch_jsdata[9];
+    
+                        setTimeout("tempdata()", 1000);
+                    }
+                });
+            }
+        function t1Shift() {
+            document.getElementById("t1").style.display = "block";
+            document.getElementById("t2").style.display = "none";
+
+        }
+
+        function t2Shift() {
+            document.getElementById("t1").style.display = "none";
+            document.getElementById("t2").style.display = "block";
+
+        }
+
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var content = document.getElementById("content");
+            var toggleBtn = document.getElementById("toggleSidebarBtn");
+            var expandedContent = document.getElementsByClassName("expanded-content")[0];
+            var toggleBtn = document.getElementById("toggleSidebarBtn");
+            var toggleText = document.getElementById("toggleText");
+
+            sidebar.classList.toggle("visible");
+            content.classList.toggle("hidden");
+            content.classList.toggle("expanded");
+
+            if (sidebar.classList.contains("visible")) {
+                toggleBtn.classList.add("hidden");
+            } else {
+                toggleBtn.classList.remove("hidden");
+            }
+
+
+            if (sidebar.classList.contains("hidden")) {
+                sidebar.classList.remove("hidden");
+                content.classList.add("expanded");
+                toggleBtn.innerText = "展开-->";
+            } else {
+                sidebar.classList.add("hidden");
+                content.classList.remove("expanded");
+                toggleBtn.innerText = "<--收起";
+            }
+        }
+        </script>
+
+
+</body>
+
+</html>
+
