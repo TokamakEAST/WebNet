@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>三相电 电压&电流</title>
+    <title>电力碳排放分析</title>
     <style>
         /* 样式表中定义按钮的大小和侧边栏布局 */
         body {
@@ -124,7 +124,7 @@
     </div>
 
     <div id="content">
-        <h1 style="text-align: center;">三相电 电压&电流</h1>
+        <h1 style="text-align: center;">电力碳排放分析</h1>
         <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> <!-- 调用jQuery库 -->
         <script>
             var userAgent = navigator.userAgent.toLowerCase();
@@ -140,7 +140,7 @@
                 <td id="bg" height="50" colspan="2" bgcolor="#000000"
                     style="background-color: #AEAEAE; text-align: left; color: #000000;">
                     <!-- 这里可以自定义更多内容 -->
-                    <h3 style="text-align: center;">powered by L77F</h3>
+                    <h3 style="text-align: center;">根据IEEE14节点数据</h3>
                 </td>
             </tr>
             <tr>
@@ -148,11 +148,11 @@
                     <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t1"
                         style="border-collapse:collapse;">
                         <tr style="background-color: #fdfdfd">
-                            <th width="200">时间</th>
-                            <th width="200">I/A</th>
-                            <th width="200">I/B</th>
+                            <th width="200">节点碳势分布向量</th>
+                            <th width="200">负荷碳流率向量</th>
+                            <th width="200">支路有功损耗引起的碳排放</th>
                             <th width="200">I/C</th>
-                            <th width="200">开关状态（1/0）</th>
+                         
                         </tr>
                         <tr>
                             <td id="01_Gas"></td>
