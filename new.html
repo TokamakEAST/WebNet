@@ -75,138 +75,140 @@
 </head>
 <body>
 
-    <div class="sidebar">
-        <button id="button1">按钮1</button>
-        <button id="button2">按钮2</button>
-        <a href="#">按钮3</a>
-        <a href="#">按钮4</a>
+<div class="sidebar">
+    <button id="button1">按钮1</button>
+    <button id="button2">按钮2</button>
+    <a href="#">按钮3</a>
+    <a href="#">按钮4</a>
+</div>
+
+<div class="main-content">
+    <h1>大标题</h1>
+    <h2>副标题</h2>
+    <div id="table">
+        <h3 id="table-title">表格标题</h3>
+        <table id="data-table">
+            <thead>
+                <!-- 表头部分将通过 JavaScript 动态添加 -->
+            </thead>
+            <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
+        </table>
     </div>
-    
-    <div class="main-content">
-        <h1>大标题</h1>
-        <h2>副标题</h2>
-        <div id="table">
-            <h3>表格标题</h3>
-            <table id="data-table">
-                <thead>
-                    <tr>
-                        <th>项目1</th>
-                        <th>项目2</th>
-                        <th>项目3</th>
-                        <th>项目4</th>
-                        <th>项目5</th>
-                        <th>项目6</th>
-                        <th>项目7</th>
-                        <th>项目8</th>
-                        <th>项目9</th>
-                        <th>项目10</th>
-                        <th>项目11</th>
-                        <th>项目12</th>
-                        <th>项目13</th>
-                        <th>项目14</th>
-                    </tr>
-                </thead>
-                <!-- 表格内容 -->
-                <tbody><!-- 这里添加了tbody --></tbody>
-            </table>
-        </div>
-        <div id="chart">
-            <canvas id="myChart"></canvas>
-        </div>
-        
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var originalData = [
-            /* 原始表格数据 */
-            [0, 58.53609544, 0, 0, 34.94879282, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            // 省略部分数据
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ];
-    
-        var table1Data = [
-            /* 表格1数据 */
-            // 省略部分数据
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ];
-    
-        var table2Data = [
-            /* 表格2数据 */
-            // 省略部分数据
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 58.53609544, 0, 0, 34.94879282, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ];
-    
-        var button1 = document.getElementById('button1');
-        var button2 = document.getElementById('button2');
-        var data = {
-            labels: ['项目1', '项目2', '项目3', '项目4', '项目5'],
-            datasets: [{
-                label: '数据',
-                data: [], // 初始为空
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        };
-    
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    
-        // 初始加载
-        updateTable(originalData);
-        updateChart(originalData);
-    
-        button1.addEventListener('click', function() {
-            updateTable(table1Data); // 更新为表格1数据
-            updateChart(table1Data); // 更新折线图为表格1数据
-        });
-    
-        button2.addEventListener('click', function() {
-            updateTable(table2Data); // 更新为表格2数据
-            updateChart(table2Data); // 更新折线图为表格2数据
-        });
-    
-        function updateTable(data) {
-            var table = document.getElementById('data-table');
-            var tbody = table.getElementsByTagName('tbody')[0];
-        
-    
-            // 清空表格内容
-            tbody.innerHTML = '';
-    
-            // 遍历数据数组，逐行添加到表格中
-            for (var i = 0; i < data.length; i++) {
-                var row = data[i];
-                var newRow = document.createElement('tr'); // 创建新的表格行
-    
-                // 遍历当前行的数据，逐个添加到新行中
-                for (var j = 0; j < row.length; j++) {
-                    var cell = document.createElement('td'); // 创建新的单元格
-                    cell.textContent = row[j]; // 将数据添加到单元格中
-                    newRow.appendChild(cell); // 将单元格添加到新行中
-                }
-    
-                tbody.appendChild(newRow); // 将新行添加到表格的 tbody 中
+    <div id="chart">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+ 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var table1Data = [
+        /* 表格1数据 */
+        [0, 58.53609544, 0, 0, 34.94879282, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 9.001216621, 28.0177011, 22.27935563, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0.569674858, 0, 0, 0, 3.046645004, 0, 4.140725523, 0, 0, 0, 0, 0],
+        [0, 0, 0, 28.78310735, 0, 16.60303417, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5.28735531, 5.229154791, 11.48401676, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 12.56728246, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 5.591869607, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 2.642308341, 0, 0, 0, 3.442765352],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 2.19134919, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.962060937, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.224176274, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
+    var table2Data = [
+        /* 表格2数据 */
+        [0, 5, 10, 15, 20],
+        [0, 8, 16, 24, 32],
+        [0, 12, 24, 36, 48],
+        [0, 6, 12, 18, 24],
+        [0, 9, 18, 27, 36]
+    ];
+
+    var button1 = document.getElementById('button1');
+    var button2 = document.getElementById('button2');
+    var currentData = table1Data; // 初始状态为表格1数据
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['项目1', '项目2', '项目3', '项目4', '项目5', '项目6', '项目7', '项目8', '项目9', '项目10', '项目11', '项目12', '项目13', '项目14'],
+            datasets: [] // 初始为空，点击按钮时会更新
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
             }
         }
-    
-        function updateChart(data) {
-            myChart.data.datasets[0].data = data;
-            myChart.update();
-        }
-    </script>
-    
-    </body>
-    </html>
+    });
+
+    // 初始加载表格和折线图
+    updateTable(table1Data);
+    updateChart(table1Data);
+
+    button1.addEventListener('click', function() {
+        currentData = table1Data;
+        updateTable(currentData);
+        updateChart(currentData);
+    });
+
+    button2.addEventListener('click', function() {
+        currentData = table2Data;
+        updateTable(currentData);
+        updateChart(currentData);
+    });
+
+    function updateTable(data) {
+        var table = document.getElementById('data-table');
+        var tableHead = table.querySelector('thead');
+        tableHead.innerHTML = ''; // 清空表头
+        var tableBody = table.querySelector('tbody');
+        tableBody.innerHTML = ''; // 清空表格内容
+        var tableTitle = document.getElementById('table-title');
+
+        // 更新表头
+        var headerRow = document.createElement('tr');
+        data[0].forEach(function(_, index) {
+            var headerCell = document.createElement('th');
+            headerCell.textContent = '项目' + (index + 1);
+            headerRow.appendChild(headerCell);
+        });
+        tableHead.appendChild(headerRow);
+        tableTitle.textContent = '表格标题' + (currentData === table1Data ? ' - 表格1' : ' - 表格2');
+
+        // 更新表格内容
+        data.forEach(function(rowData) {
+            var row = document.createElement('tr');
+            rowData.forEach(function(cellData) {
+                var cell = document.createElement('td');
+                cell.textContent = cellData;
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
+        });
+    }
+
+    function updateChart(data) {
+        myChart.data.datasets = [];
+        data.forEach(function(rowData, index) {
+            myChart.data.datasets.push({
+                label: '项目' + (index + 1),
+                data: rowData,
+                borderColor: 'hsla(' + ((index + 1) * 30 % 360) + ', 100%, 50%, 1)',
+                fill: false
+            });
+        });
+        myChart.update();
+    }
+</script>
+
+</body>
+</html>
