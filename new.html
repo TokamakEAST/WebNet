@@ -78,37 +78,77 @@
     <h2>副标题</h2>
     <div id="table">
         <h3>表格标题</h3>
-        <table>
+        <table id="data-table">
             <thead>
                 <tr>
-                    <th>列1</th>
-                    <th>列2</th>
-                    <th>列3</th>
+                    <th>项目</th>
+                    <th>数据</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>数据1</td>
-                    <td>数据2</td>
-                    <td>数据3</td>
+                    <td>项目1</td>
+                    <td>10</td>
                 </tr>
                 <tr>
-                    <td>数据4</td>
-                    <td>数据5</td>
-                    <td>数据6</td>
+                    <td>项目2</td>
+                    <td>20</td>
                 </tr>
                 <tr>
-                    <td>数据7</td>
-                    <td>数据8</td>
-                    <td>数据9</td>
+                    <td>项目3</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>项目4</td>
+                    <td>25</td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div id="chart">
-        <!-- 这里放折线图表 -->
+        <canvas id="myChart"></canvas>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // 获取表格数据
+    var table = document.getElementById('data-table');
+    var data = [];
+    for (var i = 1; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        var rowData = {
+            label: row.cells[0].innerText,
+            value: parseInt(row.cells[1].innerText)
+        };
+        data.push(rowData);
+    }
+
+    // 绘制折线图
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.map(function(item) { return item.label }),
+            datasets: [{
+                label: '数据',
+                data: data.map(function(item) { return item.value }),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
