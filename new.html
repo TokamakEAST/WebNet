@@ -35,29 +35,38 @@
         .main-content {
             margin-left: 200px;
             padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
         .main-content h1 {
             font-size: 36px;
+            width: 100%;
         }
         .main-content h2 {
             font-size: 24px;
+            width: 100%;
         }
         #table {
-            width: 50%;
-            float: left;
+            width: 100%;
+            margin-bottom: 20px;
         }
         #chart {
-            width: 50%;
-            float: left;
+            width: 100%;
         }
         table {
             border-collapse: collapse;
             width: 100%;
+            table-layout: fixed;
         }
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
+            width: calc(100% / 14);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         th {
             background-color: #f2f2f2;
@@ -76,32 +85,268 @@
 <div class="main-content">
     <h1>大标题</h1>
     <h2>副标题</h2>
-    <div id="table">
+    <<div id="table">
         <h3>表格标题</h3>
         <table id="data-table">
             <thead>
                 <tr>
-                    <th>项目</th>
-                    <th>数据</th>
+                    <th>项目1</th>
+                    <th>项目2</th>
+                    <th>项目3</th>
+                    <th>项目4</th>
+                    <th>项目5</th>
+                    <th>项目6</th>
+                    <th>项目7</th>
+                    <th>项目8</th>
+                    <th>项目9</th>
+                    <th>项目10</th>
+                    <th>项目11</th>
+                    <th>项目12</th>
+                    <th>项目13</th>
+                    <th>项目14</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- 1 -->
                 <tr>
-                    <td>项目1</td>
-                    <td>10</td>
+                    <td>0</td>
+                    <td>58.5361</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>34.9488</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                 </tr>
+                <!-- 2 -->
                 <tr>
-                    <td>项目2</td>
-                    <td>20</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>9.0012</td>
+                    <td>28.0177</td>
+                    <td>22.2794</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                 </tr>
+                <!-- 3 -->
                 <tr>
-                    <td>项目3</td>
-                    <td>15</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                 </tr>
+                <!-- 4 -->
                 <tr>
-                    <td>项目4</td>
-                    <td>25</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0.5696</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3.0466</td>
+                    <td>0</td>
+                    <td>4.1407</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                 </tr>
+                <!-- 5 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>28.7831</td>
+                    <td>0</td>
+                    <td>16.603</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <!-- 6 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>5.2873</td>
+                    <td>5.2291</td>
+                    <td>11.4840</td>
+                </tr>
+                <!-- 7 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <!-- 8 -->  
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>5.5918</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+                <!-- 9 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>2.6423</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>3.4427</td><!-- N -->
+                </tr>
+                <!-- 10 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+                <!-- 11 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>2.1913</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+                <!-- 12 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0.9620</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+                <!-- 13 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>2.2241</td><!-- N -->
+                </tr>
+                <!-- 14 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+
+                <!-- 继续添加数据行 -->
             </tbody>
         </table>
     </div>
@@ -117,37 +362,13 @@
     var data = [];
     for (var i = 1; i < table.rows.length; i++) {
         var row = table.rows[i];
-        var rowData = {
-            label: row.cells[0].innerText,
-            value: parseInt(row.cells[1].innerText)
-        };
+        var rowData = [];
+        for (var j = 0; j < 14; j++) {
+            var cellValue = parseFloat(row.cells[j].innerText).toFixed(4);
+            rowData.push(cellValue);
+        }
         data.push(rowData);
     }
-
-    // 绘制折线图
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.map(function(item) { return item.label }),
-            datasets: [{
-                label: '数据',
-                data: data.map(function(item) { return item.value }),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
 </script>
 
 </body>
