@@ -76,21 +76,18 @@
 <body>
 
 <div class="sidebar">
-    <button id="button1">按钮1</button>
-    <button id="button2">按钮2</button>
-    <a href="#">按钮3</a>
-    <a href="#">按钮4</a>
+    <a id="button1">表格1</a>
+    <a id="button2">表格2</a>
+    <a id="button3">表格3</a>
+    <a id="button4">表格4</a>
 </div>
 
 <div class="main-content">
-    <h1>大标题</h1>
-    <h2>副标题</h2>
+    <h1>电力排放流分析</h1>
     <div id="table">
-        <h3 id="table-title">表格标题</h3>
+        <h3 id="table-title">表格1</h3>
         <table id="data-table">
-            <thead>
-                <!-- 表头部分将通过 JavaScript 动态添加 -->
-            </thead>
+            <thead><!-- 表头部分将通过 JavaScript 动态添加 --></thead>
             <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
         </table>
     </div>
@@ -114,13 +111,12 @@
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 2.642308341, 0, 0, 0, 3.442765352],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 2.19134919, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.962060937, 0],
+        [0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.962060937, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.224176274, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ];
-
     var table2Data = [
-        /* 表格2数据 */
+    /* 表格2数据 */
         [0, 5, 10, 15, 20],
         [0, 8, 16, 24, 32],
         [0, 12, 24, 36, 48],
@@ -128,8 +124,28 @@
         [0, 9, 18, 27, 36]
     ];
 
+    var table3Data = [
+        /* 表格3数据 */
+        [0, 1, 2, 3, 4],
+        [0, 2, 4, 6, 8],
+        [0, 3, 6, 9, 12],
+        [0, 4, 8, 12, 16],
+        [0, 5, 10, 15, 20]
+    ];
+
+    var table4Data = [
+        /* 表格4数据 */
+        [0, 10, 20, 30, 40],
+        [0, 20, 40, 60, 80],
+        [0, 30, 60, 90, 120],
+        [0, 40, 80, 120, 160],
+        [0, 50, 100, 150, 200]
+    ];
+
     var button1 = document.getElementById('button1');
     var button2 = document.getElementById('button2');
+    var button3 = document.getElementById('button3');
+    var button4 = document.getElementById('button4');
     var currentData = table1Data; // 初始状态为表格1数据
 
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -166,6 +182,18 @@
         updateChart(currentData);
     });
 
+    button3.addEventListener('click', function() {
+        currentData = table3Data;
+        updateTable(currentData);
+        updateChart(currentData);
+    });
+
+    button4.addEventListener('click', function() {
+        currentData = table4Data;
+        updateTable(currentData);
+        updateChart(currentData);
+    });
+
     function updateTable(data) {
         var table = document.getElementById('data-table');
         var tableHead = table.querySelector('thead');
@@ -182,7 +210,7 @@
             headerRow.appendChild(headerCell);
         });
         tableHead.appendChild(headerRow);
-        tableTitle.textContent = '表格标题' + (currentData === table1Data ? ' - 表格1' : ' - 表格2');
+        tableTitle.textContent = '表格' + (currentData === table1Data ? '1' : currentData === table2Data ? '2' : currentData === table3Data ? '3' : '4');
 
         // 更新表格内容
         data.forEach(function(rowData) {
@@ -209,6 +237,5 @@
         myChart.update();
     }
 </script>
-
 </body>
 </html>
