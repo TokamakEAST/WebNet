@@ -76,16 +76,16 @@
 <body>
 
 <div class="sidebar">
-    <a id="button1">表格1</a>
-    <a id="button2">表格2</a>
-    <a id="button3">表格3</a>
-    <a id="button4">表格4</a>
+    <a id="button1">分布矩阵</a>
+    <a id="button2">节点碳势分布</a>
+    <a id="button3">负荷碳流率</a>
+    <a id="button4">支路有功损耗</a>
 </div>
 
 <div class="main-content">
     <h1>电力排放流分析</h1>
     <div id="table">
-        <h3 id="table-title">表格1</h3>
+        <h3 id="table-title"></h3>
         <table id="data-table">
             <thead><!-- 表头部分将通过 JavaScript 动态添加 --></thead>
             <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
@@ -117,29 +117,18 @@
     ];
     var table2Data = [
     /* 表格2数据 */
-        [0, 5, 10, 15, 20],
-        [0, 8, 16, 24, 32],
-        [0, 12, 24, 36, 48],
-        [0, 6, 12, 18, 24],
-        [0, 9, 18, 27, 36]
+        [875.0000, 755.7996, 276.9956, 792.6874, 828.5944, 692.1946, 279.5663, 0.0000, 406.7325, 536.1473, 692.1946, 692.1946, 692.1946, 518.7714]
     ];
 
     var table3Data = [
         /* 表格3数据 */
-        [0, 1, 2, 3, 4],
-        [0, 2, 4, 6, 8],
-        [0, 3, 6, 9, 12],
-        [0, 4, 8, 12, 16],
-        [0, 5, 10, 15, 20]
+        [16.4009, 26.0930, 37.8905, 6.2973, 7.7526, 11.9986, 4.8253, 2.4227, 4.2224, 9.3446, 7.7297]
     ];
 
     var table4Data = [
         /* 表格4数据 */
-        [0, 10, 20, 30, 40],
-        [0, 20, 40, 60, 80],
-        [0, 30, 60, 90, 120],
-        [0, 40, 80, 120, 160],
-        [0, 50, 100, 150, 200]
+        [1.2,2.3,2.4,3.4,7.4,9.4,1.5,2.5,4.5,5.6,9.7,9.10,6.11,10.11,6.12,6.13,12.13,9.14,13.14],
+        [0.9808, 0.4027, 0.5424, 0.0108, 0.0000, 0.0000, 0.8342, 0.3127, 0.1432, 0.0000, 0.0000, 0.0059, 0.0395, 0.0075, 0.0501, 0.1488, 0.0043, 0.0494, 0.0390]
     ];
 
     var button1 = document.getElementById('button1');
@@ -210,7 +199,7 @@
             headerRow.appendChild(headerCell);
         });
         tableHead.appendChild(headerRow);
-        tableTitle.textContent = '表格' + (currentData === table1Data ? '1' : currentData === table2Data ? '2' : currentData === table3Data ? '3' : '4');
+        tableTitle.textContent = '*' + (currentData === table1Data ? '支路碳流率分布矩阵' : currentData === table2Data ? '节点碳势分布向量' : currentData === table3Data ? '负荷碳流率向量' : '支路有功损耗引起的碳排放');
 
         // 更新表格内容
         data.forEach(function(rowData) {
