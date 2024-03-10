@@ -85,7 +85,7 @@
 <div class="main-content">
     <h1>大标题</h1>
     <h2>副标题</h2>
-    <<div id="table">
+    <div id="table">
         <h3>表格标题</h3>
         <table id="data-table">
             <thead>
@@ -353,22 +353,43 @@
     <div id="chart">
         <canvas id="myChart"></canvas>
     </div>
-</div>
-
+    
+ 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // 获取表格数据
     var table = document.getElementById('data-table');
     var data = [];
     for (var i = 1; i < table.rows.length; i++) {
         var row = table.rows[i];
-        var rowData = [];
-        for (var j = 0; j < 14; j++) {
-            var cellValue = parseFloat(row.cells[j].innerText).toFixed(4);
-            rowData.push(cellValue);
+        var rowData = {
+            label: '项目' + i,
+            data: [],
+            borderColor: 'hsla(' + (i * 30 % 360) + ', 100%, 50%, 1)', // 设置不同颜色的边框
+            fill: false
+        };
+        for (var j = 0; j < row.cells.length; j++) {
+            rowData.data.push(parseFloat(row.cells[j].innerText).toFixed(4));
         }
         data.push(rowData);
     }
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['项目1', '项目2', '项目3', '项目4', '项目5', '项目6', '项目7', '项目8', '项目9', '项目10', '项目11', '项目12', '项目13', '项目14'],
+            datasets: data
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
 </script>
 
 </body>
