@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可伸缩边栏网页</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #555;
+        }
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+        }
+        .main-content h1 {
+            font-size: 36px;
+        }
+        .main-content h2 {
+            font-size: 24px;
+        }
+        #table {
+            width: 50%;
+            float: left;
+        }
+        #chart {
+            width: 50%;
+            float: left;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="#">按钮1</a>
+    <a href="#">按钮2</a>
+    <a href="#">按钮3</a>
+    <a href="#">按钮4</a>
+</div>
+
+<div class="main-content">
+    <h1>大标题</h1>
+    <h2>副标题</h2>
+    <div id="table">
+        <h3>表格标题</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>列1</th>
+                    <th>列2</th>
+                    <th>列3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>数据1</td>
+                    <td>数据2</td>
+                    <td>数据3</td>
+                </tr>
+                <tr>
+                    <td>数据4</td>
+                    <td>数据5</td>
+                    <td>数据6</td>
+                </tr>
+                <tr>
+                    <td>数据7</td>
+                    <td>数据8</td>
+                    <td>数据9</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="chart">
+        <!-- 这里放折线图表 -->
+    </div>
+</div>
+
+</body>
+</html>
