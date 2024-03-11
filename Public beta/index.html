@@ -1,0 +1,383 @@
+<!--
+////////////////////////////////////////////////////////////////////
+//                          _ooOoo_                               //
+//                         o8888888o                              //
+//                         88" . "88                              //
+//                         (| ^_^ |)                              //
+//                         O\  =  /O                              //
+//                      ____/`---'\____                           //
+//                    .'  \\|     |//  `.                         //
+//                   /  \\|||  :  |||//  \                        //
+//                  /  _||||| -:- |||||-  \                       //
+//                  |   | \\\  -  /// |   |                       //
+//                  | \_|  ''\---/''  |   |                       //
+//                  \  .-\__  `-`  ___/-. /                       //
+//                ___`. .'  /--.--\  `. . ___                     //
+//              ."" '<  `.___\_<|>_/___.'  >'"".                  //
+//            | | :  `- \`.;`\ _ /`;.`/ - ` : | |                 //
+//            \  \ `-.   \_ __\ /__ _/   .-` /  /                 //
+//      ========`-.____`-.___\_____/___.-`____.-'========         //
+//                           `=---='                              //
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        //
+//         佛祖保佑       永无Bug     永不修改                    //
+////////////////////////////////////////////////////////////////////
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <title>危险气体&温湿度数据</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<!--背景粒子特效-->
+    <script src="http://www.aswait.com/zb_system/script/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="http://www.aswait.com/zb_system/script/zblogphp.js" type="text/javascript"></script>
+    <script src="http://www.aswait.com/zb_system/script/md5.js" type="text/javascript"></script>
+    <script src="http://www.aswait.com/zb_system/script/c_html_js_add.php" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <link rel="stylesheet" type="text/css" href="http://886la.cn/content/templates/colorful/style.css?v=20190714" />
+
+    <div id="wrapper">
+        <table width="100%" border="0">
+            <tr>
+                <td id=bg height="200" colspan="2" bgcolor="#000000" style="background-color: #AEAEAE; text-align: left; color: #000000;">
+                    <blockquote>
+                        <blockquote>
+                            <blockquote>
+                                <blockquote>
+                                    <h1 style="text-align:center">危险气体&温湿度</h1>
+                                </blockquote>
+                            </blockquote>
+                        </blockquote>
+                    </blockquote>
+                </td>
+            </tr>
+            <tr>
+                <!--切换表格的按钮-->
+                <!--<th height="501" style="background-color:#EEEEEE;width:10px;vertical-align:top;">-->
+                <td width="30px" height="501" style="vertical-align:top;">
+                    <h3>菜单</h3>
+                    <br>
+                    <button  onclick="t1Shift()"><b>危险气体数据</b></button>
+                    <script type="text/javaScript">
+                       function t1Shift()
+                       { 
+                           if (t1.style.display=="none")
+                           { 　　
+                               document.getElementById("t1").style.display="block"; document.getElementById("t2").style.display="none"; 
+                           } 
+                       }
+                    </script>
+                    <br>
+                    <br>
+                   <button onclick="t2Shift()"><b>温湿度数据</b> </button>
+                    <script type="text/javaScript">
+                        function t2Shift()
+                        { 
+                            if (t1.style.display=="block")
+                            { 　　
+                                document.getElementById("t1").style.display="none"; document.getElementById("t2").style.display="block";
+                                } 
+                        }
+                    </script>
+                     <br>
+                    
+                     <br>
+                   <button onclick="gashistory()"><b>气体历史数据</b> </button>
+                     <script type="text/javaScript">
+                     function gashistory()
+                     {
+                         
+                        window.location.href='gashistory.html';
+                     }
+                     </script>
+                     <br>
+                     
+                      <br>
+                    <button onclick="temphistory()"><b>温湿度历史数据</b> </button>
+                     <script type="text/javaScript">
+                     function temphistory()
+                     {
+                         
+                        window.location.href='temphistory.html';
+                     }
+
+                     </script>
+                      <br>
+                </td>
+                
+                
+                <style type="text/css">
+            .mytable{
+                width: 1000px;
+                margin: 0 auto;
+            }
+        </style>
+                <!--定向将数据存放在表格中-->
+                <!--向危险气体中存-->
+                <script type="text/javascript">
+                    setTimeout("requestTdata()", 1000);
+
+                    function requestTdata() {
+                        $.ajax({
+                            url: 'getGas.php',
+                            success: function(data) {
+                                var jsdata = JSON.parse(data);
+                                var time_jsdata = jsdata[0];
+                                var CH4_jsdata = jsdata[1];
+                                var H2S_jsdata = jsdata[2];
+                                document.getElementById("01_Gas").innerHTML = time_jsdata[0];
+                                document.getElementById("11_Gas").innerHTML = CH4_jsdata[0];
+                                document.getElementById("21_Gas").innerHTML = H2S_jsdata[0];
+
+                                document.getElementById("02_Gas").innerHTML = time_jsdata[1];
+                                document.getElementById("12_Gas").innerHTML = CH4_jsdata[1];
+                                document.getElementById("22_Gas").innerHTML = H2S_jsdata[1];
+
+                                document.getElementById("03_Gas").innerHTML = time_jsdata[2];
+                                document.getElementById("13_Gas").innerHTML = CH4_jsdata[2];
+                                document.getElementById("23_Gas").innerHTML = H2S_jsdata[2];
+
+                                document.getElementById("04_Gas").innerHTML = time_jsdata[3];
+                                document.getElementById("14_Gas").innerHTML = CH4_jsdata[3];
+                                document.getElementById("24_Gas").innerHTML = H2S_jsdata[3];
+
+                                document.getElementById("05_Gas").innerHTML = time_jsdata[4];
+                                document.getElementById("15_Gas").innerHTML = CH4_jsdata[4];
+                                document.getElementById("25_Gas").innerHTML = H2S_jsdata[4];
+                                
+                                document.getElementById("06_Gas").innerHTML = time_jsdata[5];
+                                document.getElementById("16_Gas").innerHTML = CH4_jsdata[5];
+                                document.getElementById("26_Gas").innerHTML = H2S_jsdata[5];
+
+                                document.getElementById("07_Gas").innerHTML = time_jsdata[6];
+                                document.getElementById("17_Gas").innerHTML = CH4_jsdata[6];
+                                document.getElementById("27_Gas").innerHTML = H2S_jsdata[6];
+
+                                document.getElementById("08_Gas").innerHTML = time_jsdata[7];
+                                document.getElementById("18_Gas").innerHTML = CH4_jsdata[7];
+                                document.getElementById("28_Gas").innerHTML = H2S_jsdata[7];
+
+                                document.getElementById("09_Gas").innerHTML = time_jsdata[8];
+                                document.getElementById("19_Gas").innerHTML = CH4_jsdata[8];
+                                document.getElementById("29_Gas").innerHTML = H2S_jsdata[8];
+
+                                document.getElementById("0X_Gas").innerHTML = time_jsdata[9];
+                                document.getElementById("1X_Gas").innerHTML = CH4_jsdata[9];
+                                document.getElementById("2X_Gas").innerHTML = H2S_jsdata[9];
+                                setTimeout("requestTdata()", 1000);
+                            }
+                        });
+                    }
+                    /*向温湿度中存*/
+                    setTimeout("tempdata()", 1000);
+
+                    function tempdata() {
+                        $.ajax({
+                            url: 'getTemp.php',
+                            success: function(data) {
+                                var jsdata = JSON.parse(data);
+                                var timer_jsdata = jsdata[0];
+                                var temp_jsdata = jsdata[1];
+                                var hum_jsdata = jsdata[2];
+                                document.getElementById("01_Temp").innerHTML = timer_jsdata[0];
+                                document.getElementById("11_Temp").innerHTML = temp_jsdata[0];
+                                document.getElementById("21_Temp").innerHTML = hum_jsdata[0];
+
+                                document.getElementById("02_Temp").innerHTML = timer_jsdata[1];
+                                document.getElementById("12_Temp").innerHTML = temp_jsdata[1];
+                                document.getElementById("22_Temp").innerHTML = hum_jsdata[1];
+
+                                document.getElementById("03_Temp").innerHTML = timer_jsdata[2];
+                                document.getElementById("13_Temp").innerHTML = temp_jsdata[2];
+                                document.getElementById("23_Temp").innerHTML = hum_jsdata[2];
+
+                                document.getElementById("04_Temp").innerHTML = timer_jsdata[3];
+                                document.getElementById("14_Temp").innerHTML = temp_jsdata[3];
+                                document.getElementById("24_Temp").innerHTML = hum_jsdata[3];
+
+                                document.getElementById("05_Temp").innerHTML = timer_jsdata[4];
+                                document.getElementById("15_Temp").innerHTML = temp_jsdata[4];
+                                document.getElementById("25_Temp").innerHTML = hum_jsdata[4];
+                                
+                                document.getElementById("06_Temp").innerHTML = timer_jsdata[5];
+                                document.getElementById("16_Temp").innerHTML = temp_jsdata[5];
+                                document.getElementById("26_Temp").innerHTML = hum_jsdata[5];
+
+                                document.getElementById("07_Temp").innerHTML = timer_jsdata[6];
+                                document.getElementById("17_Temp").innerHTML = temp_jsdata[6];
+                                document.getElementById("27_Temp").innerHTML = hum_jsdata[6];
+
+                                document.getElementById("08_Temp").innerHTML = timer_jsdata[7];
+                                document.getElementById("18_Temp").innerHTML = temp_jsdata[7];
+                                document.getElementById("28_Temp").innerHTML = hum_jsdata[7];
+
+                                document.getElementById("09_Temp").innerHTML = timer_jsdata[8];
+                                document.getElementById("19_Temp").innerHTML = temp_jsdata[8];
+                                document.getElementById("29_Temp").innerHTML = hum_jsdata[8];
+
+                                document.getElementById("0X_Temp").innerHTML = timer_jsdata[9];
+                                document.getElementById("1X_Temp").innerHTML = temp_jsdata[9];
+                                document.getElementById("2X_Temp").innerHTML = hum_jsdata[9];
+                                setTimeout("tempdata()", 1000);
+                            }
+                        });
+                    }
+                </script>
+
+                <!--危险气体数据表格代码-->
+                <td style="background-color:#FFFFFF;height:100px;width:200px;vertical-align:top;">
+                    <div style="padding-left: 100px;">
+                        <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id=t1 style="border-collapse:collapse;display:block;text-align: left;">
+                            <tr style="background-color: #fdfdfd">
+                                <tr>
+                                    <th width="150">时间</th>
+                                    <th width="150">甲烷</th>
+                                    <th width="150">硫化氢</th>
+                                </tr>
+                                <tr>
+
+                                    <td id="01_Gas"></td>
+                                    <td id="11_Gas"></td>
+                                    <td id="21_Gas"></td>
+                                </tr>
+                                <tr>
+
+                                    <td id="02_Gas"></td>
+                                    <td id="12_Gas"></td>
+                                    <td id="22_Gas"></td>
+                                </tr>
+                                <tr>
+
+                                    <td id="03_Gas"></td>
+                                    <td id="13_Gas"></td>
+                                    <td id="23_Gas"></td>
+                                </tr>
+                                <tr>
+
+                                    <td id="04_Gas"></td>
+                                    <td id="14_Gas"></td>
+                                    <td id="24_Gas"></td>
+                                </tr>
+                                <tr>
+
+                                    <td id="05_Gas"></td>
+                                    <td id="15_Gas"></td>
+                                    <td id="25_Gas"></td>
+                                </tr>
+                                <tr>
+                                    <td id="06_Gas"></td>
+                                    <td id="16_Gas"></td>
+                                    <td id="26_Gas"></td>
+                                </tr>
+                                <tr>
+
+                                     <td id="07_Gas"></td>
+                                     <td id="17_Gas"></td>
+                                     <td id="27_Gas"></td>
+                                </tr>
+                                <tr>
+
+                                     <td id="08_Gas"></td>
+                                     <td id="18_Gas"></td>
+                                     <td id="28_Gas"></td>
+                                </tr>
+                                <tr>
+
+                                     <td id="09_Gas"></td>
+                                     <td id="19_Gas"></td>
+                                     <td id="29_Gas"></td>
+                                </tr>
+                                <tr>
+
+                                     <td id="0X_Gas"></td>
+                                     <td id="1X_Gas"></td>
+                                     <td id="2X_Gas"></td>
+                                </tr>
+                                <!--温度湿度数据表格代码-->
+                                <table id=t2 border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" style="border-collapse:collapse;display:none;text-align: left;">
+                                    <tr style="background-color: #ffffff">
+                                        <tr>
+                                            <th width="150">时间</th>
+                                            <th width="150">温度</th>
+                                            <th width="150">湿度</th>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="01_Temp"></td>
+                                            <td id="11_Temp"></td>
+                                            <td id="21_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="02_Temp"></td>
+                                            <td id="12_Temp"></td>
+                                            <td id="22_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="03_Temp"></td>
+                                            <td id="13_Temp"></td>
+                                            <td id="23_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="04_Temp"></td>
+                                            <td id="14_Temp"></td>
+                                            <td id="24_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="05_Temp"></td>
+                                            <td id="15_Temp"></td>
+                                            <td id="25_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="06_Temp"></td>
+                                            <td id="16_Temp"></td>
+                                            <td id="26_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="07_Temp"></td>
+                                            <td id="17_Temp"></td>
+                                            <td id="27_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="08_Temp"></td>
+                                            <td id="18_Temp"></td>
+                                            <td id="28_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="09_Temp"></td>
+                                            <td id="19_Temp"></td>
+                                            <td id="29_Temp"></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td id="0X_Temp"></td>
+                                            <td id="1X_Temp"></td>
+                                            <td id="2X_Temp"></td>
+                                        </tr>
+                                </table>
+                    </div>
+                </td>
+                </tr>
+                </table>
+            <!--背景图片-->
+                <img class="bg-image" src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1488266094,1975204545&fm=26&gp=0.jpg"/>
+
+    </div>
+
+</body>
+
+
+
+</html>
