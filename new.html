@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>可伸缩边栏网页</title>
+    <title>电力碳排放流分析</title>
     <style>
         body, html {
             margin: 0;
@@ -83,7 +83,7 @@
 </div>
 
 <div class="main-content">
-    <h1>电力排放流分析</h1>
+    <h1>电力碳排放流分析</h1>
     <div id="table">
         <h3 id="table-title"></h3>
         <table id="data-table">
@@ -141,7 +141,7 @@
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['项目1', '项目2', '项目3', '项目4', '项目5', '项目6', '项目7', '项目8', '项目9', '项目10', '项目11', '项目12', '项目13', '项目14'],
+            labels: ['节点1', '节点2', '节点3', '节点4', '节点5', '节点6', '节点7', '节点8', '节点9', '节点10', '节点11', '节点12', '节点13', '节点14'],
             datasets: [] // 初始为空，点击按钮时会更新
         },
         options: {
@@ -195,7 +195,7 @@
         var headerRow = document.createElement('tr');
         data[0].forEach(function(_, index) {
             var headerCell = document.createElement('th');
-            headerCell.textContent = '项目' + (index + 1);
+            headerCell.textContent = '节点' + (index + 1);
             headerRow.appendChild(headerCell);
         });
         tableHead.appendChild(headerRow);
@@ -217,7 +217,7 @@
         myChart.data.datasets = [];
         data.forEach(function(rowData, index) {
             myChart.data.datasets.push({
-                label: '项目' + (index + 1),
+                label: '节点' + (index + 1),
                 data: rowData,
                 borderColor: 'hsla(' + ((index + 1) * 30 % 360) + ', 100%, 50%, 1)',
                 fill: false
