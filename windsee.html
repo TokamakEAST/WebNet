@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八个标签页的页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+        .tab {
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            margin-right: 2px;
+            border: 1px solid #ccc;
+        }
+        .tab.active {
+            background-color: #ccc;
+        }
+        .content {
+            display: none;
+            flex-direction: row;
+        }
+        .content.active {
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-right: 1px solid #ccc;
+        }
+        .main {
+            flex: 1;
+            padding: 10px;
+        }
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>页面标题</h1>
+</header>
+
+<div class="tabs">
+    <div class="tab active" onclick="showContent(0)">标签1</div>
+    <div class="tab" onclick="showContent(1)">标签2</div>
+    <div class="tab" onclick="showContent(2)">标签3</div>
+    <div class="tab" onclick="showContent(3)">标签4</div>
+    <div class="tab" onclick="showContent(4)">标签5</div>
+    <div class="tab" onclick="showContent(5)">标签6</div>
+    <div class="tab" onclick="showContent(6)">标签7</div>
+    <div class="tab" onclick="showContent(7)">标签8</div>
+</div>
+
+<div class="content active">
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showPageContent(0, 0)">页面1</a></li>
+            <li><a href="#" onclick="showPageContent(0, 1)">页面2</a></li>
+            <li><a href="#" onclick="showPageContent(0, 2)">页面3</a></li>
+        </ul>
+    </div>
+    <div class="main">
+        <div class="page-content active">这是标签1的页面1内容。</div>
+        <div class="page-content">这是标签1的页面2内容。</div>
+        <div class="page-content">这是标签1的页面3内容。</div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showPageContent(1, 0)">页面4</a></li>
+            <li><a href="#" onclick="showPageContent(1, 1)">页面5</a></li>
+            <li><a href="#" onclick="showPageContent(1, 2)">页面6</a></li>
+        </ul>
+    </div>
+    <div class="main">
+        <div class="page-content active">这是标签2的页面1内容。</div>
+        <div class="page-content">这是标签2的页面2内容。</div>
+        <div class="page-content">这是标签2的页面3内容。</div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showPageContent(2, 0)">页面7</a></li>
+            <li><a href="#" onclick="showPageContent(2, 1)">页面8</a></li>
+            <li><a href="#" onclick="showPageContent(2, 2)">页面9</a></li>
+        </ul>
+    </div>
+    <div class="main">
+        <div class="page-content active">这是标签3的页面1内容。</div>
+        <div class="page-content">这是标签3的页面2内容。</div>
+        <div class="page-content">这是标签3的页面3内容。</div>
+    </div>
+</div>
+
+<!-- 继续为其他标签页添加内容 -->
+
+<script>
+    function showContent(index) {
+        var tabs = document.querySelectorAll('.tab');
+        var contents = document.querySelectorAll('.content');
+        tabs.forEach((tab, i) => {
+            tab.classList.toggle('active', i === index);
+        });
+        contents.forEach((content, i) => {
+            content.classList.toggle('active', i === index);
+        });
+    }
+
+    function showPageContent(tabIndex, pageIndex) {
+        var contents = document.querySelectorAll('.content')[tabIndex];
+        var pages = contents.querySelectorAll('.page-content');
+        pages.forEach((page, i) => {
+            page.classList.toggle('active', i === pageIndex);
+        });
+    }
+</script>
+
+</body>
+</html>
