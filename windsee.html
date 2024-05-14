@@ -86,7 +86,7 @@
         </ul>
     </div>
     <div class="main">
-        <div class="page-content active">这是标签1的页面1内容
+        <div class="page-content active">
             <h2>电力碳排放流分析</h2>
             <div id="table">
                 <h3 id="table-title"></h3>
@@ -95,7 +95,7 @@
                     <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
                 </table>
             </div>
-            <div id="chart">
+            <div id="chart" style="width: 800px;">
                 <canvas id="myChart"></canvas>
             </div>
         </div>
@@ -146,9 +146,12 @@
 
 <style>
     #myChart {
-        width: 500px;  /* 宽度 */
+        /* 在这里控制折线图高度 */
         height: 400px; /* 高度 */
+        /* 好用，但是太丑了 */
+        /* width: 600px !important;  */
     }
+
 </style>
 
 <script>
