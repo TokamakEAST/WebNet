@@ -144,6 +144,13 @@
 
 <!-- 继续为其他标签页添加内容 -->
 
+<style>
+    #myChart {
+        width: 500px;  /* 宽度 */
+        height: 400px; /* 高度 */
+    }
+</style>
+
 <script>
    function showContent(index) {
     var tabs = document.querySelectorAll('.tab');
@@ -171,6 +178,9 @@ function showPageContent(tabIndex, pageIndex) {
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
+
+
      var table1Data = [
         /* 表格1数据 */
         [0, 58.53609544, 0, 0, 34.94879282, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -188,14 +198,17 @@ function showPageContent(tabIndex, pageIndex) {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.224176274, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ];
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: ['节点1', '节点2', '节点3', '节点4', '节点5', '节点6', '节点7', '节点8', '节点9', '节点10', '节点11', '节点12', '节点13', '节点14'],
-            datasets: [] // 初始为空，点击按钮时会更新
+            datasets: [] // 初始化数据集为空
         },
         options: {
+            responsive: true,  // 使图表响应式
+            maintainAspectRatio: false, // 不保持宽高比
             scales: {
                 yAxes: [{
                     ticks: {
