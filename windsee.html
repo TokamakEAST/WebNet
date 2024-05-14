@@ -86,9 +86,27 @@
         </ul>
     </div>
     <div class="main">
-        <div class="page-content active">这是标签1的页面1内容。</div>
-        <div class="page-content">这是标签1的页面2内容。</div>
-        <div class="page-content">这是标签1的页面3内容。</div>
+        <div class="page-content active">这是标签1的页面1内容
+            <h2>电力碳排放流分析</h2>
+            <div id="table">
+                <h3 id="table-title"></h3>
+                <table id="data-table">
+                    <thead><!-- 表头部分将通过 JavaScript 动态添加 --></thead>
+                    <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
+                </table>
+            </div>
+            <div id="chart">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        
+    </div>
+        </div>
+
+        <div class="page-content">
+            <h2>这是标签1的页面2内容</h2>
+            </div>
+        <div class="page-content">这是标签1的页面3内容</div>
     </div>
 </div>
 
@@ -101,9 +119,9 @@
         </ul>
     </div>
     <div class="main">
-        <div class="page-content active">这是标签2的页面1内容。</div>
-        <div class="page-content">这是标签2的页面2内容。</div>
-        <div class="page-content">这是标签2的页面3内容。</div>
+        <div class="page-content active">这是标签2的页面1内容</div>
+        <div class="page-content">这是标签2的页面2内容</div>
+        <div class="page-content">这是标签2的页面3内容</div>
     </div>
 </div>
 
@@ -116,9 +134,9 @@
         </ul>
     </div>
     <div class="main">
-        <div class="page-content active">这是标签3的页面1内容。</div>
-        <div class="page-content">这是标签3的页面2内容。</div>
-        <div class="page-content">这是标签3的页面3内容。</div>
+        <div class="page-content active">这是标签3的页面1内容</div>
+        <div class="page-content">这是标签3的页面2内容</div>
+        <div class="page-content">这是标签3的页面3内容</div>
     </div>
 </div>
 
@@ -144,6 +162,88 @@
         });
     }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+     var table1Data = [
+        /* 表格1数据 */
+        [0, 58.53609544, 0, 0, 34.94879282, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 9.001216621, 28.0177011, 22.27935563, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0.569674858, 0, 0, 0, 3.046645004, 0, 4.140725523, 0, 0, 0, 0, 0],
+        [0, 0, 0, 28.78310735, 0, 16.60303417, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5.28735531, 5.229154791, 11.48401676, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 12.56728246, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 5.591869607, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 2.642308341, 0, 0, 0, 3.442765352],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 2.19134919, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.962060937, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.224176274, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['节点1', '节点2', '节点3', '节点4', '节点5', '节点6', '节点7', '节点8', '节点9', '节点10', '节点11', '节点12', '节点13', '节点14'],
+            datasets: [] // 初始为空，点击按钮时会更新
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // 初始加载表格和折线图
+    updateTable(table1Data);
+    updateChart(table1Data);
+
+    // JavaScript 逻辑部分，处理表格和其他动态内容
+    function updateTable(data) {
+        var table = document.getElementById('data-table');
+        var tableHead = table.querySelector('thead');
+        var tableBody = table.querySelector('tbody');
+        tableHead.innerHTML = ''; // 清空表头
+        tableBody.innerHTML = ''; // 清空表格内容
+        var tableTitle = document.getElementById('table-title');
+        var headerRow = document.createElement('tr');
+        data[0].forEach(function(_, index) {
+            var headerCell = document.createElement('th');
+            headerCell.textContent = '节点' + (index + 1);
+            headerRow.appendChild(headerCell);
+        });
+        tableHead.appendChild(headerRow);
+        data.forEach(function(rowData) {
+            var row = document.createElement('tr');
+            rowData.forEach(function(cellData) {
+                var cell = document.createElement('td');
+                cell.textContent = cellData;
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
+        });
+    }
+    
+    function updateChart(data) {
+        myChart.data.datasets = [];
+        data.forEach(function(rowData, index) {
+            myChart.data.datasets.push({
+                label: '节点' + (index + 1),
+                data: rowData,
+                borderColor: 'hsla(' + ((index + 1) * 30 % 360) + ', 100%, 50%, 1)',
+                fill: false
+            });
+        });
+        myChart.update();
+    }
+</script>
+
 
 </body>
 </html>
