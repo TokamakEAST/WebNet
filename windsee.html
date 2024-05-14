@@ -100,13 +100,15 @@
             </div>
         </div>
         
-    </div>
         </div>
 
         <div class="page-content">
             <h2>这是标签1的页面2内容</h2>
             </div>
-        <div class="page-content">这是标签1的页面3内容</div>
+        <div class="page-content">
+            <h2>这是标签1的页面3内容</h2>
+
+            </div>
     </div>
 </div>
 
@@ -143,24 +145,28 @@
 <!-- 继续为其他标签页添加内容 -->
 
 <script>
-    function showContent(index) {
-        var tabs = document.querySelectorAll('.tab');
-        var contents = document.querySelectorAll('.content');
-        tabs.forEach((tab, i) => {
-            tab.classList.toggle('active', i === index);
-        });
-        contents.forEach((content, i) => {
-            content.classList.toggle('active', i === index);
-        });
-    }
+   function showContent(index) {
+    var tabs = document.querySelectorAll('.tab');
+    var contents = document.querySelectorAll('.content');
+    tabs.forEach((tab, i) => {
+        tab.classList.toggle('active', i === index);
+    });
+    contents.forEach((content, i) => {
+        content.classList.toggle('active', i === index);
+        if (i === index) {
+            showPageContent(i, 0); // 显示每个内容的第一页
+        }
+    });
+}
 
-    function showPageContent(tabIndex, pageIndex) {
-        var contents = document.querySelectorAll('.content')[tabIndex];
-        var pages = contents.querySelectorAll('.page-content');
-        pages.forEach((page, i) => {
-            page.classList.toggle('active', i === pageIndex);
-        });
-    }
+function showPageContent(tabIndex, pageIndex) {
+    var contents = document.querySelectorAll('.content')[tabIndex];
+    var pages = contents.querySelectorAll('.page-content');
+    pages.forEach((page, i) => {
+        page.classList.remove('active'); // 首先移除所有页面的active类
+    });
+    pages[pageIndex].classList.add('active'); // 然后为选定的页面添加active类
+}
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
