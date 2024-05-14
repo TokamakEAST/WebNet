@@ -84,14 +84,27 @@
             text-align: center;
             vertical-align: middle;
             line-height: 50px;
-            top: 10px; /* 根据实际需要微调这个值 */
-            left: 10px; /* 略微向右移动，避免与边缘重叠 */
+            top: -30px; /* 根据实际需要微调这个值 */
+            left: -10px; /* 略微向右移动，避免与边缘重叠 */
+            background: url('button.png') no-repeat center center;
+            background-size: contain; /* 或者使用 contain 根据需求调整 */
+            border: none; /* 移除边框 */
+            width: 20px; /* 按需调整大小 */
+            height: 20px; /* 按需调整大小 */
+            cursor: pointer;
+            display: block;
+            padding: 0
+            
         }
 
         #fullscreenToggle:hover {
             color: #555; /* 悬停时显示灰色文字 */
         }
 
+        :fullscreen #fullscreenToggle {
+            top: 3px;  /* 全屏时调整为更合适的位置 */
+            left: 3px;
+        }
 
         
     </style>
@@ -123,8 +136,7 @@
     </div>
     <div class="main">
         <div class="page-content active" id="page1">
-            <button id="fullscreenToggle">全屏</button>
-                [ ]
+            <button id="fullscreenToggle">
             </button>
             <h2>电力碳排放流分析</h2>
             <div id="table">
