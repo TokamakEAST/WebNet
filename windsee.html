@@ -58,6 +58,42 @@
         .page-content.active {
             display: block;
         }
+        .page-content {
+            position: relative; /* 确保绝对定位按钮相对于page-content定位 */
+        }
+        :fullscreen {
+            background-color: rgb(255, 255, 255); /* 确保全屏背景不是黑色 */
+        }
+        #myChart {
+        /* 在这里控制折线图高度 */
+            height: 400px; /* 高度 */
+        /* 好用，但是太丑了 */
+        /* width: 600px !important;  */
+        }
+        #fullscreenToggle {
+            background: none;
+            border: none;
+            color: transparent;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 50px;
+            top: 10px; /* 根据实际需要微调这个值 */
+            left: 10px; /* 略微向右移动，避免与边缘重叠 */
+        }
+
+        #fullscreenToggle:hover {
+            color: #555; /* 悬停时显示灰色文字 */
+        }
+
+
+        
     </style>
 </head>
 <body>
@@ -86,7 +122,10 @@
         </ul>
     </div>
     <div class="main">
-        <div class="page-content active">
+        <div class="page-content active" id="page1">
+            <button id="fullscreenToggle">全屏</button>
+                [ ]
+            </button>
             <h2>电力碳排放流分析</h2>
             <div id="table">
                 <h3 id="table-title"></h3>
@@ -145,12 +184,7 @@
 <!-- 继续为其他标签页添加内容 -->
 
 <style>
-    #myChart {
-        /* 在这里控制折线图高度 */
-        height: 400px; /* 高度 */
-        /* 好用，但是太丑了 */
-        /* width: 600px !important;  */
-    }
+
 
 </style>
 
@@ -264,6 +298,43 @@ function showPageContent(tabIndex, pageIndex) {
         });
         myChart.update();
     }
+
+
+
+
+    document.getElementById('fullscreenToggle').addEventListener('click', function() {
+    var page1 = document.getElementById('page1'); // 获取正确的页面元素
+
+    if (!document.fullscreenElement) {
+        // 尝试进入全屏
+        if (page1.requestFullscreen) {
+            page1.requestFullscreen();
+        } else if (page1.mozRequestFullScreen) { /* Firefox */
+            page1.mozRequestFullScreen();
+        } else if (page1.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            page1.webkitRequestFullscreen();
+        } else if (page1.msRequestFullscreen) { /* IE/Edge */
+            page1.msRequestFullscreen();
+        }
+    } else {
+        // 退出全屏
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+        }
+    }
+});
+
+
+
+
+
+
 </script>
 
 
