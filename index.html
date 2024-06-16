@@ -146,7 +146,7 @@
         }
 
 
-
+        
     </style>
 </head>
 
@@ -156,6 +156,8 @@
         <h2>切换列表</h2>
         <button onclick="t1Shift()"><b>三相电 电流表格</b></button>
         <button onclick="t2Shift()"><b>三相电 电压表格</b></button>
+
+        <button onclick="captureScreen()"><b>屏幕捕捉</b></button>
     </div>
 
     <div id="content">
@@ -351,6 +353,12 @@
         展开列表
     </div>
 
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+
+
+
         <!--定向将数据存放在表格中-->
         <!--向危险气体中存-->
         <script type="text/javascript">
@@ -509,6 +517,31 @@
                     }
                 });
             }
+
+
+function captureScreen() {
+            if (!navigator.mediaDevices.getDisplayMedia) {
+                alert('您的浏览器不支持屏幕捕捉功能！');
+                return;
+            }
+            navigator.mediaDevices.getDisplayMedia({video: true}).then(stream => {
+                var videoElement = document.createElement('video');
+                videoElement.style.width = '100%';
+                videoElement.controls = true;
+                videoElement.autoplay = true;
+                document.getElementById('content').innerHTML = ''; // 清空现有内容
+                document.getElementById('content').appendChild(videoElement);
+                videoElement.srcObject = stream;
+            }).catch(error => {
+                console.error('屏幕捕捉失败:', error);
+            });
+        }
+
+
+
+
+
+
         function t1Shift() {
             document.getElementById("t1").style.display = "block";
             document.getElementById("t2").style.display = "none";
