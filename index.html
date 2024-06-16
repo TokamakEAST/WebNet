@@ -518,24 +518,23 @@
                 });
             }
 
-
-function captureScreen() {
-            if (!navigator.mediaDevices.getDisplayMedia) {
-                alert('您的浏览器不支持屏幕捕捉功能！');
-                return;
-            }
-            navigator.mediaDevices.getDisplayMedia({video: true}).then(stream => {
-                var videoElement = document.createElement('video');
-                videoElement.style.width = '100%';
-                videoElement.controls = true;
-                videoElement.autoplay = true;
-                document.getElementById('content').innerHTML = ''; // 清空现有内容
-                document.getElementById('content').appendChild(videoElement);
-                videoElement.srcObject = stream;
-            }).catch(error => {
-                console.error('屏幕捕捉失败:', error);
-            });
-        }
+            function captureScreen() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+        navigator.mediaDevices.getDisplayMedia({video: true}).then(stream => {
+            const videoElement = document.createElement('video');
+            videoElement.autoplay = true;
+            videoElement.controls = true;
+            videoElement.style.width = '100%';
+            document.getElementById('content').appendChild(videoElement);
+            videoElement.srcObject = stream;
+        }).catch(error => {
+            console.error('Error capturing screen:', error);
+            alert('Failed to capture screen: ' + error.message);
+        });
+    } else {
+        alert('Screen capture is not supported in this browser or HTTPS is not enabled.');
+    }
+}
 
 
 
