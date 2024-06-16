@@ -6,13 +6,15 @@
     <style>
         #previewCanvas {
             border: 1px solid black;
-            width: 640px; /* 设置预览画面的尺寸 */
+            width: 640px;
             height: 360px;
         }
         #displayCanvas {
             border: 1px solid red;
-            width: 320px; /* 设置显示框的尺寸 */
-            height: 180px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: none; /* 初始时不显示 */
         }
         #selection {
             border: 2px dashed blue;
@@ -27,6 +29,7 @@
 <body>
     <h2>捕捉屏幕并选择区域显示</h2>
     <button onclick="startCapture()">开始捕捉屏幕</button>
+    <button id="resetButton" onclick="resetSelection()" style="display:none;">重新选择区域</button>
     <div id="container" style="width: 640px; height: 360px;">
         <canvas id="previewCanvas"></canvas>
         <div id="selection"></div>
@@ -43,9 +46,10 @@
         let previewCanvas = document.getElementById('previewCanvas');
         let displayCanvas = document.getElementById('displayCanvas');
         let selection = document.getElementById('selection');
+        let resetButton = document.getElementById('resetButton');
         let previewContext = previewCanvas.getContext('2d');
         let displayContext = displayCanvas.getContext('2d');
-        let startX, startY, drag = false;
+        let startX, startY, dragging = false;
 
         async function startCapture() {
             try {
@@ -53,8 +57,6 @@
                 video.onloadedmetadata = () => {
                     previewCanvas.width = video.videoWidth;
                     previewCanvas.height = video.videoHeight;
-                    displayCanvas.width = 320;  // 可调整为需要的尺寸
-                    displayCanvas.height = 180;  // 可调整为需要的尺寸
                     drawCanvas();
                 };
             } catch (err) {
@@ -65,9 +67,6 @@
         function drawCanvas() {
             if (video.readyState === video.HAVE_ENOUGH_DATA) {
                 previewContext.drawImage(video, 0, 0, previewCanvas.width, previewCanvas.height);
-                if (drag) {
-                    displaySelectedArea();
-                }
                 requestAnimationFrame(drawCanvas);
             }
         }
@@ -80,24 +79,26 @@
             selection.style.width = '0px';
             selection.style.height = '0px';
             selection.style.display = 'block';
-            drag = true;
+            dragging = true;
         });
 
         container.addEventListener('mousemove', function(e) {
-            if (drag) {
+            if (dragging) {
                 let currentX = e.offsetX;
                 let currentY = e.offsetY;
-                let width = Math.abs(currentX - startX);
-                let height = Math.abs(currentY - startY);
-                selection.style.width = width + 'px';
-                selection.style.height = height + 'px';
+                selection.style.width = Math.abs(currentX - startX) + 'px';
+                selection.style.height = Math.abs(currentY - startY) + 'px';
                 selection.style.left = Math.min(startX, currentX) + 'px';
                 selection.style.top = Math.min(startY, currentY) + 'px';
             }
         });
 
         container.addEventListener('mouseup', function() {
-            drag = false;
+            dragging = false;
+            displaySelectedArea();
+            previewCanvas.style.display = 'none'; // 隐藏预览画面
+            displayCanvas.style.display = 'block'; // 显示选中区域
+            resetButton.style.display = 'block'; // 显示重置按钮
         });
 
         function displaySelectedArea() {
@@ -108,7 +109,16 @@
             let y = (rect.top - previewCanvas.offsetTop) * scaleY;
             let width = rect.width * scaleX;
             let height = rect.height * scaleY;
-            displayContext.drawImage(video, x, y, width, height, 0, 0, displayCanvas.width, displayCanvas.height);
+            displayCanvas.width = width; // 设置画布大小为选区大小
+            displayCanvas.height = height;
+            displayContext.drawImage(video, x, y, width, height, 0, 0, width, height);
+        }
+
+        function resetSelection() {
+            displayCanvas.style.display = 'none';
+            previewCanvas.style.display = 'block';
+            resetButton.style.display = 'none';
+            selection.style.display = 'none';
         }
     </script>
 </body>
