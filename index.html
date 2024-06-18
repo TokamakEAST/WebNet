@@ -1,5 +1,5 @@
 
-<!-- 鸣谢：ChatGPT3.5 -->
+<!-- 鸣谢：ChatGPT4.0 -->
 
 <!-- 正文 -->
 <!DOCTYPE html>
@@ -9,160 +9,82 @@
     <meta charset="utf-8">
     <title>鸟害检测终端</title>
     <style>
-              /* 样式表中定义按钮的大小和侧边栏布局 */
-        body {
+         body {
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            background-image: url(background.jpg);/*背景图片地址*/
+            background-image: url('background.jpg'); /* 背景图片地址，根据实际情况修改 */
             background-repeat: no-repeat;
             background-size: cover;
         }
 
-        #sidebar {
-            width: 320px;/*更改侧边栏宽度*/
-            padding: 20px;
-            background-color: rgba(238, 238, 238, 0.8); /* 设置半透明背景颜色 */
-            position: fixed;
-            left: -300px;
-            top: 0;
-            bottom: 0;
-            transition: left 0.3s ease;
-            z-index: 1;
-        }
-
-        #content {
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-        }
-
-        #sidebar.visible {
-            left: 0;
-        }
-
-        #content.hidden {
-            margin-left: 300px;
-        }
-
-        button {
+        #topbar {
             width: 100%;
-            height: 50px;
-            margin-bottom: 10px;
-        }
-
-        #toggleSidebarBtn {/*侧边栏状态切换按钮*/
-            position: fixed;
-            top: 500px;
-            left: 20px;
-            width: 80px;
-            height: 20px;
-            background-color:rgba(238, 238, 238, 0.2);/*设置半透明背景颜色*/
-            background-color: #EEEEEE;
-            padding: 10px;
-            cursor: pointer;
-            z-index: 2;
-            transition: opacity 0.3 ease;
-            border: none ;
-            border-radius: 25%; /* 设置按钮为圆形 */
-        }
-
-        .expanded-content {
-            transform: scale(1.2);
-            transition: transform 0.3s ease;
-        }
-
-        .expanded-content.hidden {
-            transform: scale(1);
-        }
-
-        @media screen and (max-width: 768px) {
-            #sidebar {
-                width: 100%;
-                height: 100%;
-                left: -100%;
-                transition: left 0.3s ease;
-            }
-
-            #sidebar.visible {
-                left: 0;
-            }
-
-            #content.hidden {
-                margin-left: 0;
-            }
-        }
-        table {
-            width: 100%;
-            max-width: 950px; /* 控制表格最大宽度 */
-            margin: 0 auto; /* 水平居中 */
-            text-align: center; /* 表格中的文本水平居中 */
-       
-        }
-
-        td, th {
-            padding: 10px;
-            vertical-align: middle; /* 表格单元格中的内容垂直居中 */
-        }
-
-        #buttonContainer {
-            height: 200px;
+            height: 60px; /* 根据实际 <h1> 的高度进行调整 */
+            background-color: #004225; /* 暗绿色背景 */
             display: flex;
             align-items: center;
-            justify-content: center;
-        }
-
-        table {
-            background-color: rgba(255, 255, 255, 0.5); /* 设置透明度为0.5 */
-        } 
-        
-
-        #sidebar {
-            /* 侧边栏样式 */
-            width: 320px;
-            padding: 20px;
-            background-color: rgba(238, 238, 238, 0.8);
+            justify-content: space-around; /* 按钮在横条上均匀分布 */
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
             position: fixed;
-            left: -300px;
             top: 0;
-            bottom: 0;
-            transition: left 0.3s ease;
-            z-index: 1;
-        }
-
-        #content {
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-        }
-
-        #sidebar.visible {
             left: 0;
-        }
-
-        #content.hidden {
-            margin-left: 300px;
+            z-index: 1000;
         }
 
         button {
-            width: 100%;
-            height: 50px;
-            margin-bottom: 10px;
+            background-color: #E2E2E2;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
 
+        button:hover {
+            background-color: #C2C2C2; /* 鼠标悬停效果 */
+        }
+
+        #content {
+            padding-top: 70px; /* 为顶部横条留出足够空间 */
+            transition: margin-left 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px; /* 调整标题与横条的间距 */
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin: auto;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .hidden {
+            display: none;
+        }
 
     </style>
 </head>
 
 <body>
-    <div id="sidebar">
-        
-        <h2>切换列表</h2>
+    <h1>鸟害检测终端</h1>
+    <div id="topbar">
         <button onclick="t1Shift()"><b>现场传感器1</b></button>
         <button onclick="t2Shift()"><b>现场传感器2</b></button>
         <button onclick="window.location.href='map.html'">鸟害地图</button>
     </div>
 
     <div id="content">
-        <h1 style="text-align: center;">鸟害检测终端</h1>
+        <!-- <h1 style="text-align: center;">鸟害检测终端</h1> -->
         <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> <!-- 调用jQuery库 -->
         <script>
             var userAgent = navigator.userAgent.toLowerCase();
@@ -174,13 +96,7 @@
         </script>
        
         <table width="100%" border="0">
-            <tr>
-                <td id="bg" height="50" colspan="2" bgcolor="#000000"
-                    style="background-color: #AEAEAE; text-align: left; color: #000000;">
-                    <!-- 这里可以自定义更多内容 -->
-                    <h3 style="text-align: center;">powered by King_of_KAI</h3>
-                </td>
-            </tr>
+            
             <tr>
                 <td>
                     <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t1"
@@ -268,10 +184,10 @@
                         style="border-collapse:collapse;display:none;">
                         <tr style="background-color: #ffffff">
                             <th width="200">时间（设备二）</th>
-                            <th width="200">粒子浓度（设备二）</th>
+                            <th width="200">风速（设备二）</th>
+                            <th width="200">风向（设备二）</th>
                             <th width="200">温度（设备二）</th>
                             <th width="200">湿度（设备二）</th>
-                            <th width="200">开关状态（1/0）（设备二）</th>
                             <tr>
                                 <td id="01_Temp"></td>
                                 <td id="11_Temp"></td>
@@ -350,9 +266,7 @@
     </div>
 
 
-    <div id="toggleSidebarBtn" onclick="toggleSidebar()">
-        展开列表
-    </div>
+
     
     
     
