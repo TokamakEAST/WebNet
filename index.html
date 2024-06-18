@@ -19,19 +19,17 @@
             background-size: cover;
         }
 
-        h1 {
-            text-align: left; /* 左对齐标题 */
-            
-            margin: 0;
-            padding: 10px; /* 增加填充以调整位置 */
-           
-            position: fixed;
+        #header {
             width: 100%;
+            padding: 10px 50px; /* 两边的填充 */
+            position: fixed;
             top: 0;
             left: 0;
-            z-index: 1001; /* 确保标题在按钮条之上 */
+            z-index: 1001;
+            display: flex;
+            justify-content: space-between; /* 确保标题和管理员信息分布在两端 */
+            align-items: center; 
         }
-
 
         #topbar {
             width: 100%;
@@ -87,7 +85,16 @@
 </head>
 
 <body>
-    <h1>鸟害检测终端</h1>
+    <div id="header" style="display: flex; justify-content: space-between; align-items: center; width: 100%; position: fixed; top: 0; left: 0; z-index: 1001; background-color: white; padding: 10px 50px; padding-right: 100px;">
+        <h1 style="margin: 0; color: black; flex-grow: 21;">鸟害检测终端</h1>
+        <div style="display: flex; align-items: center; flex-grow: 1;">
+            <img src="adminhead.jpg" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"> <!-- 替换成实际的图片路径 -->
+            <span style="color: black; font-weight: bold;">管理员</span>
+            <span style="color: blue; margin-left: 10px;">●</span><span style="margin-left: 5px; color: black;">在线</span>
+            <img src="backup.jpg" style="width: 20px; height: 20px; margin-left: 10px;"> <!-- 替换成实际的图标路径 -->
+            <span style="color: black; margin-left: 5px; cursor: pointer;" onclick="logoutFunction()">注销</span>
+        </div>
+    </div>
     <div id="topbar">
         <button onclick="t1Shift()"><b>装置1状态</b></button>
         <button onclick="t2Shift()"><b>装置2状态</b></button>
