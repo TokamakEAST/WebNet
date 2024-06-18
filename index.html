@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            background-image: url('background.jpg'); /* 背景图片地址，根据实际情况修改 */
+            /* background-image: url('background.jpg'); 背景图片地址，根据实际情况修改 */
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -445,12 +445,14 @@
             function t1Shift() {
             document.getElementById('t1').style.display = 'block';
             document.getElementById('t2').style.display = 'none';
+            document.getElementById('sensorData').style.display = 'block';
             document.getElementById('mapFrame').style.display = 'none';
         }
 
         function t2Shift() {
             document.getElementById('t1').style.display = 'none';
             document.getElementById('t2').style.display = 'block';
+            document.getElementById('sensorData').style.display = 'block';
             document.getElementById('mapFrame').style.display = 'none';
         }
 
