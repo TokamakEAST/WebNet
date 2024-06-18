@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>电力碳排放流分析</title>
+    <title>鸟害数据分析</title>
     <style>
         body, html {
             margin: 0;
@@ -52,7 +52,8 @@
             margin-bottom: 20px;
         }
         #chart {
-            width: 100%;
+            width: 70%; /* 固定宽度为600px */
+            height: 70%px; /* 固定高度为400px */
         }
         table {
             border-collapse: collapse;
@@ -76,10 +77,10 @@
 <body>
 
 <div class="sidebar">
-    <a id="button1">总数据表</a>
-    <a id="button2">风向风速</a>
-    <a id="button3">温度</a>
-    <a id="button4">湿度</a>
+    <a id="button1">风速表</a>
+    <a id="button2">风向表</a>
+    <a id="button3">温度表</a>
+    <a id="button4">湿度表</a>
 </div>
 
 <div class="main-content">
@@ -103,7 +104,7 @@
 
     $(document).ready(function() {
         requestTdata();
-        setInterval(requestTdata, 3000); // 每3秒调用一次 requestTdata
+        setInterval(requestTdata, 5000); // 每3秒调用一次 requestTdata
 
         $('#button1').click(function() {
             currentData = table1Data;
@@ -178,19 +179,21 @@
 
     // 更新表头
     var headerRow = $('<tr>');
-    for (let i = 0; i < 15; i++) {
+    headerRow.append($('<th>').text('类别')); // 添加类别列标题
+    for (let i = 0; i < data[0].length; i++) { // 假设所有列的数据长度都相同
         headerRow.append($('<th>').text('时间' + (i + 1)));
     }
     tableHead.append(headerRow);
 
-    // 更新表格内容，确保按列处理
-    for (let i = 0; i < 15; i++) {  // 15 行
+    // 更新表格内容
+    data.forEach(function(rowData, index) {
         var row = $('<tr>');
-        for (let j = 0; j < data.length; j++) {  // 每列
-            row.append($('<td>').text(data[j][i]));
-        }
+        row.append($('<td>').text('列' + (index + 1))); // 添加列标签
+        rowData.forEach(function(cellData) {
+            row.append($('<td>').text(cellData));
+        });
         tableBody.append(row);
-    }
+    });
 }
 
    function updateChart(data) {
