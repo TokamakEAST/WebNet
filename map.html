@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>2号页面</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+  .leaflet-popup-content-wrapper {
+    border-radius: 0 !important; /* 设置为0，使popup变为方形 */
+  }
+</style>
+</head>
+<body>
+<div id="map" style="height: 400px;"></div>
+<button onclick="window.location.href='index.html'">返回1号页面</button>
+<script>
+    var map = L.map('map').setView([39.9042, 116.4074], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // 监听地图的点击事件
+    map.on('click', function(e) {
+        // e.latlng 是点击位置的经纬度
+        var coord = e.latlng;
+        var lat = coord.lat;
+        var lng = coord.lng;
+        // 在点击的位置创建一个Popup
+        L.popup({className: 'custom-popup'})
+         .setLatLng(coord)
+         .setContent("你点击的位置的坐标是：<br>纬度: " + lat.toFixed(5) + "<br>经度: " + lng.toFixed(5))
+         .openOn(map);
+    });
+</script>
+</body>
+</html>
