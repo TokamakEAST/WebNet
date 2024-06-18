@@ -27,15 +27,29 @@
     <div id="map" style="height: 800px;width: 70%;"></div>
 <button onclick="window.location.href='index.html'">返回1号页面</button>
 <script>
-    var map = L.map('map').setView([39.9042, 116.4074], 13);
+    var map = L.map('map').setView([31.53709, 104.69588], 16);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
+    //定义图片数组
+    var images = [
+        "bird1.jpg",
+        "bird2.jpeg",
+        "bird3.jpg",
+        "bird11.png",
+        "bird22.png",
+    ]
+
     map.on('click', function(e) {
+
+        //随机选择一张图片
+        var randomImage = images[Math.floor(Math.random() * images.length)];
+
+         // 创建一个Popup并设置内容为随机图片
         L.popup()
          .setLatLng(e.latlng)
-         .setContent('<img src="bird1.jpg" alt="鸟害识别1" style="width:85%;height:auto;">')
+         .setContent('<img src="' + randomImage + '" alt="Random Image" style="width:85%;height:85%;">')
          .openOn(map);
     });
 </script>
