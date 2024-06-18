@@ -455,6 +455,8 @@
         }
 
         function showMap() {
+            document.getElementById('t1').style.display = 'none';
+            document.getElementById('t2').style.display = 'none';
             document.getElementById('sensorData').style.display = 'none';
             document.getElementById('mapFrame').style.display = 'block';
             document.getElementById('mapFrame').src = 'map.html'; // 确保地图加载
