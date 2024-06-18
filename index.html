@@ -56,7 +56,7 @@
             border-radius: 5px; /* 轻微圆角 */
             transition: background-color 0.3s ease;
             margin-right: 10px; /* 间距 */
-            font-size: 18px; /* 增大字体大小 */
+            font-size: 20px; /* 增大字体大小 */
         }
 
         button:hover {
@@ -86,9 +86,10 @@
     <div id="topbar">
         <button onclick="t1Shift()"><b>现场传感器1</b></button>
         <button onclick="t2Shift()"><b>现场传感器2</b></button>
-        <button onclick="window.location.href='map.html'">鸟害地图</button>
+        <button onclick="showMap()">鸟害地图</button>
     </div>
 
+    
     <div id="content">
         <!-- <h1 style="text-align: center;">鸟害检测终端</h1> -->
         <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> <!-- 调用jQuery库 -->
@@ -100,7 +101,7 @@
                 window.location.href = "mobile.html"; // 在移动设备上重定向到移动页面
             }
         </script>
-       
+       <div id="sensorData">
         <table width="100%" border="0">
             
             <tr>
@@ -269,6 +270,8 @@
                 </td>
             </tr>
         </table>
+    </div>
+        <iframe id="mapFrame" src="" style="width: 100%; height: 800px; display: none;"></iframe> <!-- 新增iframe -->
     </div>
 
 
@@ -439,46 +442,22 @@
             
             
             
-        function t1Shift() {
-            document.getElementById("t1").style.display = "block";
-            document.getElementById("t2").style.display = "none";
-
+            function t1Shift() {
+            document.getElementById('t1').style.display = 'block';
+            document.getElementById('t2').style.display = 'none';
+            document.getElementById('mapFrame').style.display = 'none';
         }
 
         function t2Shift() {
-            document.getElementById("t1").style.display = "none";
-            document.getElementById("t2").style.display = "block";
-
+            document.getElementById('t1').style.display = 'none';
+            document.getElementById('t2').style.display = 'block';
+            document.getElementById('mapFrame').style.display = 'none';
         }
 
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            var content = document.getElementById("content");
-            var toggleBtn = document.getElementById("toggleSidebarBtn");
-            var expandedContent = document.getElementsByClassName("expanded-content")[0];
-            var toggleBtn = document.getElementById("toggleSidebarBtn");
-            var toggleText = document.getElementById("toggleText");
-
-            sidebar.classList.toggle("visible");
-            content.classList.toggle("hidden");
-            content.classList.toggle("expanded");
-
-            if (sidebar.classList.contains("visible")) {
-                toggleBtn.classList.add("hidden");
-            } else {
-                toggleBtn.classList.remove("hidden");
-            }
-
-
-            if (sidebar.classList.contains("hidden")) {
-                sidebar.classList.remove("hidden");
-                content.classList.add("expanded");
-                toggleBtn.innerText = "展开-->";
-            } else {
-                sidebar.classList.add("hidden");
-                content.classList.remove("expanded");
-                toggleBtn.innerText = "<--收起";
-            }
+        function showMap() {
+            document.getElementById('sensorData').style.display = 'none';
+            document.getElementById('mapFrame').style.display = 'block';
+            document.getElementById('mapFrame').src = 'map.html'; // 确保地图加载
         }
         </script>
 
