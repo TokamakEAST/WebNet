@@ -9,10 +9,22 @@
   .leaflet-popup-content-wrapper {
     border-radius: 0 !important; /* 设置为0，使popup变为方形 */
   }
+  #sidebar {
+    width: 200px;
+    float: left;
+  }
+
+  #map {
+    margin-left: 210px; /* 略大于侧边栏宽度，使地图在侧边栏旁边显示 */
+    height: 400px;
+    width: calc(100% - 210px); /* 减去侧边栏的宽度 */
+  }
 </style>
 </head>
 <body>
-<div id="map" style="height: 400px;"></div>
+    <h1>鸟害地图显示</h1>
+
+<div id="map" style="height: 800px;width: 70%;"></div>
 <button onclick="window.location.href='index.html'">返回1号页面</button>
 <script>
     var map = L.map('map').setView([39.9042, 116.4074], 13);
