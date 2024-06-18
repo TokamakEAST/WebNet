@@ -19,7 +19,7 @@
                         <blockquote>
                             <blockquote>
                                 <blockquote>
-                                    <h1 style="text-align:center">温湿度历史数据查询</h1>
+                                    <h1 style="text-align:center">历史数据查询</h1>
                                 </blockquote>
                             </blockquote>
                         </blockquote>
@@ -40,15 +40,7 @@
         
         
         <br><br>
-             <button  style="width:100px;height:50px;" onclick="back()"><b>返回主界面</b></button>
-                    <script type="text/javaScript">
-                       function back()
-                       { 
-                           window.location.href='index.html'; 
-                           
-                       } 
-
-                    </script>
+             
             <script>
                 setInterval("showTemp()", 500); //单位是毫秒
 
@@ -66,7 +58,7 @@
                             document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
                         }
                     }
-                    xmlhttp.open("GET", "getTempHistory.php", true); //GET->格式   gettemp.php文件
+                    xmlhttp.open("GET", "getqnHistory.php", true); //GET->格式   gettemp.php文件
                     xmlhttp.send();
                 }
             </script>
