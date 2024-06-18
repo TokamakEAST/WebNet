@@ -9,6 +9,7 @@
   .leaflet-popup-content-wrapper, .leaflet-popup-content {
     width: 300px; /* 调整气泡的宽度 */
     height: 200px; /* 可选：调整气泡的高度 */
+    padding:10px;/*添加内边距*/
   }
   #sidebar {
     width: 200px;
@@ -19,6 +20,17 @@
     margin-left: 210px; /* 略大于侧边栏宽度，使地图在侧边栏旁边显示 */
     height: 400px;
     width: calc(100% - 210px); /* 减去侧边栏的宽度 */
+  }
+  .popup-text {
+    max-width: 250px; /* 控制文字框的最大宽度 */
+    background-color: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
+    border: 1px solid #ccc; /* 边框样式 */
+    padding: 5px; /* 文字周围的内边距 */
+    margin-top: 5px; /* 文字框上方的外边距 */
+    text-align: center; /* 文字居中对齐 */
+    font-size: 14px; /* 字体大小 */
+    color: #333; /* 字体颜色 */
+    box-sizing: border-box; /* 内边距和边框包含在宽度计算内 */
   }
 </style>
 </head>
@@ -40,16 +52,22 @@
         "bird11.png",
         "bird22.png",
     ]
+    //定义文字数组
+    var texts = [
+        "鸟害等级低",
+        "鸟害等级中",
+        "鸟害等级高",
+    ]
 
     map.on('click', function(e) {
 
-        //随机选择一张图片
+        //随机选择一张图片和文字
         var randomImage = images[Math.floor(Math.random() * images.length)];
-
+        var randomText = texts[Math.floor(Math.random() * texts.length)];
          // 创建一个Popup并设置内容为随机图片
         L.popup()
          .setLatLng(e.latlng)
-         .setContent('<img src="' + randomImage + '" alt="Random Image" style="width:85%;height:85%;">')
+         .setContent('<img src="' + randomImage + '" alt="Random Image" style="width:85%;height:70%;"><div class="popup-text">' + randomText + '</div>')
          .openOn(map);
     });
 </script>
