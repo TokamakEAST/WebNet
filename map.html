@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>2号页面</title>
+<title>鸟害分布地图</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <style>
@@ -35,7 +35,7 @@
 </style>
 </head>
 <body>
-    <h1>鸟害地图显示</h1>
+    <h1>鸟害分布地图</h1>
     <div id="map" style="height: 800px;width: 70%;"></div>
 <button onclick="window.location.href='index.html'">返回1号页面</button>
 <script>
@@ -54,9 +54,10 @@
     ]
     //定义文字数组
     var texts = [
-        "鸟害等级低",
-        "鸟害等级中",
-        "鸟害等级高",
+        "鸟害等级一",
+        "鸟害等级二",
+        "鸟害等级三",
+        "鸟害等级四",
     ]
 
     map.on('click', function(e) {
