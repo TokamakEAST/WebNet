@@ -78,6 +78,11 @@
             padding: 10px;
             text-align: center;
         }
+        #dynamicChartFrame {
+            width: 100%;
+            height: 800px;
+            display: none; /* 默认不显示，通过按钮点击显示 */
+        }
     </style>
 </head>
 
@@ -87,6 +92,7 @@
         <button onclick="t1Shift()"><b>现场传感器1</b></button>
         <button onclick="t2Shift()"><b>现场传感器2</b></button>
         <button onclick="showMap()">鸟害地图</button>
+        <button onclick="showDynamicChart()">动态折线图</button>
     </div>
 
     
@@ -272,6 +278,8 @@
         </table>
     </div>
         <iframe id="mapFrame" src="" style="width: 100%; height: 800px; display: none;"></iframe> <!-- 新增iframe -->
+        <iframe id="dynamicChartFrame" src="table.html" style="width: 100%; height: 800px; display: none;"></iframe>
+
     </div>
 
 
@@ -447,6 +455,7 @@
             document.getElementById('t2').style.display = 'none';
             document.getElementById('sensorData').style.display = 'block';
             document.getElementById('mapFrame').style.display = 'none';
+            document.getElementById('dynamicChartFrame').style.display = 'none';
         }
 
         function t2Shift() {
@@ -454,6 +463,7 @@
             document.getElementById('t2').style.display = 'block';
             document.getElementById('sensorData').style.display = 'block';
             document.getElementById('mapFrame').style.display = 'none';
+            document.getElementById('dynamicChartFrame').style.display = 'none';
         }
 
         function showMap() {
@@ -462,7 +472,17 @@
             document.getElementById('sensorData').style.display = 'none';
             document.getElementById('mapFrame').style.display = 'block';
             document.getElementById('mapFrame').src = 'map.html'; // 确保地图加载
+            document.getElementById('dynamicChartFrame').style.display = 'none';
         }
+
+        function showDynamicChart() {
+            document.getElementById('t1').style.display = 'none';
+            document.getElementById('t2').style.display = 'none';
+            document.getElementById('sensorData').style.display = 'none';
+            document.getElementById('mapFrame').style.display = 'none';
+            document.getElementById('dynamicChartFrame').style.display = 'block';
+        }
+
         </script>
 
 
