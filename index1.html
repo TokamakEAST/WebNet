@@ -1,15 +1,12 @@
 
-<!-- 鸣谢：ChatGPT3.5 -->
-
-<!-- 正文 -->
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>鸟害检测终端</title>
+    <title>三相电 电压&电流</title>
     <style>
-              /* 样式表中定义按钮的大小和侧边栏布局 */
+        /* 样式表中定义按钮的大小和侧边栏布局 */
         body {
             margin: 0;
             padding: 0;
@@ -149,6 +146,7 @@
         }
 
 
+        
     </style>
 </head>
 
@@ -156,13 +154,14 @@
     <div id="sidebar">
         
         <h2>切换列表</h2>
-        <button onclick="t1Shift()"><b>现场传感器1</b></button>
-        <button onclick="t2Shift()"><b>现场传感器2</b></button>
-         
+        <button onclick="t1Shift()"><b>三相电 电流表格</b></button>
+        <button onclick="t2Shift()"><b>三相电 电压表格</b></button>
+
+        <button onclick="captureScreen()"><b>屏幕捕捉</b></button>
     </div>
 
     <div id="content">
-        <h1 style="text-align: center;">鸟害检测终端</h1>
+        <h1 style="text-align: center;">三相电 电压&电流</h1>
         <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> <!-- 调用jQuery库 -->
         <script>
             var userAgent = navigator.userAgent.toLowerCase();
@@ -178,7 +177,7 @@
                 <td id="bg" height="50" colspan="2" bgcolor="#000000"
                     style="background-color: #AEAEAE; text-align: left; color: #000000;">
                     <!-- 这里可以自定义更多内容 -->
-                    <h3 style="text-align: center;">powered by King_of_KAI</h3>
+                    <h3 style="text-align: center;">powered by L77F</h3>
                 </td>
             </tr>
             <tr>
@@ -187,10 +186,10 @@
                         style="border-collapse:collapse;">
                         <tr style="background-color: #fdfdfd">
                             <th width="200">时间</th>
-                            <th width="200">风速(m/s)</th>
-                            <th width="200">风向(°)</th>
-                            <th width="200">湿度(%)</th>
-                            <th width="200">温度(°C)</th>
+                            <th width="200">I/A</th>
+                            <th width="200">I/B</th>
+                            <th width="200">I/C</th>
+                            <th width="200">开关状态（1/0）</th>
                         </tr>
                         <tr>
                             <td id="01_Gas"></td>
@@ -268,9 +267,9 @@
                         style="border-collapse:collapse;display:none;">
                         <tr style="background-color: #ffffff">
                             <th width="200">时间</th>
-                            <th width="200">粒子浓度</th>
-                            <th width="200">温度</th>
-                            <th width="200">湿度</th>
+                            <th width="200">V/A</th>
+                            <th width="200">V/B</th>
+                            <th width="200">V/C</th>
                             <th width="200">开关状态（1/0）</th>
                             <tr>
                                 <td id="01_Temp"></td>
@@ -353,10 +352,12 @@
     <div id="toggleSidebarBtn" onclick="toggleSidebar()">
         展开列表
     </div>
-    
-    
-    
-      <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+
+
 
         <!--定向将数据存放在表格中-->
         <!--向危险气体中存-->
@@ -365,7 +366,7 @@
     
             function requestTdata() {
                 $.ajax({
-                    url: 'getqn.php',
+                    url: 'getGas.php',
                     success: function(data) {
                         var jsdata = JSON.parse(data);
                         var time_jsdata = jsdata[0];
@@ -516,9 +517,30 @@
                     }
                 });
             }
-            
-            
-            
+
+            function captureScreen() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+        navigator.mediaDevices.getDisplayMedia({video: true}).then(stream => {
+            const videoElement = document.createElement('video');
+            videoElement.autoplay = true;
+            videoElement.controls = true;
+            videoElement.style.width = '100%';
+            document.getElementById('content').appendChild(videoElement);
+            videoElement.srcObject = stream;
+        }).catch(error => {
+            console.error('Error capturing screen:', error);
+            alert('Failed to capture screen: ' + error.message);
+        });
+    } else {
+        alert('Screen capture is not supported in this browser or HTTPS is not enabled.');
+    }
+}
+
+
+
+
+
+
         function t1Shift() {
             document.getElementById("t1").style.display = "block";
             document.getElementById("t2").style.display = "none";
