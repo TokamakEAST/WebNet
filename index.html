@@ -94,6 +94,7 @@
         <button onclick="showMap()">鸟害分布</button>
         <button onclick="showDynamicChart()">现场数据分析</button>
         <button onclick="showHistory()">历史数据查询</button>
+        <button onclick="showTakeAway()">鸟害驱离效果</button>
     </div>
 
     
@@ -281,6 +282,7 @@
         <iframe id="mapFrame" src="" style="width: 100%; height: 800px; display: none;"></iframe> <!-- 新增iframe -->
         <iframe id="dynamicChartFrame" src="table.html" style="width: 100%; height: 800px; display: none;"></iframe>
         <iframe id="HistoryFrame" src="qnhistory.html" style="width: 100%; height: 800px; display: none;"></iframe>
+        <iframe id="TakeAwayFrame" src="qntakeaway.html" style="width: 100%; height: 800px; display: none;"></iframe>
 
     </div>
 
@@ -459,6 +461,7 @@
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'none';
             document.getElementById('HistoryFrame').style.display = 'none';
+            document.getElementById('TakeAwayFrame').style.display = 'none';
         }
 
         function t2Shift() {
@@ -468,6 +471,7 @@
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'none';
             document.getElementById('HistoryFrame').style.display = 'none';
+            document.getElementById('TakeAwayFrame').style.display = 'none';
         }
 
         function showMap() {
@@ -478,6 +482,7 @@
             document.getElementById('mapFrame').src = 'map.html'; // 确保地图加载
             document.getElementById('dynamicChartFrame').style.display = 'none';
             document.getElementById('HistoryFrame').style.display = 'none';
+            document.getElementById('TakeAwayFrame').style.display = 'none';
         }
 
         function showDynamicChart() {
@@ -488,6 +493,7 @@
             document.getElementById('dynamicChartFrame').style.display = 'block';
             // document.getElementById('mapFrame').src = 'table.html'; // 确保表格加载
             document.getElementById('HistoryFrame').style.display = 'none';
+            document.getElementById('TakeAwayFrame').style.display = 'none';
         }
         function showHistory() {
             document.getElementById('t1').style.display = 'none';
@@ -496,6 +502,16 @@
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'none';
             document.getElementById('HistoryFrame').style.display = 'block';
+            document.getElementById('TakeAwayFrame').style.display = 'none';
+        }
+        function showTakeAway() {
+            document.getElementById('t1').style.display = 'none';
+            document.getElementById('t2').style.display = 'none';
+            document.getElementById('sensorData').style.display = 'none';
+            document.getElementById('mapFrame').style.display = 'none';
+            document.getElementById('dynamicChartFrame').style.display = 'none';
+            document.getElementById('HistoryFrame').style.display = 'none';
+            document.getElementById('TakeAwayFrame').style.display = 'block';
         }
 
         </script>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>设备分析页面</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    }
+
+    h2 {
+        text-align: left;
+        margin-bottom: 20px;
+        margin-left: 40px; /* 控制元素与左边框的距离 */
+    }
+
+    .filter {
+        text-align: left;
+        margin-bottom: 20px;
+        margin-left: 40px; /* 控制元素与左边框的距离 */
+    }
+
+    .filter label, .filter span {
+        margin-right: 10px;
+    }
+
+    .search-button {
+        background-color: green;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: center;
+    }
+
+    input[type="date"] {
+        margin-right: 10px;
+    }
+    .highlight {
+        color: #32CD32; /* 亮绿色 */
+    }
+</style>
+
+<body>
+    <h2>驱离效果分析</h2>
+    <div class="filter">
+        <label for="device">设备名称: </label>
+        <select id="device">
+            <option value="device1">设备一</option>
+            <option value="device2">设备二</option>
+            <option value="device3">设备三</option>
+        </select>
+
+        <input type="date" id="start-date">
+        <span>至</span>
+        <input type="date" id="end-date">
+        <button class="search-button">查询</button>
+    </div>
+
+    <table>
+        <tr>
+            <th><input type="checkbox"></th>
+            <th>序号</th>
+            <th>设备名称</th>
+            <th>鸟害进入数量</th>
+            <th>鸟害驱离数量（3分钟）</th>
+            <th>驱离完成率</th>
+        </tr>
+        <!-- 示例一行，实际应用中你可能需要动态生成更多行 -->
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>1</td>
+            <td>智能1</td>
+            <td>6</td>
+            <td>6</td>
+            <td class="highlight">100%</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>2</td>
+            <td>智能2</td>
+            <td>406</td>
+            <td>406</td>
+            <td class="highlight">100%</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>3</td>
+            <td>智能3</td>
+            <td>498</td>
+            <td>497</td>
+            <td class="highlight">100%</td>
+        </tr>
+        <!-- 可以复制以上行来增加更多行 -->
+    </table>
+</body>
+</html>
