@@ -63,7 +63,7 @@
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
-            width: calc(100% / 14);
+            width: calc(100% / 15); /* 调整宽度以适应15列 */
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -94,124 +94,122 @@
         <canvas id="myChart"></canvas>
     </div>
 </div>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    var table1Data = [
-        /* 表格1数据 */
-        [0, 58.53609544, 0, 0, 34.94879282, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        
-    ];
-    var table2Data = [
-    /* 表格2数据 */
-        [875.0000, 755.7996, 276.9956, 792.6874, 828.5944, 692.1946, 279.5663, 0.0000, 406.7325, 536.1473, 692.1946, 692.1946, 692.1946, 518.7714]
-    ];
-
-    var table3Data = [
-        /* 表格3数据 */
-        [16.4009, 26.0930, 37.8905, 6.2973, 7.7526, 11.9986, 4.8253, 2.4227, 4.2224, 9.3446, 7.7297]
-    ];
-
-    var table4Data = [
-        /* 表格4数据 */
-        [1.2,2.3,2.4,3.4,7.4,9.4,1.5,2.5,4.5,5.6,9.7,9.10,6.11,10.11,6.12,6.13,12.13,9.14,13.14],
-        [0.9808, 0.4027, 0.5424, 0.0108, 0.0000, 0.0000, 0.8342, 0.3127, 0.1432, 0.0000, 0.0000, 0.0059, 0.0395, 0.0075, 0.0501, 0.1488, 0.0043, 0.0494, 0.0390]
-    ];
-
-    var button1 = document.getElementById('button1');
-    var button2 = document.getElementById('button2');
-    var button3 = document.getElementById('button3');
-    var button4 = document.getElementById('button4');
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    var table1Data = [], table2Data = [], table3Data = [], table4Data = [];
     var currentData = table1Data; // 初始状态为表格1数据
 
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['时间1', '时间2', '时间3', '时间4', '时间5', '时间6', '时间7', '时间8', '时间9', '时间10', '时间11', '时间12', '时间13', '时间14', '时间15'],
-            datasets: [] // 初始为空，点击按钮时会更新
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
+    $(document).ready(function() {
+        requestTdata();
+        setInterval(requestTdata, 3000); // 每3秒调用一次 requestTdata
+
+        $('#button1').click(function() {
+            currentData = table1Data;
+            updateTable(currentData);
+            updateChart(currentData);
+        });
+
+        $('#button2').click(function() {
+            currentData = table2Data;
+            updateTable(currentData);
+            updateChart(currentData);
+        });
+
+        $('#button3').click(function() {
+            currentData = table3Data;
+            updateTable(currentData);
+            updateChart(currentData);
+        });
+
+        $('#button4').click(function() {
+            currentData = table4Data;
+            updateTable(currentData);
+            updateChart(currentData);
+        });
+
+        // 初始化图表
+        var ctx = document.getElementById('myChart').getContext('2d');
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 15}, (_, i) => '时间' + (i + 1)), // 生成时间标签
+                datasets: [] // 初始为空，点击按钮时会更新
+            },
+            options: {
+                scales: {
+                    y: {
                         beginAtZero: true
                     }
-                }]
+                }
             }
+        });
+
+        function requestTdata() {
+            $.ajax({
+                url: 'getqntable.php',
+                success: function(data) {
+                    console.log('Data fetched successfully:', data); // 调试信息
+                    var jsdata = JSON.parse(data);
+                    console.log('Parsed JSON data:', jsdata); // 调试信息
+                    table1Data = [jsdata[0]];
+                    table2Data = [jsdata[1]];
+                    table3Data = [jsdata[2]];
+                    table4Data = [jsdata[3]];
+                    // 初始化加载表格和折线图
+                    updateTable(currentData);
+                    updateChart(currentData);
+                },
+                error: function(error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
         }
     });
 
-    // 初始加载表格和折线图
-    updateTable(table1Data);
-    updateChart(table1Data);
+  function updateTable(data) {
+    var table = $('#data-table');
+    var tableHead = table.find('thead');
+    var tableBody = table.find('tbody');
 
-    button1.addEventListener('click', function() {
-        currentData = table1Data;
-        updateTable(currentData);
-        updateChart(currentData);
-    });
+    tableHead.empty(); // 清空表头
+    tableBody.empty(); // 清空表格内容
 
-    button2.addEventListener('click', function() {
-        currentData = table2Data;
-        updateTable(currentData);
-        updateChart(currentData);
-    });
-
-    button3.addEventListener('click', function() {
-        currentData = table3Data;
-        updateTable(currentData);
-        updateChart(currentData);
-    });
-
-    button4.addEventListener('click', function() {
-        currentData = table4Data;
-        updateTable(currentData);
-        updateChart(currentData);
-    });
-
-    function updateTable(data) {
-        var table = document.getElementById('data-table');
-        var tableHead = table.querySelector('thead');
-        tableHead.innerHTML = ''; // 清空表头
-        var tableBody = table.querySelector('tbody');
-        tableBody.innerHTML = ''; // 清空表格内容
-        var tableTitle = document.getElementById('table-title');
-
-        // 更新表头
-        var headerRow = document.createElement('tr');
-        data[0].forEach(function(_, index) {
-            var headerCell = document.createElement('th');
-            headerCell.textContent = '节点' + (index + 1);
-            headerRow.appendChild(headerCell);
-        });
-        tableHead.appendChild(headerRow);
-        tableTitle.textContent = '*' + (currentData === table1Data ? '支路碳流率分布矩阵' : currentData === table2Data ? '节点碳势分布向量' : currentData === table3Data ? '负荷碳流率向量' : '支路有功损耗引起的碳排放');
-
-        // 更新表格内容
-        data.forEach(function(rowData) {
-            var row = document.createElement('tr');
-            rowData.forEach(function(cellData) {
-                var cell = document.createElement('td');
-                cell.textContent = cellData;
-                row.appendChild(cell);
-            });
-            tableBody.appendChild(row);
-        });
+    // 更新表头
+    var headerRow = $('<tr>');
+    for (let i = 0; i < 15; i++) {
+        headerRow.append($('<th>').text('时间' + (i + 1)));
     }
+    tableHead.append(headerRow);
 
-    function updateChart(data) {
-        myChart.data.datasets = [];
-        data.forEach(function(rowData, index) {
-            myChart.data.datasets.push({
-                label: '节点' + (index + 1),
-                data: rowData,
-                borderColor: 'hsla(' + ((index + 1) * 30 % 360) + ', 100%, 50%, 1)',
-                fill: false
-            });
-        });
-        myChart.update();
+    // 更新表格内容，确保按列处理
+    for (let i = 0; i < 15; i++) {  // 15 行
+        var row = $('<tr>');
+        for (let j = 0; j < data.length; j++) {  // 每列
+            row.append($('<td>').text(data[j][i]));
+        }
+        tableBody.append(row);
     }
+}
+
+   function updateChart(data) {
+    var labels = Array.from({length: 15}, (_, i) => '时间' + (i + 1));  // 确保有15个横坐标标签
+
+    window.myChart.data.labels = labels;  // 设置横坐标标签
+    window.myChart.data.datasets = [];
+
+    // 添加数据集
+    data.forEach(function(columnData, index) {
+        window.myChart.data.datasets.push({
+            label: '列' + (index + 1),
+            data: columnData,
+            borderColor: 'hsla(' + (index * 30 % 360) + ', 100%, 50%, 1)',
+            fill: false
+        });
+    });
+    window.myChart.update();
+}
 </script>
 </body>
 </html>
