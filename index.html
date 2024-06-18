@@ -89,10 +89,10 @@
 <body>
     <h1>鸟害检测终端</h1>
     <div id="topbar">
-        <button onclick="t1Shift()"><b>现场传感器1</b></button>
-        <button onclick="t2Shift()"><b>现场传感器2</b></button>
+        <button onclick="t1Shift()"><b>装置1状态</b></button>
+        <button onclick="t2Shift()"><b>装置2状态</b></button>
         <button onclick="showMap()">鸟害地图</button>
-        <button onclick="showDynamicChart()">动态折线图</button>
+        <button onclick="showDynamicChart()">现场数据分析</button>
     </div>
 
     
@@ -197,10 +197,10 @@
                         style="border-collapse:collapse;display:none;">
                         <tr style="background-color: #ffffff">
                             <th width="200">时间（设备二）</th>
-                            <th width="200">风速（设备二）</th>
-                            <th width="200">风向（设备二）</th>
-                            <th width="200">温度（设备二）</th>
-                            <th width="200">湿度（设备二）</th>
+                            <th width="200">风速(m/s)（设备二）</th>
+                            <th width="200">风向(°)（设备二）</th>
+                            <th width="200">湿度(%)（设备二）</th>
+                            <th width="200">温度(°C)（设备二）</th>
                             <tr>
                                 <td id="01_Temp"></td>
                                 <td id="11_Temp"></td>
@@ -374,7 +374,7 @@
     
             function tempdata() {
                 $.ajax({
-                    url: 'getTemp.php',
+                    url: 'getqn.php',
                     success: function(data) {
                         var jsdata = JSON.parse(data);
                         var timer_jsdata = jsdata[0];
@@ -481,6 +481,7 @@
             document.getElementById('sensorData').style.display = 'none';
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'block';
+            // document.getElementById('mapFrame').src = 'table.html'; // 确保表格加载
         }
 
         </script>
