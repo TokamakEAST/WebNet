@@ -1,530 +1,88 @@
-
-<!-- 鸣谢：ChatGPT4.0 -->
-
-<!-- 正文 -->
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>鸟害检测终端</title>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鸟害检测系统</title>
     <style>
-       body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            /* background-image: url('background.jpg'); 背景图片地址，根据实际情况修改 */
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
-        #header {
-            width: 100%;
-            padding: 10px 50px; /* 两边的填充 */
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1001;
-            display: flex;
-            justify-content: space-between; /* 确保标题和管理员信息分布在两端 */
-            align-items: center; 
-        }
-
-        #topbar {
-            width: 100%;
-            height: 50px;
-            background-color: #035e5a; /* 暗绿色背景 */
-            display: flex;
-            align-items: center;
-            justify-content: flex-start; /* 按钮靠左排列 */
-            padding-left: 50px; /* 左边填充 */
-            position: fixed;
-            top: 60px; /* 根据标题高度进行调整 */
-            left: 0;
-            z-index: 1000;
-        }
-
-        button {
-            background-color: #035e5a; /* 按钮背景色与横条相同 */
-            border: none; /* 无边框设计 */
-            color: white; /* 字体颜色 */
-            padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 5px; /* 轻微圆角 */
-            transition: background-color 0.3s ease;
-            margin-right: 10px; /* 间距 */
-            font-size: 20px; /* 增大字体大小 */
-        }
-
-        button:hover {
-            background-color: #004225; /* 鼠标悬停效果，稍微深一点的绿色 */
-        }
-
-        #content {
-            padding-top: 120px; /* 调整内容区域的顶部填充 */
-        }
-
-        table {
-            width: 80%; /* 根据需要调整宽度 */
-            margin: 20px auto; /* 保证表格居中 */
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 10px;
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('loginbackground.jpg'); /* 替换 'your-image-url.jpg' 为你的背景图片链接 */
+            background-size: cover; /* 背景图片覆盖整个屏幕 */
             text-align: center;
+            padding-top: 50px;
+            height: 100vh; /* 设置 body 高度为视窗高度 */
+            display: flex;
+            align-items: center; /* 纵向居中 */
+            justify-content: flex-end; /* 横向靠右 */
         }
-        #dynamicChartFrame {
+
+        .container {
+            width: 300px;
+            margin-right: 20%; /* 或你可以自定义具体的百分比或像素，来控制偏右的程度 */
+            background-color: rgba(255, 255, 255, 0.8); /* 给登录框一个半透明效果 */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="submit"] {
             width: 100%;
-            height: 800px;
-            display: none; /* 默认不显示，通过按钮点击显示 */
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
+
+        input[type="submit"] {
+            background-color: #1bbebb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1bdfc7;
+        }
+
     </style>
 </head>
-
 <body>
-    <div id="header" style="display: flex; justify-content: space-between; align-items: center; width: 100%; position: fixed; top: 0; left: 0; z-index: 1001; background-color: #00706c; padding: 10px 50px; padding-right: 100px;">
-        <h1 style="margin: 0; color: #ffffff; flex-grow: 21;">鸟害检测终端</h1>
-        <div style="display: flex; align-items: center; flex-grow: 1;">
-            <img src="adminhead.jpg" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;"> <!-- 替换成实际的图片路径 -->
-            <span style="color: #ffffff; font-weight: bold;">管理员</span>
-            <span style="color: blue; margin-left: 10px;">●</span><span style="margin-left: 5px; color: #ffffff;">在线</span>
-            <img src="backup.jpg" style="width: 20px; height: 20px; margin-left: 10px;"> <!-- 替换成实际的图标路径 -->
-            <span style="color: #ffffff; margin-left: 5px; cursor: pointer;" onclick="logoutFunction()">注销</span>
-        </div>
-    </div>
-    <div id="topbar">
-        <button onclick="t1Shift()"><b>装置1状态</b></button>
-        <button onclick="t2Shift()"><b>装置2状态</b></button>
-        <button onclick="showMap()">鸟害分布</button>
-        <button onclick="showDynamicChart()">现场数据分析</button>
-        <button onclick="showHistory()">历史数据查询</button>
-        <button onclick="showTakeAway()">鸟害驱离效果</button>
-    </div>
 
-    
-    <div id="content">
-        <!-- <h1 style="text-align: center;">鸟害检测终端</h1> -->
-        <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script> <!-- 调用jQuery库 -->
-        <script>
-            var userAgent = navigator.userAgent.toLowerCase();
-            var isMobile = /mobile|iphone|ipod|ipad|android/.test(userAgent);
-    
-            if (isMobile) {
-                window.location.href = "mobile.html"; // 在移动设备上重定向到移动页面
-            }
-        </script>
-       <div id="sensorData">
-        <table width="100%" border="0">
-            
-            <tr>
-                <td>
-                    <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t1"
-                        style="border-collapse:collapse;">
-                        <tr style="background-color: #fdfdfd">
-                            <th width="200">时间（设备一）</th>
-                            <th width="200">风速(m/s)（设备一）</th>
-                            <th width="200">风向(°)（设备一）</th>
-                            <th width="200">湿度(%)（设备一）</th>
-                            <th width="200">温度(°C)（设备一）</th>
-                        </tr>
-                        <tr>
-                            <td id="01_Gas"></td>
-                            <td id="11_Gas"></td>
-                            <td id="21_Gas"></td>
-                            <td id="31_Gas"></td>
-                            <td id="41_Gas"></td>
-                        </tr>
-                        <tr>
-                            <td id="02_Gas"></td>
-                            <td id="12_Gas"></td>
-                            <td id="22_Gas"></td>
-                            <td id="32_Gas"></td>
-                            <td id="42_Gas"></td>
-                        </tr>
-                        <tr>
-                            <td id="03_Gas"></td>
-                            <td id="13_Gas"></td>
-                            <td id="23_Gas"></td>
-                            <td id="33_Gas"></td>
-                            <td id="43_Gas"></td>
-                        </tr>
-                        <tr>
-                            <td id="04_Gas"></td>
-                            <td id="14_Gas"></td>
-                            <td id="24_Gas"></td>
-                            <td id="34_Gas"></td>
-                            <td id="44_Gas"></td>
-                        </tr>
-                        <tr>
-                            <td id="05_Gas"></td>
-                            <td id="15_Gas"></td>
-                            <td id="25_Gas"></td>
-                            <td id="35_Gas"></td>
-                            <td id="45_Gas"></td>
-                        </tr>
-                        <tr>
-                            <td id="06_Gas"></td>
-                            <td id="16_Gas"></td>
-                            <td id="26_Gas"></td>
-                            <td id="36_Gas"></td>
-                            <td id="46_Gas"></td>
-                        </tr>
-                        <tr>
+<div class="container">
+    <h2>鸟害检测系统</h2>
+    <form id="loginForm">
+        <input type="text" id="username" name="username" placeholder="Username">
+        <br>
+        <input type="password" id="password" name="password" placeholder="Password">
+        <br>
+        <input type="submit" value="进入系统">
+    </form>
+</div>
 
-                             <td id="07_Gas"></td>
-                             <td id="17_Gas"></td>
-                             <td id="27_Gas"></td>
-                             <td id="37_Gas"></td>
-                             <td id="47_Gas"></td>
-                        </tr>
-                        <tr>
-                             <td id="08_Gas"></td>
-                             <td id="18_Gas"></td>
-                             <td id="28_Gas"></td>
-                             <td id="38_Gas"></td>
-                             <td id="48_Gas"></td>
-                        </tr>
-                        <tr>
-                             <td id="09_Gas"></td>
-                             <td id="19_Gas"></td>
-                             <td id="29_Gas"></td>
-                             <td id="39_Gas"></td>
-                             <td id="49_Gas"></td>
-                        </tr>
-                        <tr>
-                             <td id="0X_Gas"></td>
-                             <td id="1X_Gas"></td>
-                             <td id="2X_Gas"></td>
-                             <td id="3X_Gas"></td>
-                             <td id="4X_Gas"></td>
-                        </tr>
-                    </table>
-                    <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t2"
-                        style="border-collapse:collapse;display:none;">
-                        <tr style="background-color: #ffffff">
-                            <th width="200">时间（设备二）</th>
-                            <th width="200">风速(m/s)（设备二）</th>
-                            <th width="200">风向(°)（设备二）</th>
-                            <th width="200">湿度(%)（设备二）</th>
-                            <th width="200">温度(°C)（设备二）</th>
-                            <tr>
-                                <td id="01_Temp"></td>
-                                <td id="11_Temp"></td>
-                                <td id="21_Temp"></td>
-                                <td id="31_Temp"></td>
-                                <td id="41_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="02_Temp"></td>
-                                <td id="12_Temp"></td>
-                                <td id="22_Temp"></td>
-                                <td id="32_Temp"></td>
-                                <td id="42_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="03_Temp"></td>
-                                <td id="13_Temp"></td>
-                                <td id="23_Temp"></td>
-                                <td id="33_Temp"></td>
-                                <td id="43_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="04_Temp"></td>
-                                <td id="14_Temp"></td>
-                                <td id="24_Temp"></td>
-                                <td id="34_Temp"></td>
-                                <td id="44_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="05_Temp"></td>
-                                <td id="15_Temp"></td>
-                                <td id="25_Temp"></td>
-                                <td id="35_Temp"></td>
-                                <td id="45_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="06_Temp"></td>
-                                <td id="16_Temp"></td>
-                                <td id="26_Temp"></td>
-                                <td id="36_Temp"></td>
-                                <td id="46_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="07_Temp"></td>
-                                <td id="17_Temp"></td>
-                                <td id="27_Temp"></td>
-                                <td id="37_Temp"></td>
-                                <td id="47_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="08_Temp"></td>
-                                <td id="18_Temp"></td>
-                                <td id="28_Temp"></td>
-                                <td id="38_Temp"></td>
-                                <td id="48_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="09_Temp"></td>
-                                <td id="19_Temp"></td>
-                                <td id="29_Temp"></td>
-                                <td id="39_Temp"></td>
-                                <td id="49_Temp"></td>
-                            </tr>
-                            <tr>
-                                <td id="0X_Temp"></td>
-                                <td id="1X_Temp"></td>
-                                <td id="2X_Temp"></td>
-                                <td id="3X_Temp"></td>
-                                <td id="4X_Temp"></td>
-                            </tr>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
-        <iframe id="mapFrame" src="map.html" style="width: 100%; height: 800px; display: none;"></iframe> <!-- 新增iframe -->
-        <iframe id="dynamicChartFrame" src="table.html" style="width: 100%; height: 800px; display: none;"></iframe>
-        <iframe id="HistoryFrame" src="qnhistory.html" style="width: 100%; height: 800px; display: none;"></iframe>
-        <iframe id="TakeAwayFrame" src="qntakeaway.html" style="width: 100%; height: 800px; display: none;"></iframe>
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // 阻止表单默认提交行为
 
-    </div>
+        // 获取输入的用户名和密码
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
 
-
-
-    
-    
-    
-      <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-
-        <!--定向将数据存放在表格中-->
-        <!--向危险气体中存-->
-        <script type="text/javascript">
-            setTimeout("requestTdata()", 1000);
-    
-            function requestTdata() {
-                $.ajax({
-                    url: 'getqn.php',
-                    success: function(data) {
-                        var jsdata = JSON.parse(data);
-                        var time_jsdata = jsdata[0];
-                        var IA_jsdata = jsdata[1];
-                        var IB_jsdata = jsdata[2];
-                        var IC_jsdata = jsdata[3];
-                        var Switch_jsdata = jsdata[4];
-    
-                        document.getElementById("01_Gas").innerHTML = time_jsdata[0];
-                        document.getElementById("11_Gas").innerHTML = IA_jsdata[0];
-                        document.getElementById("21_Gas").innerHTML = IB_jsdata[0];
-                        document.getElementById("31_Gas").innerHTML = IC_jsdata[0];
-                        document.getElementById("41_Gas").innerHTML = Switch_jsdata[0];
-    
-                        document.getElementById("02_Gas").innerHTML = time_jsdata[1];
-                        document.getElementById("12_Gas").innerHTML = IA_jsdata[1];
-                        document.getElementById("22_Gas").innerHTML = IB_jsdata[1];
-                        document.getElementById("32_Gas").innerHTML = IC_jsdata[1];
-                        document.getElementById("42_Gas").innerHTML = Switch_jsdata[1];
-    
-                        document.getElementById("03_Gas").innerHTML = time_jsdata[2];
-                        document.getElementById("13_Gas").innerHTML = IA_jsdata[2];
-                        document.getElementById("23_Gas").innerHTML = IB_jsdata[2];
-                        document.getElementById("33_Gas").innerHTML = IC_jsdata[2];
-                        document.getElementById("43_Gas").innerHTML = Switch_jsdata[2];
-                        
-                        document.getElementById("04_Gas").innerHTML = time_jsdata[3];
-                        document.getElementById("14_Gas").innerHTML = IA_jsdata[3];
-                        document.getElementById("24_Gas").innerHTML = IB_jsdata[3];
-                        document.getElementById("34_Gas").innerHTML = IC_jsdata[3];
-                        document.getElementById("44_Gas").innerHTML = Switch_jsdata[3];
-                        
-                        document.getElementById("05_Gas").innerHTML = time_jsdata[4];
-                        document.getElementById("15_Gas").innerHTML = IA_jsdata[4];
-                        document.getElementById("25_Gas").innerHTML = IB_jsdata[4];
-                        document.getElementById("35_Gas").innerHTML = IC_jsdata[4];
-                        document.getElementById("45_Gas").innerHTML = Switch_jsdata[4];
-                        
-                        document.getElementById("06_Gas").innerHTML = time_jsdata[5];
-                        document.getElementById("16_Gas").innerHTML = IA_jsdata[5];
-                        document.getElementById("26_Gas").innerHTML = IB_jsdata[5];
-                        document.getElementById("36_Gas").innerHTML = IC_jsdata[5];
-                        document.getElementById("46_Gas").innerHTML = Switch_jsdata[5];
-                        
-                        document.getElementById("07_Gas").innerHTML = time_jsdata[6];
-                        document.getElementById("17_Gas").innerHTML = IA_jsdata[6];
-                        document.getElementById("27_Gas").innerHTML = IB_jsdata[6];
-                        document.getElementById("37_Gas").innerHTML = IC_jsdata[6];
-                        document.getElementById("47_Gas").innerHTML = Switch_jsdata[6];
-                        
-                        document.getElementById("08_Gas").innerHTML = time_jsdata[7];
-                        document.getElementById("18_Gas").innerHTML = IA_jsdata[7];
-                        document.getElementById("28_Gas").innerHTML = IB_jsdata[7];
-                        document.getElementById("38_Gas").innerHTML = IC_jsdata[7];
-                        document.getElementById("48_Gas").innerHTML = Switch_jsdata[7];
-                        
-                        document.getElementById("09_Gas").innerHTML = time_jsdata[8];
-                        document.getElementById("19_Gas").innerHTML = IA_jsdata[8];
-                        document.getElementById("29_Gas").innerHTML = IB_jsdata[8];
-                        document.getElementById("39_Gas").innerHTML = IC_jsdata[8];
-                        document.getElementById("49_Gas").innerHTML = Switch_jsdata[8];
-                        
-                        document.getElementById("0X_Gas").innerHTML = time_jsdata[9];
-                        document.getElementById("1X_Gas").innerHTML = IA_jsdata[9];
-                        document.getElementById("2X_Gas").innerHTML = IB_jsdata[9];
-                        document.getElementById("3X_Gas").innerHTML = IC_jsdata[9];
-                        document.getElementById("4X_Gas").innerHTML = Switch_jsdata[9];
-                        
-                        setTimeout("requestTdata()", 1000);
-                    }
-                });
-            }
-            /*向温湿度中存*/
-            setTimeout("tempdata()", 1000);
-    
-            function tempdata() {
-                $.ajax({
-                    url: 'getqn.php',
-                    success: function(data) {
-                        var jsdata = JSON.parse(data);
-                        var timer_jsdata = jsdata[0];
-                        var VA_jsdata = jsdata[1];
-                        var VB_jsdata = jsdata[2];
-                        var VC_jsdata = jsdata[3];
-                        var Switch_jsdata = jsdata[4];
-                        
-                        document.getElementById("01_Temp").innerHTML = timer_jsdata[0];
-                        document.getElementById("11_Temp").innerHTML = VA_jsdata[0];
-                        document.getElementById("21_Temp").innerHTML = VB_jsdata[0];
-                        document.getElementById("31_Temp").innerHTML = VC_jsdata[0];
-                        document.getElementById("41_Temp").innerHTML = Switch_jsdata[0];
-    
-                        document.getElementById("02_Temp").innerHTML = timer_jsdata[1];
-                        document.getElementById("12_Temp").innerHTML = VA_jsdata[1];
-                        document.getElementById("22_Temp").innerHTML = VB_jsdata[1];
-                        document.getElementById("32_Temp").innerHTML = VC_jsdata[1];
-                        document.getElementById("42_Temp").innerHTML = Switch_jsdata[1];
-    
-                        document.getElementById("03_Temp").innerHTML = timer_jsdata[2];
-                        document.getElementById("13_Temp").innerHTML = VA_jsdata[2];
-                        document.getElementById("23_Temp").innerHTML = VB_jsdata[2];
-                        document.getElementById("33_Temp").innerHTML = VC_jsdata[2];
-                        document.getElementById("43_Temp").innerHTML = Switch_jsdata[2];
-    
-                        document.getElementById("04_Temp").innerHTML = timer_jsdata[3];
-                        document.getElementById("14_Temp").innerHTML = VA_jsdata[3];
-                        document.getElementById("24_Temp").innerHTML = VB_jsdata[3];
-                        document.getElementById("34_Temp").innerHTML = VC_jsdata[3];
-                        document.getElementById("44_Temp").innerHTML = Switch_jsdata[3];
-    
-                        document.getElementById("05_Temp").innerHTML = timer_jsdata[4];
-                        document.getElementById("15_Temp").innerHTML = VA_jsdata[4];
-                        document.getElementById("25_Temp").innerHTML = VB_jsdata[4];
-                        document.getElementById("35_Temp").innerHTML = VC_jsdata[4];
-                        document.getElementById("45_Temp").innerHTML = Switch_jsdata[4];
-    
-                        document.getElementById("06_Temp").innerHTML = timer_jsdata[5];
-                        document.getElementById("16_Temp").innerHTML = VA_jsdata[5];
-                        document.getElementById("26_Temp").innerHTML = VB_jsdata[5];
-                        document.getElementById("36_Temp").innerHTML = VC_jsdata[5];
-                        document.getElementById("46_Temp").innerHTML = Switch_jsdata[5];
-    
-                        document.getElementById("07_Temp").innerHTML = timer_jsdata[6];
-                        document.getElementById("17_Temp").innerHTML = VA_jsdata[6];
-                        document.getElementById("27_Temp").innerHTML = VB_jsdata[6];
-                        document.getElementById("37_Temp").innerHTML = VC_jsdata[6];
-                        document.getElementById("47_Temp").innerHTML = Switch_jsdata[6];
-    
-                        document.getElementById("08_Temp").innerHTML = timer_jsdata[7];
-                        document.getElementById("18_Temp").innerHTML = VA_jsdata[7];
-                        document.getElementById("28_Temp").innerHTML = VB_jsdata[7];
-                        document.getElementById("38_Temp").innerHTML = VC_jsdata[7];
-                        document.getElementById("48_Temp").innerHTML = Switch_jsdata[7];
-    
-                        document.getElementById("09_Temp").innerHTML = timer_jsdata[8];
-                        document.getElementById("19_Temp").innerHTML = VA_jsdata[8];
-                        document.getElementById("29_Temp").innerHTML = VB_jsdata[8];
-                        document.getElementById("39_Temp").innerHTML = VC_jsdata[8];
-                        document.getElementById("49_Temp").innerHTML = Switch_jsdata[8];
-    
-                        document.getElementById("0X_Temp").innerHTML = timer_jsdata[9];
-                        document.getElementById("1X_Temp").innerHTML = VA_jsdata[9];
-                        document.getElementById("2X_Temp").innerHTML = VB_jsdata[9];
-                        document.getElementById("3X_Temp").innerHTML = VC_jsdata[9];
-                        document.getElementById("4X_Temp").innerHTML = Switch_jsdata[9];
-    
-                        setTimeout("tempdata()", 1000);
-                    }
-                });
-            }
-            
-            
-            
-            function t1Shift() {
-            document.getElementById('t1').style.display = 'block';
-            document.getElementById('t2').style.display = 'none';
-            document.getElementById('sensorData').style.display = 'block';
-            document.getElementById('mapFrame').style.display = 'none';
-            document.getElementById('dynamicChartFrame').style.display = 'none';
-            document.getElementById('HistoryFrame').style.display = 'none';
-            document.getElementById('TakeAwayFrame').style.display = 'none';
+        // 在此处添加用户名和密码的验证逻辑
+        // 这里假设用户名为 "admin"，密码为 "password"
+        if (username === "admin" && password === "password") {
+            // 如果验证通过，跳转到之前做好的页面
+            window.location.href = "main.html";
+        } else {
+            // 如果验证失败，显示错误消息或者其他处理
+            alert("Invalid username or password. Please try again.");
         }
-
-        function t2Shift() {
-            document.getElementById('t1').style.display = 'none';
-            document.getElementById('t2').style.display = 'block';
-            document.getElementById('sensorData').style.display = 'block';
-            document.getElementById('mapFrame').style.display = 'none';
-            document.getElementById('dynamicChartFrame').style.display = 'none';
-            document.getElementById('HistoryFrame').style.display = 'none';
-            document.getElementById('TakeAwayFrame').style.display = 'none';
-        }
-
-        function showMap() {
-            document.getElementById('t1').style.display = 'none';
-            document.getElementById('t2').style.display = 'none';
-            document.getElementById('sensorData').style.display = 'none';
-            document.getElementById('mapFrame').style.display = 'block';
-            document.getElementById('mapFrame').src = 'map.html'; // 确保地图加载
-            document.getElementById('dynamicChartFrame').style.display = 'none';
-            document.getElementById('HistoryFrame').style.display = 'none';
-            document.getElementById('TakeAwayFrame').style.display = 'none';
-        }
-
-        function showDynamicChart() {
-            document.getElementById('t1').style.display = 'none';
-            document.getElementById('t2').style.display = 'none';
-            document.getElementById('sensorData').style.display = 'none';
-            document.getElementById('mapFrame').style.display = 'none';
-            document.getElementById('dynamicChartFrame').style.display = 'block';
-            // document.getElementById('mapFrame').src = 'table.html'; // 确保表格加载
-            document.getElementById('HistoryFrame').style.display = 'none';
-            document.getElementById('TakeAwayFrame').style.display = 'none';
-        }
-        function showHistory() {
-            document.getElementById('t1').style.display = 'none';
-            document.getElementById('t2').style.display = 'none';
-            document.getElementById('sensorData').style.display = 'none';
-            document.getElementById('mapFrame').style.display = 'none';
-            document.getElementById('dynamicChartFrame').style.display = 'none';
-            document.getElementById('HistoryFrame').style.display = 'block';
-            document.getElementById('TakeAwayFrame').style.display = 'none';
-        }
-        function showTakeAway() {
-            document.getElementById('t1').style.display = 'none';
-            document.getElementById('t2').style.display = 'none';
-            document.getElementById('sensorData').style.display = 'none';
-            document.getElementById('mapFrame').style.display = 'none';
-            document.getElementById('dynamicChartFrame').style.display = 'none';
-            document.getElementById('HistoryFrame').style.display = 'none';
-            document.getElementById('TakeAwayFrame').style.display = 'block';
-        }
-
-        </script>
-
+    });
+</script>
 
 </body>
-
 </html>
-
