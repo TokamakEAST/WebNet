@@ -98,6 +98,7 @@
     <div id="topbar">
         <button onclick="t1Shift()"><b>装置1状态</b></button>
         <button onclick="t2Shift()"><b>装置2状态</b></button>
+        <button onclick="t3Shift()"><b>装置3状态</b></button>
         <button onclick="showMap()">鸟害分布</button>
         <button onclick="showDynamicChart()">现场数据分析</button>
         <button onclick="showHistory()">历史数据查询</button>
@@ -210,6 +211,86 @@
                             <th width="200">风向(°)（设备二）</th>
                             <th width="200">湿度(%)（设备二）</th>
                             <th width="200">温度(°C)（设备二）</th>
+                            <tr>
+                                <td id="01_Temp"></td>
+                                <td id="11_Temp"></td>
+                                <td id="21_Temp"></td>
+                                <td id="31_Temp"></td>
+                                <td id="41_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="02_Temp"></td>
+                                <td id="12_Temp"></td>
+                                <td id="22_Temp"></td>
+                                <td id="32_Temp"></td>
+                                <td id="42_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="03_Temp"></td>
+                                <td id="13_Temp"></td>
+                                <td id="23_Temp"></td>
+                                <td id="33_Temp"></td>
+                                <td id="43_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="04_Temp"></td>
+                                <td id="14_Temp"></td>
+                                <td id="24_Temp"></td>
+                                <td id="34_Temp"></td>
+                                <td id="44_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="05_Temp"></td>
+                                <td id="15_Temp"></td>
+                                <td id="25_Temp"></td>
+                                <td id="35_Temp"></td>
+                                <td id="45_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="06_Temp"></td>
+                                <td id="16_Temp"></td>
+                                <td id="26_Temp"></td>
+                                <td id="36_Temp"></td>
+                                <td id="46_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="07_Temp"></td>
+                                <td id="17_Temp"></td>
+                                <td id="27_Temp"></td>
+                                <td id="37_Temp"></td>
+                                <td id="47_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="08_Temp"></td>
+                                <td id="18_Temp"></td>
+                                <td id="28_Temp"></td>
+                                <td id="38_Temp"></td>
+                                <td id="48_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="09_Temp"></td>
+                                <td id="19_Temp"></td>
+                                <td id="29_Temp"></td>
+                                <td id="39_Temp"></td>
+                                <td id="49_Temp"></td>
+                            </tr>
+                            <tr>
+                                <td id="0X_Temp"></td>
+                                <td id="1X_Temp"></td>
+                                <td id="2X_Temp"></td>
+                                <td id="3X_Temp"></td>
+                                <td id="4X_Temp"></td>
+                            </tr>
+                        </tr>
+                    </table>
+                    <table border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" id="t3"
+                        style="border-collapse:collapse;display:none;">
+                        <tr style="background-color: #ffffff">
+                            <th width="200">时间（设备三）</th>
+                            <th width="200">风速(m/s)（设备三）</th>
+                            <th width="200">风向(°)（设备三）</th>
+                            <th width="200">湿度(%)（设备三）</th>
+                            <th width="200">温度(°C)（设备三）</th>
                             <tr>
                                 <td id="01_Temp"></td>
                                 <td id="11_Temp"></td>
@@ -464,6 +545,7 @@
             function t1Shift() {
             document.getElementById('t1').style.display = 'block';
             document.getElementById('t2').style.display = 'none';
+            document.getElementById('t3').style.display = 'none';
             document.getElementById('sensorData').style.display = 'block';
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'none';
@@ -474,6 +556,7 @@
         function t2Shift() {
             document.getElementById('t1').style.display = 'none';
             document.getElementById('t2').style.display = 'block';
+            document.getElementById('t3').style.display = 'none';
             document.getElementById('sensorData').style.display = 'block';
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'none';
@@ -481,9 +564,22 @@
             document.getElementById('TakeAwayFrame').style.display = 'none';
         }
 
+        function t3Shift() {
+            document.getElementById('t1').style.display = 'none';
+            document.getElementById('t2').style.display = 'none';
+            document.getElementById('t3').style.display = 'block';
+            document.getElementById('sensorData').style.display = 'block';
+            document.getElementById('mapFrame').style.display = 'none';
+            document.getElementById('dynamicChartFrame').style.display = 'none';
+            document.getElementById('HistoryFrame').style.display = 'none';
+            document.getElementById('TakeAwayFrame').style.display = 'none';
+        }
+
+
         function showMap() {
             document.getElementById('t1').style.display = 'none';
             document.getElementById('t2').style.display = 'none';
+            document.getElementById('t3').style.display = 'none';
             document.getElementById('sensorData').style.display = 'none';
             document.getElementById('mapFrame').style.display = 'block';
             document.getElementById('mapFrame').src = 'map.html'; // 确保地图加载
@@ -495,6 +591,7 @@
         function showDynamicChart() {
             document.getElementById('t1').style.display = 'none';
             document.getElementById('t2').style.display = 'none';
+            document.getElementById('t3').style.display = 'none';
             document.getElementById('sensorData').style.display = 'none';
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'block';
@@ -505,6 +602,7 @@
         function showHistory() {
             document.getElementById('t1').style.display = 'none';
             document.getElementById('t2').style.display = 'none';
+            document.getElementById('t3').style.display = 'none';
             document.getElementById('sensorData').style.display = 'none';
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'none';
@@ -514,6 +612,7 @@
         function showTakeAway() {
             document.getElementById('t1').style.display = 'none';
             document.getElementById('t2').style.display = 'none';
+            document.getElementById('t3').style.display = 'none';
             document.getElementById('sensorData').style.display = 'none';
             document.getElementById('mapFrame').style.display = 'none';
             document.getElementById('dynamicChartFrame').style.display = 'none';

@@ -7,9 +7,20 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="https://webapi.amap.com/maps?v=1.4.15&key=17937f143a7e74decb294c5b4943a2eb"></script>
 <style>
+ .leaflet-popup-content-wrapper, .leaflet-popup-content {
+    width: 300px; /* 调整气泡的宽度 */
+    height: 200px; /* 可选：调整气泡的高度 */
+    padding:10px;/*添加内边距*/
+  }
+  #sidebar {
+    width: 200px;
+    float: left;
+  }
+
   #map {
+    margin-left: 210px; /* 略大于侧边栏宽度，使地图在侧边栏旁边显示 */
     height: 800px;
-    width: 70%;
+    width: calc(100% - 190px); /* 减去侧边栏的宽度 */
   }
   .popup-text {
     max-width: 250px; /* 控制文字框的最大宽度 */
