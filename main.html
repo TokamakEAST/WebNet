@@ -86,6 +86,7 @@
         <button onclick="showDynamicChart()">现场数据分析</button>
         <button onclick="showHistory()">历史数据查询</button>
         <button onclick="showTakeAway()">鸟害驱离效果</button>
+        <button onclick="screenCarry()">鸟害识别效果图</button>
     </div>
 
     
@@ -96,6 +97,7 @@
         <iframe id="dynamicChartFrame" src="table.html" style="width: 100%; height: 800px; display: none;"></iframe>
         <iframe id="HistoryFrame" src="qnhistory.html" style="width: 100%; height: 800px; display: none;"></iframe>
         <iframe id="TakeAwayFrame" src="qntakeaway.html" style="width: 100%; height: 800px; display: none;"></iframe>
+        <iframe id="screenCarryFrame" src="screenCarry1.html" style="width: 100%; height: 800px; display: none;"></iframe>
 
     </div>
 
@@ -110,6 +112,7 @@
             document.getElementById('dynamicChartFrame').style.display = 'none';
             document.getElementById('HistoryFrame').style.display = 'none';
             document.getElementById('TakeAwayFrame').style.display = 'none';
+            document.getElementById('screenCarryFrame').style.display = 'none';
         }
         function showMap() {
             document.getElementById('sensorFrame').style.display = 'none';
@@ -118,6 +121,7 @@
             document.getElementById('dynamicChartFrame').style.display = 'none';
             document.getElementById('HistoryFrame').style.display = 'none';
             document.getElementById('TakeAwayFrame').style.display = 'none';
+            document.getElementById('screenCarryFrame').style.display = 'none';
         }
 
         function showDynamicChart() {
@@ -126,6 +130,7 @@
             document.getElementById('dynamicChartFrame').style.display = 'block';
             document.getElementById('HistoryFrame').style.display = 'none';
             document.getElementById('TakeAwayFrame').style.display = 'none';
+            document.getElementById('screenCarryFrame').style.display = 'none';
         }
         function showHistory() {
             document.getElementById('sensorFrame').style.display = 'none';
@@ -133,6 +138,7 @@
             document.getElementById('dynamicChartFrame').style.display = 'none';
             document.getElementById('HistoryFrame').style.display = 'block';
             document.getElementById('TakeAwayFrame').style.display = 'none';
+            document.getElementById('screenCarryFrame').style.display = 'none';
         }
         function showTakeAway() {
             document.getElementById('sensorFrame').style.display = 'none';
@@ -140,8 +146,17 @@
             document.getElementById('dynamicChartFrame').style.display = 'none';
             document.getElementById('HistoryFrame').style.display = 'none';
             document.getElementById('TakeAwayFrame').style.display = 'block';
+            document.getElementById('screenCarryFrame').style.display = 'none';
         }
 
+        function screenCarry(){
+            document.getElementById('sensorFrame').style.display = 'none';
+            document.getElementById('mapFrame').style.display = 'none';
+            document.getElementById('dynamicChartFrame').style.display = 'none';
+            document.getElementById('HistoryFrame').style.display = 'none';
+            document.getElementById('TakeAwayFrame').style.display = 'none';
+            document.getElementById('screenCarryFrame').style.display = 'block';
+        }
         </script>
 
 
