@@ -58,16 +58,33 @@
         "鸟害等级四",
     ];
 
-    map.on('click', function(e) {
+    
+    var marker = new AMap.Marker({
+        position: [104.69588, 31.53709], // 大头针的位置
+        map: map,
+        title: '点击显示信息'
+    });
+
+    var infoWindow = new AMap.InfoWindow({
+        offset: new AMap.Pixel(0, -30) // 调整偏移量
+    });
+
+    // 禁用默认动画
+    map.setStatus({scrollWheel: false, doubleClickZoom: false});
+
+    marker.on('click', function(e) {
         var randomImage = images[Math.floor(Math.random() * images.length)];
         var randomText = texts[Math.floor(Math.random() * texts.length)];
         var content = '<img src="' + randomImage + '" alt="Random Image" style="width:85%;height:70%;"><div class="popup-text">' + randomText + '</div>';
         
-        var infoWindow = new AMap.InfoWindow({
-            content: content,  //使用默认信息窗体框样式，显示信息内容
-            offset: new AMap.Pixel(0, -28)
-        });
-        infoWindow.open(map, e.lnglat);
+        infoWindow.setContent(content);
+        infoWindow.open(map, marker.getPosition());
+    });
+
+    // 避免地图位置偏移
+    map.on('zoomend', function() {
+        var center = map.getCenter();
+        map.setCenter(center);
     });
 </script>
 </body>
