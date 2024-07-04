@@ -61,6 +61,12 @@
         width: 80%;
         margin: 20px auto;
     }
+
+    #pieChart {
+        max-width: 400px;
+        max-height: 400px;
+        margin: 0 auto;
+    }
 </style>
 <body>
     <h2>驱离效果分析</h2>
@@ -77,7 +83,6 @@
     <table id="deviceTable">
         <thead>
             <tr>
-                <th class="select-all-header"><input type="checkbox" id="selectAll"></th>
                 <th class="index-header">序号</th>
                 <th>设备名称</th>
                 <th>鸟害进入数量</th>
@@ -87,7 +92,6 @@
         </thead>
         <tbody>
             <tr data-device="device1">
-                <td><input type="checkbox"></td>
                 <td>1</td>
                 <td>装置一</td>
                 <td class="entry-count">6</td>
@@ -95,7 +99,6 @@
                 <td class="completion-rate"></td>
             </tr>
             <tr data-device="device2">
-                <td><input type="checkbox"></td>
                 <td>2</td>
                 <td>装置二</td>
                 <td class="entry-count">406</td>
@@ -103,7 +106,6 @@
                 <td class="completion-rate"></td>
             </tr>
             <tr data-device="device3">
-                <td><input type="checkbox"></td>
                 <td>3</td>
                 <td>装置三</td>
                 <td class="entry-count">498</td>
@@ -120,18 +122,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var selectAllCheckbox = document.getElementById('selectAll');
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
             var deviceSelect = document.getElementById('device');
             var tableRows = document.querySelectorAll('#deviceTable tbody tr');
             var chartContainer = document.getElementById('chart');
             var pieChartCanvas = document.getElementById('pieChart');
-
-            selectAllCheckbox.addEventListener('change', function() {
-                for (var i = 1; i < checkboxes.length; i++) {
-                    checkboxes[i].checked = this.checked;
-                }
-            });
+            var pieChart = null;
 
             deviceSelect.addEventListener('change', function() {
                 var selectedDevice = this.value;
@@ -149,33 +144,33 @@
                     var entryCount = parseInt(row.querySelector('.entry-count').innerText);
                     var repelCount = parseInt(row.querySelector('.repel-count').innerText);
                     updateChart(entryCount, repelCount);
-                    row.querySelector('.select-all-header').classList.add('hidden');
-                    row.querySelector('.index-header').classList.add('hidden');
                 } else {
                     chartContainer.classList.add('hidden');
-                    tableRows.forEach(function(row) {
-                        row.querySelector('.select-all-header').classList.remove('hidden');
-                        row.querySelector('.index-header').classList.remove('hidden');
-                    });
                 }
             });
 
             function updateChart(entryCount, repelCount) {
-                var completionRate = (repelCount / entryCount) * 100;
-                var pieData = [100 - completionRate, completionRate];
-                var backgroundColors = ['#FF6384', '#36A2EB'];
+                var repelPercentage = (repelCount / entryCount) * 100;
+                var data = [repelPercentage, 100 - repelPercentage];
+                var labels = ['鸟害驱离数量占比', '鸟害未驱离数量占比'];
+                var backgroundColor = ['#36A2EB', '#FF6384'];
 
-                new Chart(pieChartCanvas, {
+                if (pieChart) {
+                    pieChart.destroy();
+                }
+
+                pieChart = new Chart(pieChartCanvas, {
                     type: 'pie',
                     data: {
-                        labels: ['鸟害进入数量', '鸟害驱离数量'],
+                        labels: labels,
                         datasets: [{
-                            data: pieData,
-                            backgroundColor: backgroundColors
+                            data: data,
+                            backgroundColor: backgroundColor
                         }]
                     },
                     options: {
-                        responsive: true
+                        responsive: false,
+                        maintainAspectRatio: false
                     }
                 });
             }
@@ -189,13 +184,13 @@
                     completionRateCell.innerText = completionRate.toFixed(2) + '%';
                     
                     if (completionRate <= 30) {
-                        completionRateCell.style.color = '#8B0000'; // 暗红色
+                        completionRateCell.style.color = '#8B0000'; // 深红色
                     } else if (completionRate <= 70) {
-                        completionRateCell.style.color = '#FFD700'; // 金色
+                        completionRateCell.style.color = '#B8860B'; // 暗金色
                     } else if (completionRate <= 90) {
-                        completionRateCell.style.color = '#FFA500'; // 暗橙色
+                        completionRateCell.style.color = '#DAA520'; // 金色
                     } else {
-                        completionRateCell.style.color = '#006400'; // 暗绿色
+                        completionRateCell.style.color = '#006400'; // 深绿色
                     }
                 });
             }
