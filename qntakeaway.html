@@ -7,22 +7,22 @@
 </head>
 <style>
     body {
-    font-family: Arial, sans-serif;
+        font-family: Arial, sans-serif;
     }
 
     h2 {
         text-align: left;
         margin-bottom: 20px;
-        margin-left: 40px; /* 控制元素与左边框的距离 */
+        margin-left: 40px;
     }
 
     .filter {
         text-align: left;
         margin-bottom: 20px;
-        margin-left: 40px; /* 控制元素与左边框的距离 */
+        margin-left: 40px;
     }
 
-    .filter label, .filter span {
+    .filter label {
         margin-right: 10px;
     }
 
@@ -49,77 +49,158 @@
         text-align: center;
     }
 
-    input[type="date"] {
-        margin-right: 10px;
-    }
     .highlight {
-        color: #32CD32; /* 亮绿色 */
+        color: #32CD32;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #chart {
+        width: 80%;
+        margin: 20px auto;
     }
 </style>
-
 <body>
     <h2>驱离效果分析</h2>
     <div class="filter">
         <label for="device">设备名称: </label>
         <select id="device">
+            <option value="all">全部</option>
             <option value="device1">装置一</option>
             <option value="device2">装置二</option>
             <option value="device3">装置三</option>
         </select>
-
-        <input type="date" id="start-date">
-        <span>至</span>
-        <input type="date" id="end-date">
-        <button class="search-button">查询</button>
     </div>
 
-    <table>
-        <tr>
-            <th><input type="checkbox" id="selectAll"></th>
-            <th>序号</th>
-            <th>设备名称</th>
-            <th>鸟害进入数量</th>
-            <th>鸟害驱离数量（3分钟）</th>
-            <th>驱离完成率</th>
-        </tr>
-        <!-- 示例一行，实际应用中你可能需要动态生成更多行 -->
-        <tr>
-            <td><input type="checkbox"></td>
-            <td>1</td>
-            <td>装置一</td>
-            <td>6</td>
-            <td>6</td>
-            <td class="highlight">100%</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td>2</td>
-            <td>装置二</td>
-            <td>406</td>
-            <td>406</td>
-            <td class="highlight">100%</td>
-        </tr>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td>3</td>
-            <td>装置三</td>
-            <td>498</td>
-            <td>497</td>
-            <td class="highlight">100%</td>
-        </tr>
-        <!-- 可以复制以上行来增加更多行 -->
+    <table id="deviceTable">
+        <thead>
+            <tr>
+                <th class="select-all-header"><input type="checkbox" id="selectAll"></th>
+                <th class="index-header">序号</th>
+                <th>设备名称</th>
+                <th>鸟害进入数量</th>
+                <th>鸟害驱离数量（3分钟）</th>
+                <th>驱离完成率</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-device="device1">
+                <td><input type="checkbox"></td>
+                <td>1</td>
+                <td>装置一</td>
+                <td class="entry-count">6</td>
+                <td class="repel-count">6</td>
+                <td class="completion-rate"></td>
+            </tr>
+            <tr data-device="device2">
+                <td><input type="checkbox"></td>
+                <td>2</td>
+                <td>装置二</td>
+                <td class="entry-count">406</td>
+                <td class="repel-count">300</td>
+                <td class="completion-rate"></td>
+            </tr>
+            <tr data-device="device3">
+                <td><input type="checkbox"></td>
+                <td>3</td>
+                <td>装置三</td>
+                <td class="entry-count">498</td>
+                <td class="repel-count">300</td>
+                <td class="completion-rate"></td>
+            </tr>
+        </tbody>
     </table>
 
+    <div id="chart" class="hidden">
+        <canvas id="pieChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var selectAllCheckbox = document.getElementById('selectAll');
             var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    
+            var deviceSelect = document.getElementById('device');
+            var tableRows = document.querySelectorAll('#deviceTable tbody tr');
+            var chartContainer = document.getElementById('chart');
+            var pieChartCanvas = document.getElementById('pieChart');
+
             selectAllCheckbox.addEventListener('change', function() {
                 for (var i = 1; i < checkboxes.length; i++) {
                     checkboxes[i].checked = this.checked;
                 }
             });
+
+            deviceSelect.addEventListener('change', function() {
+                var selectedDevice = this.value;
+                tableRows.forEach(function(row) {
+                    if (selectedDevice === 'all' || row.getAttribute('data-device') === selectedDevice) {
+                        row.classList.remove('hidden');
+                    } else {
+                        row.classList.add('hidden');
+                    }
+                });
+
+                if (selectedDevice !== 'all') {
+                    chartContainer.classList.remove('hidden');
+                    var row = document.querySelector('#deviceTable tbody tr[data-device="' + selectedDevice + '"]');
+                    var entryCount = parseInt(row.querySelector('.entry-count').innerText);
+                    var repelCount = parseInt(row.querySelector('.repel-count').innerText);
+                    updateChart(entryCount, repelCount);
+                    row.querySelector('.select-all-header').classList.add('hidden');
+                    row.querySelector('.index-header').classList.add('hidden');
+                } else {
+                    chartContainer.classList.add('hidden');
+                    tableRows.forEach(function(row) {
+                        row.querySelector('.select-all-header').classList.remove('hidden');
+                        row.querySelector('.index-header').classList.remove('hidden');
+                    });
+                }
+            });
+
+            function updateChart(entryCount, repelCount) {
+                var completionRate = (repelCount / entryCount) * 100;
+                var pieData = [100 - completionRate, completionRate];
+                var backgroundColors = ['#FF6384', '#36A2EB'];
+
+                new Chart(pieChartCanvas, {
+                    type: 'pie',
+                    data: {
+                        labels: ['鸟害进入数量', '鸟害驱离数量'],
+                        datasets: [{
+                            data: pieData,
+                            backgroundColor: backgroundColors
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            }
+
+            function updateCompletionRates() {
+                tableRows.forEach(function(row) {
+                    var entryCount = parseInt(row.querySelector('.entry-count').innerText);
+                    var repelCount = parseInt(row.querySelector('.repel-count').innerText);
+                    var completionRate = (repelCount / entryCount) * 100;
+                    var completionRateCell = row.querySelector('.completion-rate');
+                    completionRateCell.innerText = completionRate.toFixed(2) + '%';
+                    
+                    if (completionRate <= 30) {
+                        completionRateCell.style.color = '#8B0000'; // 暗红色
+                    } else if (completionRate <= 70) {
+                        completionRateCell.style.color = '#FFD700'; // 金色
+                    } else if (completionRate <= 90) {
+                        completionRateCell.style.color = '#FFA500'; // 暗橙色
+                    } else {
+                        completionRateCell.style.color = '#006400'; // 暗绿色
+                    }
+                });
+            }
+
+            updateCompletionRates();
         });
     </script>
 </body>
