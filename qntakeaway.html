@@ -67,6 +67,14 @@
         max-height: 400px;
         margin: 0 auto;
     }
+    .control-button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
 </style>
 <body>
     <h2>驱离效果分析</h2>
@@ -78,6 +86,7 @@
             <option value="device2">装置二</option>
             <option value="device3">装置三</option>
         </select>
+        <button class="control-button" id="controlButton">控制</button>
     </div>
 
     <table id="deviceTable">
@@ -94,8 +103,8 @@
             <tr data-device="device1">
                 <td>1</td>
                 <td>装置一</td>
-                <td class="entry-count">6</td>
-                <td class="repel-count">6</td>
+                <td class="entry-count">0</td>
+                <td class="repel-count">0</td>
                 <td class="completion-rate"></td>
             </tr>
             <tr data-device="device2">
@@ -127,6 +136,9 @@
             var chartContainer = document.getElementById('chart');
             var pieChartCanvas = document.getElementById('pieChart');
             var pieChart = null;
+            var controlButton = document.getElementById('controlButton');
+            var clickCount = 0;
+            var entryCount, repelCount;
 
             deviceSelect.addEventListener('change', function() {
                 var selectedDevice = this.value;
@@ -195,6 +207,31 @@
                 });
             }
 
+            controlButton.addEventListener('click', function() {
+                clickCount++;
+                var row = document.querySelector('#deviceTable tbody tr[data-device="device1"]');
+                var entryCell = row.querySelector('.entry-count');
+                var repelCell = row.querySelector('.repel-count');
+
+                if (clickCount === 1) {
+                    var randomEntry = Math.floor(Math.random() * 7);
+                    entryCell.innerText = randomEntry;
+                    repelCell.innerText = Math.floor(Math.random() * (randomEntry + 1));
+                } else if (clickCount === 2) {
+                    entryCell.innerText = 6;
+                    repelCell.innerText = Math.floor(Math.random() * 7);
+                } else if (clickCount === 3) {
+                    repelCell.innerText = 6;
+                }
+
+                updateCompletionRates();
+
+                if (deviceSelect.value === 'device1') {
+                    entryCount = parseInt(entryCell.innerText);
+                    repelCount = parseInt(repelCell.innerText);
+                    updateChart(entryCount, repelCount);
+                }
+            });
             updateCompletionRates();
         });
     </script>
