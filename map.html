@@ -8,9 +8,9 @@
 <script src="https://webapi.amap.com/maps?v=1.4.15&key=17937f143a7e74decb294c5b4943a2eb"></script>
 <style>
  .leaflet-popup-content-wrapper, .leaflet-popup-content {
-    width: 300px; /* 调整气泡的宽度 */
-    height: 200px; /* 可选：调整气泡的高度 */
-    padding:10px;/*添加内边距*/
+    width: 1000px; /* 调整气泡的宽度 */
+    height: auto; /* 自动高度 */
+    padding: 10px; /* 添加内边距 */
   }
   #sidebar {
     width: 200px;
@@ -20,10 +20,17 @@
   #map {
     margin-left: 210px; /* 略大于侧边栏宽度，使地图在侧边栏旁边显示 */
     height: 800px;
-    width: calc(100% - 190px); /* 减去侧边栏的宽度 */
+    width: calc(100% - 210px); /* 减去侧边栏的宽度 */
+  }
+  .popup-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%; /* 每个图片和文本占据四分之一的宽度 */
+    padding: 10px;
   }
   .popup-text {
-    max-width: 250px; /* 控制文字框的最大宽度 */
+    width: 100%; /* 控制文字框的最大宽度 */
     background-color: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
     border: 1px solid #ccc; /* 边框样式 */
     padding: 5px; /* 文字周围的内边距 */
@@ -44,21 +51,13 @@
         center: [104.69588, 31.53709], // 中心点坐标
     });
 
-    var images = [
-        "birdFinal1.png",
-        "birdFinal2.png",
-        "birdFinal3.png",
-        "birdFinal4.png",
-        "birdFinal5.png",
-    ];
-    var texts = [
-        "鸟害等级一",
-        "鸟害等级二",
-        "鸟害等级三",
-        "鸟害等级四",
+    var data = [
+        { image: "birdFinal1.png", text: "鸟害等级一" },
+        { image: "birdFinal2.png", text: "鸟害等级二" },
+        { image: "birdFinal3.png", text: "鸟害等级三" },
+        { image: "birdFinal4.png", text: "鸟害等级四" }
     ];
 
-    
     var marker = new AMap.Marker({
         position: [104.69588, 31.53709], // 大头针的位置
         map: map,
@@ -66,16 +65,20 @@
     });
 
     var infoWindow = new AMap.InfoWindow({
-        offset: new AMap.Pixel(0, -30) // 调整偏移量
+        offset: new AMap.Pixel(0, -30), // 调整偏移量
+        autoMove: false, // 禁用自动移动
+        closeWhenClickMap: true // 点击地图时关闭信息窗体
     });
 
     // 禁用默认动画
     map.setStatus({scrollWheel: false, doubleClickZoom: false});
 
     marker.on('click', function(e) {
-        var randomImage = images[Math.floor(Math.random() * images.length)];
-        var randomText = texts[Math.floor(Math.random() * texts.length)];
-        var content = '<img src="' + randomImage + '" alt="Random Image" style="width:85%;height:70%;"><div class="popup-text">' + randomText + '</div>';
+        var content = '<div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; width: 1000px;">';
+        for (var i = 0; i < data.length; i++) {
+            content += '<div class="popup-item"><img src="' + data[i].image + '" alt="Image ' + (i + 1) + '" style="width:90%;height:auto;"><div class="popup-text">' + data[i].text + '</div></div>';
+        }
+        content += '</div>';
         
         infoWindow.setContent(content);
         infoWindow.open(map, marker.getPosition());
@@ -86,6 +89,7 @@
         var center = map.getCenter();
         map.setCenter(center);
     });
+
 </script>
 </body>
 </html>
