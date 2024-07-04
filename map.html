@@ -12,11 +12,7 @@
     height: 350px; /* 调整气泡的高度 */
     padding: 10px; /* 添加内边距 */
     overflow: hidden; /* 防止内容溢出 */
-    background: rgba(255, 255, 255, 0.5); /* 半透明背景 */
-    backdrop-filter: blur(10px); /* 毛玻璃效果 */
-    -webkit-backdrop-filter: blur(10px); /* 兼容 Safari 浏览器 */
-    border-radius: 15px; /* 圆角效果 */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* 透明边框 */
+  
   }
   .leaflet-popup-tip-container {
     display: none; /* 隐藏默认的三角形指示器 */
@@ -65,8 +61,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(5px); /* 按钮毛玻璃效果 */
-    -webkit-backdrop-filter: blur(5px); /* 兼容 Safari 浏览器 */
   }
 </style>
 </head>
@@ -80,22 +74,22 @@
   });
 
   var data = [
-    { image: "birdFinal1.png", text: "鸟害等级一" },
-    { image: "birdFinal2.png", text: "鸟害等级二" },
-    { image: "birdFinal3.png", text: "鸟害等级三" },
-    { image: "birdFinal4.png", text: "鸟害等级四" },
-    { image: "birdFianl5.png", text: "鸟害等级十" },
-    { image: "birdFianl6.png", text: "鸟害等级十" },
-    { image: "birdFianl7.png", text: "鸟害等级十" },
-    { image: "birdFianl8.png", text: "鸟害等级十" },
-    { image: "birdFianl9.png", text: "鸟害等级十" },
-    { image: "birdFianl10.png", text: "鸟害等级十"},
-    { image: "birdFianl11.png", text: "鸟害等级十"},
-    { image: "birdFianl12.png", text: "鸟害等级十"},
-    { image: "birdFianl13.png", text: "鸟害等级十"},
-    { image: "birdFianl14.png", text: "鸟害等级十"},
-    { image: "birdFianl15.png", text: "鸟害等级十"},
-    { image: "birdFianl16.png", text: "鸟害等级十"},
+    { image: "birdFinal1.png", text: "鸟害等级三" },
+    { image: "birdFinal2.png", text: "鸟害等级一" },
+    { image: "birdFinal3.png", text: "鸟害等级四" },
+    { image: "birdFinal4.png", text: "鸟害等级二" },
+    { image: "birdFianl5.png", text: "鸟害等级一" },
+    { image: "birdFianl6.png", text: "鸟害等级三" },
+    { image: "birdFianl7.png", text: "鸟害等级二" },
+    { image: "birdFianl8.png", text: "鸟害等级四" },
+    { image: "birdFianl9.png", text: "鸟害等级四" },
+    { image: "birdFianl10.png", text: "鸟害等级一"},
+    { image: "birdFianl11.png", text: "鸟害等级三"},
+    { image: "birdFianl12.png", text: "鸟害等级二"},
+    { image: "birdFianl13.png", text: "鸟害等级二"},
+    { image: "birdFianl14.png", text: "鸟害等级四"},
+    { image: "birdFianl15.png", text: "鸟害等级一"},
+    { image: "birdFianl16.png", text: "鸟害等级三"},
   ];
 
   var currentIndex = 0; // 当前图片索引
