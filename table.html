@@ -52,8 +52,9 @@
             margin-bottom: 20px;
         }
         #chart {
-            width: 70%; /* 固定宽度为600px */
-            height: 70%px; /* 固定高度为400px */
+            width: calc(100% - 200px); /* 调整宽度 */
+            height: 500px; /* 固定高度为500px */
+            margin: 0 auto;
         }
         table {
             border-collapse: collapse;
@@ -84,8 +85,8 @@
 </div>
 
 <div class="main-content">
+    <h1 id="table-title">风速表</h1> <!-- 初始表格标题 -->
     <div id="table">
-        <h3 id="table-title"></h3>
         <table id="data-table">
             <thead><!-- 表头部分将通过 JavaScript 动态添加 --></thead>
             <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
@@ -110,24 +111,28 @@
             currentData = table1Data;
             updateTable(currentData);
             updateChart(currentData);
+            $('#table-title').text('风速表'); // 更新表格标题
         });
 
         $('#button2').click(function() {
             currentData = table2Data;
             updateTable(currentData);
             updateChart(currentData);
+            $('#table-title').text('风向表'); // 更新表格标题
         });
 
         $('#button3').click(function() {
             currentData = table3Data;
             updateTable(currentData);
             updateChart(currentData);
+            $('#table-title').text('湿度表'); // 更新表格标题
         });
 
         $('#button4').click(function() {
             currentData = table4Data;
             updateTable(currentData);
             updateChart(currentData);
+            $('#table-title').text('温度表'); // 更新表格标题
         });
 
         // 初始化图表
