@@ -119,7 +119,7 @@
         <button onclick="centerMap(104.74155653268099, 31.58786095505577)">装置1信息</button>
         <button onclick="centerMap(104.75155653268099, 31.58786095505577)">装置2信息</button>
         <button onclick="centerMap(104.76155653268099, 31.58786095505577)">装置3信息</button>
-        <button id="toggleMarkersBtn" onclick="toggleMarkers()">Button 4</button>
+        <button id="toggleMarkersBtn" onclick="toggleMarkers()">button4</button>
     </div>
     <button id="toggleSidebarBtn" onclick="toggleSidebar()">展开--></button>
     <div id="map"></div>
@@ -131,22 +131,34 @@
 
         var markers = [
             new AMap.Marker({
-                position: [104.74155653268099, 31.58786095505577], // 大头针1的位置
+                position: [104.74155653268099, 31.58786095505577],
                 map: map,
                 title: 'Pin 1'
             }),
             new AMap.Marker({
-                position: [104.75155653268099, 31.58786095505577], // 大头针2的位置
+                position: [104.75155653268099, 31.58786095505577],
                 map: map,
                 title: 'Pin 2'
             }),
             new AMap.Marker({
-                position: [104.76155653268099, 31.58786095505577], // 大头针3的位置
+                position: [104.76155653268099, 31.58786095505577],
                 map: map,
                 title: 'Pin 3'
             })
         ];
 
+        var newMarkers = [
+            { position: [104.745, 31.588], title: 'New Pin 1' },
+            { position: [104.755, 31.588], title: 'New Pin 2' },
+            { position: [104.765, 31.588], title: 'New Pin 3' },
+            { position: [104.747, 31.585], title: 'New Pin 4' },
+            { position: [104.757, 31.585], title: 'New Pin 5' },
+            { position: [104.767, 31.585], title: 'New Pin 6' }
+        ];
+    
+        var currentMarkers = markers.slice(); // 复制当前的大头针数组
+        var buttonsDisabled = false; // 记录按钮是否禁用状态
+        
         var data = [
             { image: "birdFinal1.png", text: "鸟害等级三" },
             { image: "birdFinal2.png", text: "鸟害等级一" },
@@ -184,15 +196,15 @@
         });
 
         function updateContent(marker) {
-            var content = '<div class="popup-content">';
-            content += '<div class="popup-button" onclick="moveLeft()">←</div>';
-            for (var i = 0; i < 3; i++) {
-                var index = (currentIndex + i) % data.length;
-                content += '<div class="popup-item"><img src="' + data[index].image + '" alt="Image ' + (index + 1) + '" style="max-width: 100%; height: auto;"><div class="popup-text">' + data[index].text + '</div></div>';
-            }
-            content += '<div class="popup-button" onclick="moveRight()">→</div>';
-            content += '</div>';
-            infoWindow.setContent(content);
+          var content = '<div class="popup-content">';
+    content += '<div class="popup-button" onclick="moveLeft()">←</div>';
+    for (var i = 0; i < 3; i++) {
+        var index = (currentIndex + i) % data.length;
+        content += '<div class="popup-item"><img src="' + data[index].image + '" alt="Image ' + (index + 1) + '" style="max-width: 100%; height: auto;"><div class="popup-text">' + data[index].text + '</div></div>';
+    }
+    content += '<div class="popup-button" onclick="moveRight()">→</div>';
+    content += '</div>';
+    infoWindow.setContent(content);
         }
 
         // 禁用默认动画并启用滚轮缩放
@@ -213,51 +225,43 @@
         }
 
         function toggleMarkers() {
-    markers.forEach(marker => {
-        marker.setMap(null); // 隐藏原有的三个大头针
-    });
-
-    var newMarkers = [
-        new AMap.Marker({
-            position: [104.73155653268099, 31.58786095505577],
-            map: map,
-            title: 'New Pin 1'
-        }),
-        new AMap.Marker({
-            position: [104.77155653268099, 31.58786095505577],
-            map: map,
-            title: 'New Pin 2'
-        }),
-        new AMap.Marker({
-            position: [104.74155653268099, 31.57786095505577],
-            map: map,
-            title: 'New Pin 3'
-        }),
-        new AMap.Marker({
-            position: [104.75155653268099, 31.59786095505577],
-            map: map,
-            title: 'New Pin 4'
-        }),
-        new AMap.Marker({
-            position: [104.76155653268099, 31.57786095505577],
-            map: map,
-            title: 'New Pin 5'
-        }),
-        new AMap.Marker({
-            position: [104.75155653268099, 31.56786095505577],
-            map: map,
-            title: 'New Pin 6'
-        })
-    ];
-
-    // 给新的六个大头针添加点击事件
-    newMarkers.forEach(marker => {
-        marker.on('click', function (e) {
-            updateContent(marker);
-            infoWindow.open(map, marker.getPosition());
+          var button4 = document.getElementById('toggleMarkersBtn');
+    if (button4.textContent === 'button4') {
+        button4.textContent = 'button5';
+        disableButtons(true); // 禁用其他按钮
+        // 隐藏原有的大头针
+        currentMarkers.forEach(marker => {
+            marker.setMap(null);
         });
-    });
-}
+        currentMarkers = []; // 清空当前大头针数组
+        // 创建并显示新的大头针
+        newMarkers.forEach(marker => {
+            var newMarker = new AMap.Marker({
+                position: marker.position,
+                map: map,
+                title: marker.title
+            });
+
+            newMarker.on('click', function (e) {
+                updateContent(newMarker);
+                infoWindow.open(map, newMarker.getPosition());
+            });
+
+            currentMarkers.push(newMarker);
+        });
+    } else {
+        button4.textContent = 'button4';
+        disableButtons(false); // 启用其他按钮
+        // 隐藏当前的大头针
+        currentMarkers.forEach(marker => {
+            marker.setMap(null);
+        });
+        currentMarkers = markers.slice(); // 恢复原有的大头针
+        currentMarkers.forEach(marker => {
+            marker.setMap(map);
+        });
+    }
+        }
 
         function toggleSidebar() {
             var sidebar = document.getElementById('sidebar');
@@ -273,6 +277,16 @@
                 title.style.marginLeft = '370px'; // 调整标题的空格大小，使其与侧边栏对齐
             }
         }
+
+        function disableButtons(disable) {
+          var buttons = document.querySelectorAll('#sidebar button');
+    buttons.forEach(button => {
+        if (button.id !== 'toggleMarkersBtn') {
+            button.disabled = disable;
+            button.style.backgroundColor = disable ? 'grey' : ''; // 更改背景颜色以显示禁用状态
+        }
+    });
+          }
     </script>
 </body>
 </html>
