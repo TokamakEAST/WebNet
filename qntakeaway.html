@@ -67,6 +67,7 @@
         max-height: 400px;
         margin: 0 auto;
     }
+
     .control-button {
         background-color: #4CAF50;
         color: white;
@@ -111,14 +112,14 @@
                 <td>2</td>
                 <td>装置二</td>
                 <td class="entry-count">406</td>
-                <td class="repel-count">300</td>
+                <td class="repel-count">400</td>
                 <td class="completion-rate"></td>
             </tr>
             <tr data-device="device3">
                 <td>3</td>
                 <td>装置三</td>
                 <td class="entry-count">498</td>
-                <td class="repel-count">300</td>
+                <td class="repel-count">490</td>
                 <td class="completion-rate"></td>
             </tr>
         </tbody>
@@ -138,7 +139,7 @@
             var pieChart = null;
             var controlButton = document.getElementById('controlButton');
             var clickCount = 0;
-            var entryCount, repelCount;
+            var x, y, z;
 
             deviceSelect.addEventListener('change', function() {
                 var selectedDevice = this.value;
@@ -194,7 +195,7 @@
                     var completionRate = (repelCount / entryCount) * 100;
                     var completionRateCell = row.querySelector('.completion-rate');
                     completionRateCell.innerText = completionRate.toFixed(2) + '%';
-                    
+
                     if (completionRate <= 30) {
                         completionRateCell.style.color = '#8B0000'; // 深红色
                     } else if (completionRate <= 70) {
@@ -214,24 +215,33 @@
                 var repelCell = row.querySelector('.repel-count');
 
                 if (clickCount === 1) {
-                    var randomEntry = Math.floor(Math.random() * 7);
-                    entryCell.innerText = randomEntry;
-                    repelCell.innerText = Math.floor(Math.random() * (randomEntry + 1));
+                    x = Math.floor(Math.random() * 5); // 0-4
+                    entryCell.innerText = x;
+                    repelCell.innerText = Math.floor(Math.random() * (x + 1)); // 0-x
                 } else if (clickCount === 2) {
-                    entryCell.innerText = 6;
-                    repelCell.innerText = Math.floor(Math.random() * 7);
+                    y = x + Math.floor(Math.random() * 6); // x-9
+                    entryCell.innerText = y;
+                    repelCell.innerText = x + Math.floor(Math.random() * (y - x + 1)); // x-y
                 } else if (clickCount === 3) {
-                    repelCell.innerText = 6;
+                    z = y + Math.floor(Math.random() * 2); // y-11
+                    entryCell.innerText = z;
+                    repelCell.innerText = y + Math.floor(Math.random() * (z - y + 1)); // y-z
+                } else if (clickCount === 4) {
+                    entryCell.innerText = 12;
+                    repelCell.innerText = y + Math.floor(Math.random() * (12 - z + 1)); // z-12
+                } else if (clickCount === 5) {
+                    repelCell.innerText = 12; // 第五次点击后显示12
                 }
 
                 updateCompletionRates();
 
                 if (deviceSelect.value === 'device1') {
-                    entryCount = parseInt(entryCell.innerText);
-                    repelCount = parseInt(repelCell.innerText);
+                    var entryCount = parseInt(entryCell.innerText);
+                    var repelCount = parseInt(repelCell.innerText);
                     updateChart(entryCount, repelCount);
                 }
             });
+
             updateCompletionRates();
         });
     </script>
