@@ -116,10 +116,10 @@
     <h1 class="title" id="title">鸟害分布地图</h1>
     <div id="sidebar">
         <h2>装置信息</h2>
-        <button onclick="centerMap(104.74155653268099, 31.58786095505577)">装置1信息</button>
-        <button onclick="centerMap(104.75155653268099, 31.58786095505577)">装置2信息</button>
-        <button onclick="centerMap(104.76155653268099, 31.58786095505577)">装置3信息</button>
-        <button>Button 4</button>
+        <button onclick="centerMap(104.74155653268099, 31.58786095505577)" id="btn1">装置1信息</button>
+        <button onclick="centerMap(104.75155653268099, 31.58786095505577)" id="btn2">装置2信息</button>
+        <button onclick="centerMap(104.76155653268099, 31.58786095505577)" id="btn3">装置3信息</button>
+        <button id="toggleMarkersBtn" onclick="toggleMarkers()">Button 4</button>
     </div>
     <button id="toggleSidebarBtn" onclick="toggleSidebar()">展开--></button>
     <div id="map"></div>
@@ -129,7 +129,7 @@
             center: [104.74155653268099, 31.58786095505577], // 中心点坐标
         });
 
-        var markers = [
+        var originalMarkers = [
             new AMap.Marker({
                 position: [104.74155653268099, 31.58786095505577], // 大头针1的位置
                 map: map,
@@ -147,6 +147,33 @@
             })
         ];
 
+        var newMarkers = [
+            new AMap.Marker({
+                position: [104.73155653268099, 31.57786095505577], // 新大头针1的位置
+                title: 'New Pin 1'
+            }),
+            new AMap.Marker({
+                position: [104.74155653268099, 31.57786095505577], // 新大头针2的位置
+                title: 'New Pin 2'
+            }),
+            new AMap.Marker({
+                position: [104.75155653268099, 31.57786095505577], // 新大头针3的位置
+                title: 'New Pin 3'
+            }),
+            new AMap.Marker({
+                position: [104.76155653268099, 31.57786095505577], // 新大头针4的位置
+                title: 'New Pin 4'
+            }),
+            new AMap.Marker({
+                position: [104.77155653268099, 31.57786095505577], // 新大头针5的位置
+                title: 'New Pin 5'
+            }),
+            new AMap.Marker({
+                position: [104.78155653268099, 31.57786095505577], // 新大头针6的位置
+                title: 'New Pin 6'
+            })
+        ];
+
         var data = [
             { image: "birdFinal1.png", text: "鸟害等级三" },
             { image: "birdFinal2.png", text: "鸟害等级一" },
@@ -156,73 +183,110 @@
             { image: "birdFianl6.png", text: "鸟害等级三" },
             { image: "birdFianl7.png", text: "鸟害等级二" },
             { image: "birdFianl8.png", text: "鸟害等级四" },
-            { image: "birdFianl9.png", text: "鸟害等级四" },
-            { image: "birdFianl10.png", text: "鸟害等级一"},
-            { image: "birdFianl12.png", text: "鸟害等级二"},
-            { image: "birdFianl13.png", text: "鸟害等级二"},
-            { image: "birdFianl14.png", text: "鸟害等级四"},
-            { image: "birdFianl15.png", text: "鸟害等级一"},
-            { image: "birdFianl16.png", text: "鸟害等级三"},
+            { image: "birdFianl9.png", text: "鸟害等级三" },
         ];
 
-        var currentIndex = 0; // 当前图片索引
+        function createPopupContent() {
+            var content = document.createElement('div');
+            content.className = 'popup-content';
+            var currentIndex = 0;
 
-        var infoWindow = new AMap.InfoWindow({
-            offset: new AMap.Pixel(0, -30), // 调整偏移量
-            autoMove: false, // 禁用自动移动
-            closeWhenClickMap: true // 点击地图时关闭信息窗体
-        });
-
-        // 禁用默认动画
-        map.setStatus({ scrollWheel: false, doubleClickZoom: false });
-
-        markers.forEach(marker => {
-            marker.on('click', function (e) {
-                updateContent(marker);
-                infoWindow.open(map, marker.getPosition());
-            });
-        });
-
-        function updateContent(marker) {
-            var content = '<div class="popup-content">';
-            content += '<div class="popup-button" onclick="moveLeft()">←</div>';
-            for (var i = 0; i < 3; i++) {
-                var index = (currentIndex + i) % data.length;
-                content += '<div class="popup-item"><img src="' + data[index].image + '" alt="Image ' + (index + 1) + '" style="width:90%;height:auto;"><div class="popup-text">' + data[index].text + '</div></div>';
+            function updatePopup() {
+                content.innerHTML = '';
+                for (var i = 0; i < 3; i++) {
+                    var itemIndex = (currentIndex + i) % data.length;
+                    var item = data[itemIndex];
+                    var itemContainer = document.createElement('div');
+                    itemContainer.className = 'popup-item';
+                    var image = document.createElement('img');
+                    image.src = item.image;
+                    image.width = 200; // 调整图片宽度
+                    image.height = 150; // 调整图片高度
+                    var text = document.createElement('div');
+                    text.className = 'popup-text';
+                    text.innerText = item.text;
+                    itemContainer.appendChild(image);
+                    itemContainer.appendChild(text);
+                    content.appendChild(itemContainer);
+                }
             }
-            content += '<div class="popup-button" onclick="moveRight()">→</div>';
-            content += '</div>';
-            infoWindow.setContent(content);
+
+            var leftButton = document.createElement('div');
+            leftButton.className = 'popup-button';
+            leftButton.innerHTML = '&lt;'; // 显示 "<"
+            leftButton.onclick = function() {
+                currentIndex = (currentIndex - 3 + data.length) % data.length;
+                updatePopup();
+            };
+
+            var rightButton = document.createElement('div');
+            rightButton.className = 'popup-button';
+            rightButton.innerHTML = '&gt;'; // 显示 ">"
+            rightButton.onclick = function() {
+                currentIndex = (currentIndex + 3) % data.length;
+                updatePopup();
+            };
+
+            content.appendChild(leftButton);
+            content.appendChild(rightButton);
+            updatePopup();
+
+            return content;
         }
 
-        window.moveLeft = function () {
-            currentIndex = (currentIndex - 1 + data.length) % data.length;
-            updateContent();
-        };
+        var popup = new AMap.InfoWindow({
+            isCustom: true,
+            content: createPopupContent(),
+            offset: new AMap.Pixel(16, -45)
+        });
 
-        window.moveRight = function () {
-            currentIndex = (currentIndex + 1) % data.length;
-            updateContent();
-        };
+        function centerMap(lng, lat) {
+            map.setZoomAndCenter(17, [lng, lat]);
+            popup.open(map, [lng, lat]);
+        }
 
         function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            var content = document.getElementById("map");
-            var toggleBtn = document.getElementById("toggleSidebarBtn");
-
-            sidebar.classList.toggle("visible");
-            content.classList.toggle("hidden");
-
-            if (sidebar.classList.contains("visible")) {
-                toggleBtn.innerText = "<--收起";
+            var sidebar = document.getElementById('sidebar');
+            var toggleBtn = document.getElementById('toggleSidebarBtn');
+            var title = document.getElementById('title');
+            sidebar.classList.toggle('visible');
+            if (sidebar.classList.contains('visible')) {
+                toggleBtn.innerHTML = '收起 <--';
+                title.style.marginLeft = '320px'; // 调整为侧边栏宽度
             } else {
-                toggleBtn.innerText = "展开-->";
+                toggleBtn.innerHTML = '展开 -->';
+                title.style.marginLeft = '50px'; // 恢复原始空格大小
             }
         }
 
-        function centerMap(lat, lng) {
-            map.setCenter([lat, lng]);
+        var originalMarkersVisible = true;
+
+        function toggleMarkers() {
+            var button4 = document.getElementById('toggleMarkersBtn');
+            var buttons = ['btn1', 'btn2', 'btn3'];
+            if (originalMarkersVisible) {
+                button4.innerHTML = 'Button 5';
+                originalMarkers.forEach(marker => marker.setMap(null));
+                newMarkers.forEach(marker => marker.setMap(map));
+                buttons.forEach(buttonId => {
+                    var button = document.getElementById(buttonId);
+                    button.disabled = true;
+                    button.style.backgroundColor = '#ccc'; // 设置为灰色
+                });
+            } else {
+                button4.innerHTML = 'Button 4';
+                newMarkers.forEach(marker => marker.setMap(null));
+                originalMarkers.forEach(marker => marker.setMap(map));
+                buttons.forEach(buttonId => {
+                    var button = document.getElementById(buttonId);
+                    button.disabled = false;
+                    button.style.backgroundColor = ''; // 恢复原始颜色
+                });
+            }
+            originalMarkersVisible = !originalMarkersVisible;
         }
+
+        popup.open(map, originalMarkers[0].getPosition());
     </script>
 </body>
 </html>
