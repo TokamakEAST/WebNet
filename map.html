@@ -121,32 +121,32 @@
     <h1 class="title" id="title">鸟害分布地图</h1>
     <div id="sidebar">
         <h2>装置信息</h2>
-        <button onclick="centerMap(104.74155653268099, 31.58786095505577)">装置1信息</button>
-        <button onclick="centerMap(104.75155653268099, 31.58786095505577)">装置2信息</button>
-        <button onclick="centerMap(104.76155653268099, 31.58786095505577)">装置3信息</button>
-        <button id="toggleMarkersBtn" onclick="toggleMarkers()">Button 4</button>
+        <button onclick="centerMap(106.320657,29.420442)">装置1信息</button>
+        <button onclick="centerMap(104.702328,31.535036)">装置2信息</button>
+        <button onclick="centerMap(104.696736,31.535670)">装置3信息</button>
+        <button id="toggleMarkersBtn" onclick="toggleMarkers()">历史测量</button>
     </div>
     <button id="toggleSidebarBtn" onclick="toggleSidebar()">展开--></button>
     <div id="map"></div>
     <script>
         var map = new AMap.Map('map', {
             zoom: 16,
-            center: [104.74155653268099, 31.58786095505577],
+            center: [106.320657,29.420442],
         });
 
         var markers = [
             new AMap.Marker({
-                position: [104.74155653268099, 31.58786095505577],
+                position: [106.320657,29.420442],
                 map: map,
                 title: 'Pin 1'
             }),
             new AMap.Marker({
-                position: [104.75155653268099, 31.58786095505577],
+                position: [104.702328,31.535036],
                 map: map,
                 title: 'Pin 2'
             }),
             new AMap.Marker({
-                position: [104.76155653268099, 31.58786095505577],
+                position: [104.696736,31.535670],
                 map: map,
                 title: 'Pin 3'
             })
@@ -240,37 +240,37 @@
                 });
                 newMarkers = [
                     new AMap.Marker({
-                        position: [104.74155653268099, 31.58786095505577],
+                        position: [104.702248,31.534576],
                         map: map,
                         title: 'Pin 4'
                     }),
                     new AMap.Marker({
-                        position: [104.75155653268099, 31.58786095505577],
+                        position: [104.717201,31.515718],
                         map: map,
                         title: 'Pin 5'
                     }),
                     new AMap.Marker({
-                        position: [104.76155653268099, 31.58786095505577],
+                        position: [104.719246,31.514889],
                         map: map,
                         title: 'Pin 6'
                     }),
                     new AMap.Marker({
-                        position: [104.77155653268099, 31.58786095505577],
+                        position: [104.720755,31.512536],
                         map: map,
                         title: 'Pin 7'
                     }),
                     new AMap.Marker({
-                        position: [104.78155653268099, 31.58786095505577],
+                        position: [104.720209,31.514745],
                         map: map,
                         title: 'Pin 8'
                     }),
                     new AMap.Marker({
-                        position: [104.79155653268099, 31.58786095505577],
+                        position: [104.715948,31.516598],
                         map: map,
                         title: 'Pin 9'
                     })
                 ];
-                toggleBtn.innerText = 'Button 5';
+                toggleBtn.innerText = '返回检测';
                 toggleBtn.onclick = restoreMarkers;
                 document.querySelectorAll('button').forEach(btn => {
                     if (btn !== toggleBtn) {
@@ -285,7 +285,7 @@
                 originalMarkers.forEach(marker => {
                     map.add(marker);
                 });
-                toggleBtn.innerText = 'Button 4';
+                toggleBtn.innerText = '历史测量';
                 toggleBtn.onclick = toggleMarkers;
                 document.querySelectorAll('button').forEach(btn => {
                     btn.disabled = false;
