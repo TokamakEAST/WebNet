@@ -213,10 +213,51 @@
         }
 
         function toggleMarkers() {
-            markers.forEach(marker => {
-                marker.setMap(marker.getMap() ? null : map);
-            });
-        }
+    markers.forEach(marker => {
+        marker.setMap(null); // 隐藏原有的三个大头针
+    });
+
+    var newMarkers = [
+        new AMap.Marker({
+            position: [104.73155653268099, 31.58786095505577],
+            map: map,
+            title: 'New Pin 1'
+        }),
+        new AMap.Marker({
+            position: [104.77155653268099, 31.58786095505577],
+            map: map,
+            title: 'New Pin 2'
+        }),
+        new AMap.Marker({
+            position: [104.74155653268099, 31.57786095505577],
+            map: map,
+            title: 'New Pin 3'
+        }),
+        new AMap.Marker({
+            position: [104.75155653268099, 31.59786095505577],
+            map: map,
+            title: 'New Pin 4'
+        }),
+        new AMap.Marker({
+            position: [104.76155653268099, 31.57786095505577],
+            map: map,
+            title: 'New Pin 5'
+        }),
+        new AMap.Marker({
+            position: [104.75155653268099, 31.56786095505577],
+            map: map,
+            title: 'New Pin 6'
+        })
+    ];
+
+    // 给新的六个大头针添加点击事件
+    newMarkers.forEach(marker => {
+        marker.on('click', function (e) {
+            updateContent(marker);
+            infoWindow.open(map, marker.getPosition());
+        });
+    });
+}
 
         function toggleSidebar() {
             var sidebar = document.getElementById('sidebar');
