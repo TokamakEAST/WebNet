@@ -10,7 +10,7 @@ mysqli_select_db($con,"wk");                           //数据库名
 // 设置编码，防止中文乱码
 mysqli_set_charset($con, "utf8");
  
-$sql="SELECT time,speed,temp,dire,hum FROM wkqn ORDER BY time desc LIMIT 15";                      //数据库下属表名
+$sql="SELECT time,speed,temp,dire,hum FROM wkqn2 ORDER BY time desc LIMIT 15";                      //数据库下属表名
 
 $result = mysqli_query($con,$sql);
 
