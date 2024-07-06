@@ -7,28 +7,32 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <style>
-   body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    text-align: center;
+    body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
     }
 
-    .container {
+    .left-section {
+        flex: 2;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+    }
+
+    .right-section {
+        flex: 1;
+        overflow-y: auto;
+        border-left: 2px solid #000;
+        padding: 10px;
     }
 
     .frame {
         border: 2px solid #000;
         width: 80%;
-        max-width: 640px;
-        height: 360px;
+        height: 600px;
         margin: 20px 0;
         display: flex;
         align-items: center;
@@ -46,43 +50,69 @@
         gap: 10px;
     }
 
+    .screenshot {
+        width: 100%;
+        margin: 10px 0;
+    }
 
 </style>
 
 
 <body>
-    <h1>屏幕捕获示例</h1>
-    <div class="container">
+    <div class="left-section">
+        <h1>鸟类识别通讯系统</h1>
         <div class="frame" id="frame">
             <video id="video" autoplay></video>
         </div>
-        <button id="captureBtn">开始屏幕捕获</button>
-        <button id="stopBtn">停止屏幕捕获</button>
+        <div class="buttons">
+            <button id="captureBtn">开始识别</button>
+            <button id="stopBtn">停止识别</button>
+            <button id="screenshotBtn">上传</button>
+        </div>
     </div>
+    <div class="right-section" id="screenshotContainer"></div>
     <script src="script.js"></script>
-
     <script>
-       let captureStream = null;
+      let captureStream = null;
 
-        document.getElementById('captureBtn').addEventListener('click', async () => {
-            try {
-                captureStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-                const videoElement = document.getElementById('video');
-                videoElement.srcObject = captureStream;
-            } catch (err) {
-                console.error('Error: ' + err);
-            }
-        });
+document.getElementById('captureBtn').addEventListener('click', async () => {
+    try {
+        captureStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        const videoElement = document.getElementById('video');
+        videoElement.srcObject = captureStream;
+    } catch (err) {
+        console.error('Error: ' + err);
+    }
+});
 
-        document.getElementById('stopBtn').addEventListener('click', () => {
-            if (captureStream) {
-                const tracks = captureStream.getTracks();
-                tracks.forEach(track => track.stop());
-                captureStream = null;
-                const videoElement = document.getElementById('video');
-                videoElement.srcObject = null;
-            }
-        });
+document.getElementById('stopBtn').addEventListener('click', () => {
+    if (captureStream) {
+        const tracks = captureStream.getTracks();
+        tracks.forEach(track => track.stop());
+        captureStream = null;
+        const videoElement = document.getElementById('video');
+        videoElement.srcObject = null;
+    }
+});
+
+document.getElementById('screenshotBtn').addEventListener('click', () => {
+    const videoElement = document.getElementById('video');
+    if (videoElement.srcObject) {
+        const canvas = document.createElement('canvas');
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        const context = canvas.getContext('2d');
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        
+        const img = document.createElement('img');
+        img.src = canvas.toDataURL('image/png');
+        img.classList.add('screenshot');
+
+        document.getElementById('screenshotContainer').appendChild(img);
+    } else {
+        console.log('No video stream to capture.');
+    }
+});
 
     </script>
 
