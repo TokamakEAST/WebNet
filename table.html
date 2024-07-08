@@ -105,7 +105,7 @@
 
     $(document).ready(function() {
         requestTdata();
-        setInterval(requestTdata, 8000); // 每3秒调用一次 requestTdata
+        setInterval(requestTdata, 8000); // 每8秒调用一次 requestTdata
 
         $('#button1').click(function() {
             currentData = table1Data;
@@ -159,10 +159,13 @@
                     console.log('Data fetched successfully:', data); // 调试信息
                     var jsdata = JSON.parse(data);
                     console.log('Parsed JSON data:', jsdata); // 调试信息
+
+                    // 对湿度和温度数据进行处理
                     table1Data = [jsdata[0]];
                     table2Data = [jsdata[1]];
-                    table3Data = [jsdata[2]];
-                    table4Data = [jsdata[3]];
+                    table3Data = [jsdata[2].map(value => value / 10000 + 60)]; // 处理湿度数据
+                    table4Data = [jsdata[3].map(value => value / 10000 + 60)]; // 处理温度数据
+
                     // 初始化加载表格和折线图
                     updateTable(currentData);
                     updateChart(currentData);
@@ -174,50 +177,50 @@
         }
     });
 
-  function updateTable(data) {
-    var table = $('#data-table');
-    var tableHead = table.find('thead');
-    var tableBody = table.find('tbody');
+    function updateTable(data) {
+        var table = $('#data-table');
+        var tableHead = table.find('thead');
+        var tableBody = table.find('tbody');
 
-    tableHead.empty(); // 清空表头
-    tableBody.empty(); // 清空表格内容
+        tableHead.empty(); // 清空表头
+        tableBody.empty(); // 清空表格内容
 
-    // 更新表头
-    var headerRow = $('<tr>');
-    headerRow.append($('<th>').text('类别')); // 添加类别列标题
-    for (let i = 0; i < data[0].length; i++) { // 假设所有列的数据长度都相同
-        headerRow.append($('<th>').text('时间' + (i + 1)));
+        // 更新表头
+        var headerRow = $('<tr>');
+        headerRow.append($('<th>').text('类别')); // 添加类别列标题
+        for (let i = 0; i < data[0].length; i++) { // 假设所有列的数据长度都相同
+            headerRow.append($('<th>').text('时间' + (i + 1)));
+        }
+        tableHead.append(headerRow);
+
+        // 更新表格内容
+        data.forEach(function(rowData, index) {
+            var row = $('<tr>');
+            row.append($('<td>').text('列' + (index + 1))); // 添加列标签
+            rowData.forEach(function(cellData) {
+                row.append($('<td>').text(cellData));
+            });
+            tableBody.append(row);
+        });
     }
-    tableHead.append(headerRow);
 
-    // 更新表格内容
-    data.forEach(function(rowData, index) {
-        var row = $('<tr>');
-        row.append($('<td>').text('列' + (index + 1))); // 添加列标签
-        rowData.forEach(function(cellData) {
-            row.append($('<td>').text(cellData));
+    function updateChart(data) {
+        var labels = Array.from({length: 15}, (_, i) => '时间' + (i + 1));  // 确保有15个横坐标标签
+
+        window.myChart.data.labels = labels;  // 设置横坐标标签
+        window.myChart.data.datasets = [];
+
+        // 添加数据集
+        data.forEach(function(columnData, index) {
+            window.myChart.data.datasets.push({
+                label: '列' + (index + 1),
+                data: columnData,
+                borderColor: 'hsla(' + (index * 30 % 360) + ', 100%, 50%, 1)',
+                fill: false
+            });
         });
-        tableBody.append(row);
-    });
-}
-
-   function updateChart(data) {
-    var labels = Array.from({length: 15}, (_, i) => '时间' + (i + 1));  // 确保有15个横坐标标签
-
-    window.myChart.data.labels = labels;  // 设置横坐标标签
-    window.myChart.data.datasets = [];
-
-    // 添加数据集
-    data.forEach(function(columnData, index) {
-        window.myChart.data.datasets.push({
-            label: '列' + (index + 1),
-            data: columnData,
-            borderColor: 'hsla(' + (index * 30 % 360) + ', 100%, 50%, 1)',
-            fill: false
-        });
-    });
-    window.myChart.update();
-}
+        window.myChart.update();
+    }
 </script>
 </body>
 </html>
