@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可伸缩边栏网页</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #555;
+        }
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .main-content h1 {
+            font-size: 36px;
+            width: 100%;
+        }
+        .main-content h2 {
+            font-size: 24px;
+            width: 100%;
+        }
+        #table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        #chart {
+            width: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            width: calc(100% / 14);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <a href="#">按钮1</a>
+    <a href="#">按钮2</a>
+    <a href="#">按钮3</a>
+    <a href="#">按钮4</a>
+</div>
+
+<div class="main-content">
+    <h1>大标题</h1>
+    <h2>副标题</h2>
+    <div id="table">
+        <h3>表格标题</h3>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>项目1</th>
+                    <th>项目2</th>
+                    <th>项目3</th>
+                    <th>项目4</th>
+                    <th>项目5</th>
+                    <th>项目6</th>
+                    <th>项目7</th>
+                    <th>项目8</th>
+                    <th>项目9</th>
+                    <th>项目10</th>
+                    <th>项目11</th>
+                    <th>项目12</th>
+                    <th>项目13</th>
+                    <th>项目14</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 1 -->
+                <tr>
+                    <td>0</td>
+                    <td>58.5361</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>34.9488</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <!-- 2 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>9.0012</td>
+                    <td>28.0177</td>
+                    <td>22.2794</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <!-- 3 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <!-- 4 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0.5696</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>3.0466</td>
+                    <td>0</td>
+                    <td>4.1407</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <!-- 5 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>28.7831</td>
+                    <td>0</td>
+                    <td>16.603</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <!-- 6 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>5.2873</td>
+                    <td>5.2291</td>
+                    <td>11.4840</td>
+                </tr>
+                <!-- 7 -->
+                <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <!-- 8 -->  
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>5.5918</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+                <!-- 9 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>2.6423</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>3.4427</td><!-- N -->
+                </tr>
+                <!-- 10 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+                <!-- 11 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>2.1913</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+                <!-- 12 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0.9620</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+                <!-- 13 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>2.2241</td><!-- N -->
+                </tr>
+                <!-- 14 -->
+                <tr>
+                    <td>0</td><!-- A -->
+                    <td>0</td><!-- B -->
+                    <td>0</td><!-- C -->
+                    <td>0</td><!-- D -->
+                    <td>0</td><!-- E -->
+                    <td>0</td><!-- F -->
+                    <td>0</td><!-- G -->
+                    <td>0</td><!-- H -->
+                    <td>0</td><!-- I -->
+                    <td>0</td><!-- J -->
+                    <td>0</td><!-- K -->
+                    <td>0</td><!-- L -->
+                    <td>0</td><!-- M -->
+                    <td>0</td><!-- N -->
+                </tr>
+
+                <!-- 继续添加数据行 -->
+            </tbody>
+        </table>
+    </div>
+    <div id="chart">
+        <canvas id="myChart"></canvas>
+    </div>
+    
+ 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var table = document.getElementById('data-table');
+    var data = [];
+    for (var i = 1; i < table.rows.length; i++) {
+        var row = table.rows[i];
+        var rowData = {
+            label: '项目' + i,
+            data: [],
+            borderColor: 'hsla(' + (i * 30 % 360) + ', 100%, 50%, 1)', // 设置不同颜色的边框
+            fill: false
+        };
+        for (var j = 0; j < row.cells.length; j++) {
+            rowData.data.push(parseFloat(row.cells[j].innerText).toFixed(4));
+        }
+        data.push(rowData);
+    }
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['项目1', '项目2', '项目3', '项目4', '项目5', '项目6', '项目7', '项目8', '项目9', '项目10', '项目11', '项目12', '项目13', '项目14'],
+            datasets: data
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

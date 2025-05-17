@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电力碳排放流分析</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #555;
+        }
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .main-content h1 {
+            font-size: 36px;
+            width: 100%;
+        }
+        .main-content h2 {
+            font-size: 24px;
+            width: 100%;
+        }
+        #table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        #chart {
+            width: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            width: calc(100% / 14);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <!-- 保留原有按钮 -->
+        <a id="button1">分布矩阵</a>
+        <a id="button2">节点碳势分布</a>
+        <a id="button3">负荷碳流率</a>
+        <a id="button4">支路有功损耗</a>
+    </div>
+    
+    <div class="main-content">
+        <h1>Gas数据表</h1>
+        <div id="table">
+            <h3 id="table-title"></h3>
+            <table id="data-table">
+                <thead>
+                    <th>时间</th>
+                    <th>CH4</th>
+                    <th>H2S</th>
+                </thead>
+                <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
+            </table>
+        </div>
+        <div id="chart">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+     
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var button1 = document.getElementById('button1');
+        var button2 = document.getElementById('button2');
+        var button3 = document.getElementById('button3');
+        var button4 = document.getElementById('button4');
+        var currentData = []; // 当前数据，初始为空数组
+    
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // 初始为空数组，点击按钮时会更新
+                datasets: [] // 初始为空数组，点击按钮时会更新
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    
+        // 初始加载表格和折线图
+        updateTable(currentData);
+        updateChart(currentData);
+    
+        button1.addEventListener('click', function() {
+            fetchAndDisplayData('get_gas_data.php');
+        });
+    
+        button2.addEventListener('click', function() {
+            // 如果有其他按钮需要获取数据，类似处理
+        });
+    
+        button3.addEventListener('click', function() {
+            // 如果有其他按钮需要获取数据，类似处理
+        });
+    
+        button4.addEventListener('click', function() {
+            // 如果有其他按钮需要获取数据，类似处理
+        });
+    
+        function fetchAndDisplayData(url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    currentData = data;
+                    updateTable(currentData);
+                    updateChart(currentData);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    
+        function updateTable(data) {
+            var table = document.getElementById('data-table');
+            var tableHead = table.querySelector('thead');
+            tableHead.innerHTML = ''; // 清空表头
+            var tableBody = table.querySelector('tbody');
+            tableBody.innerHTML = ''; // 清空表格内容
+            var tableTitle = document.getElementById('table-title');
+    
+            // 更新表头
+            var headerRow = document.createElement('tr');
+            headerRow.innerHTML = '<th>时间</th><th>CH4</th><th>H2S</th>';
+            tableHead.appendChild(headerRow);
+            tableTitle.textContent = 'Gas数据表';
+    
+            // 更新表格内容
+            data.forEach(function(rowData) {
+                var row = document.createElement('tr');
+                row.innerHTML = `<td>${rowData.time}</td><td>${rowData.CH4}</td><td>${rowData.H2S}</td>`;
+                tableBody.appendChild(row);
+            });
+        }
+    
+        function updateChart(data) {
+            // 图表更新部分
+        }
+    </script>
+    </body>
+    </html>

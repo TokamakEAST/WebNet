@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鸟害数据分析</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 200px;
+            height: 100%;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #555;
+        }
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .main-content h1 {
+            font-size: 36px;
+            width: 100%;
+        }
+        .main-content h2 {
+            font-size: 24px;
+            width: 100%;
+        }
+        #table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        #chart {
+            width: calc(100% - 200px); /* 调整宽度 */
+            height: 500px; /* 固定高度为500px */
+            margin: 0 auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            width: calc(100% / 15); /* 调整宽度以适应15列 */
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <a id="button1">风速表</a>
+    <a id="button2">风向表</a>
+    <a id="button3">湿度表</a>
+    <a id="button4">温度表</a>
+</div>
+
+<div class="main-content">
+    <h1 id="table-title">风速表</h1> <!-- 初始表格标题 -->
+    <div id="table">
+        <table id="data-table">
+            <thead><!-- 表头部分将通过 JavaScript 动态添加 --></thead>
+            <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
+        </table>
+    </div>
+    <div id="chart">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    var table1Data = [], table2Data = [], table3Data = [], table4Data = [];
+    var currentData = table1Data; // 初始状态为表格1数据
+
+    $(document).ready(function() {
+        requestTdata();
+        setInterval(requestTdata, 8000); // 每8秒调用一次 requestTdata
+
+        $('#button1').click(function() {
+            currentData = table1Data;
+            updateTable(currentData);
+            updateChart(currentData);
+            $('#table-title').text('风速表'); // 更新表格标题
+        });
+
+        $('#button2').click(function() {
+            currentData = table2Data;
+            updateTable(currentData);
+            updateChart(currentData);
+            $('#table-title').text('风向表'); // 更新表格标题
+        });
+
+        $('#button3').click(function() {
+            currentData = table3Data;
+            updateTable(currentData);
+            updateChart(currentData);
+            $('#table-title').text('湿度表'); // 更新表格标题
+        });
+
+        $('#button4').click(function() {
+            currentData = table4Data;
+            updateTable(currentData);
+            updateChart(currentData);
+            $('#table-title').text('温度表'); // 更新表格标题
+        });
+
+        // 初始化图表
+        var ctx = document.getElementById('myChart').getContext('2d');
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 15}, (_, i) => '时间' + (i + 1)), // 生成时间标签
+                datasets: [] // 初始为空，点击按钮时会更新
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function requestTdata() {
+            $.ajax({
+                url: 'getqntable.php',
+                success: function(data) {
+                    console.log('Data fetched successfully:', data); // 调试信息
+                    var jsdata = JSON.parse(data);
+                    console.log('Parsed JSON data:', jsdata); // 调试信息
+
+                    // 对湿度和温度数据进行处理
+                    table1Data = [jsdata[0]];
+                    table2Data = [jsdata[1]];
+                    table3Data = [jsdata[2].map(value => value / 10000 + 60)]; // 处理湿度数据
+                    table4Data = [jsdata[3].map(value => value / 10000 + 60)]; // 处理温度数据
+
+                    // 初始化加载表格和折线图
+                    updateTable(currentData);
+                    updateChart(currentData);
+                },
+                error: function(error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+    });
+
+    function updateTable(data) {
+        var table = $('#data-table');
+        var tableHead = table.find('thead');
+        var tableBody = table.find('tbody');
+
+        tableHead.empty(); // 清空表头
+        tableBody.empty(); // 清空表格内容
+
+        // 更新表头
+        var headerRow = $('<tr>');
+        headerRow.append($('<th>').text('类别')); // 添加类别列标题
+        for (let i = 0; i < data[0].length; i++) { // 假设所有列的数据长度都相同
+            headerRow.append($('<th>').text('时间' + (i + 1)));
+        }
+        tableHead.append(headerRow);
+
+        // 更新表格内容
+        data.forEach(function(rowData, index) {
+            var row = $('<tr>');
+            row.append($('<td>').text('列' + (index + 1))); // 添加列标签
+            rowData.forEach(function(cellData) {
+                row.append($('<td>').text(cellData));
+            });
+            tableBody.append(row);
+        });
+    }
+
+    function updateChart(data) {
+        var labels = Array.from({length: 15}, (_, i) => '时间' + (i + 1));  // 确保有15个横坐标标签
+
+        window.myChart.data.labels = labels;  // 设置横坐标标签
+        window.myChart.data.datasets = [];
+
+        // 添加数据集
+        data.forEach(function(columnData, index) {
+            window.myChart.data.datasets.push({
+                label: '列' + (index + 1),
+                data: columnData,
+                borderColor: 'hsla(' + (index * 30 % 360) + ', 100%, 50%, 1)',
+                fill: false
+            });
+        });
+        window.myChart.update();
+    }
+</script>
+</body>
+</html>

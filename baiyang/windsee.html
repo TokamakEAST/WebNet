@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八个标签页的页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+        }
+        .tab {
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            margin-right: 2px;
+            border: 1px solid #ccc;
+        }
+        .tab.active {
+            background-color: #ccc;
+        }
+        .content {
+            display: none;
+            flex-direction: row;
+        }
+        .content.active {
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-right: 1px solid #ccc;
+        }
+        .main {
+            flex: 1;
+            padding: 10px;
+        }
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+        .page-content {
+            position: relative; /* 确保绝对定位按钮相对于page-content定位 */
+        }
+        :fullscreen {
+            background-color: rgb(255, 255, 255); /* 确保全屏背景不是黑色 */
+        }
+        #myChart {
+        /* 在这里控制折线图高度 */
+            height: 400px; /* 高度 */
+        /* 好用，但是太丑了 */
+        /* width: 600px !important;  */
+        }
+        #fullscreenToggle {
+            background: none;
+            border: none;
+            color: transparent;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 50px;
+            top: -30px; /* 根据实际需要微调这个值 */
+            left: -10px; /* 略微向右移动，避免与边缘重叠 */
+            background: url('button.png') no-repeat center center;
+            background-size: contain; /* 或者使用 contain 根据需求调整 */
+            border: none; /* 移除边框 */
+            width: 20px; /* 按需调整大小 */
+            height: 20px; /* 按需调整大小 */
+            cursor: pointer;
+            display: block;
+            padding: 0
+            
+        }
+
+        #fullscreenToggle:hover {
+            color: #555; /* 悬停时显示灰色文字 */
+        }
+
+        :fullscreen #fullscreenToggle {
+            top: 3px;  /* 全屏时调整为更合适的位置 */
+            left: 3px;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>页面标题</h1>
+</header>
+
+<div class="tabs">
+    <div class="tab active" onclick="showContent(0)">标签1</div>
+    <div class="tab" onclick="showContent(1)">标签2</div>
+    <div class="tab" onclick="showContent(2)">标签3</div>
+    <div class="tab" onclick="showContent(3)">标签4</div>
+    <div class="tab" onclick="showContent(4)">标签5</div>
+    <div class="tab" onclick="showContent(5)">标签6</div>
+    <div class="tab" onclick="showContent(6)">标签7</div>
+    <div class="tab" onclick="showContent(7)">标签8</div>
+</div>
+
+<div class="content active">
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showPageContent(0, 0)">页面1</a></li>
+            <li><a href="#" onclick="showPageContent(0, 1)">页面2</a></li>
+            <li><a href="#" onclick="showPageContent(0, 2)">页面3</a></li>
+        </ul>
+    </div>
+    <div class="main">
+        <div class="page-content active" id="page1">
+            <button id="fullscreenToggle">
+            </button>
+            <h2>电力碳排放流分析</h2>
+            <div id="table">
+                <h3 id="table-title"></h3>
+                <table id="data-table">
+                    <thead><!-- 表头部分将通过 JavaScript 动态添加 --></thead>
+                    <tbody><!-- 表格内容将通过 JavaScript 动态添加 --></tbody>
+                </table>
+            </div>
+            <div id="chart" style="width: 800px;">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        
+        </div>
+
+        <div class="page-content">
+            <h2>这是标签1的页面2内容</h2>
+            </div>
+        <div class="page-content">
+            <h2>这是标签1的页面3内容</h2>
+
+            </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showPageContent(1, 0)">页面4</a></li>
+            <li><a href="#" onclick="showPageContent(1, 1)">页面5</a></li>
+            <li><a href="#" onclick="showPageContent(1, 2)">页面6</a></li>
+        </ul>
+    </div>
+    <div class="main">
+        <div class="page-content active">这是标签2的页面1内容</div>
+        <div class="page-content">这是标签2的页面2内容</div>
+        <div class="page-content">这是标签2的页面3内容</div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showPageContent(2, 0)">页面7</a></li>
+            <li><a href="#" onclick="showPageContent(2, 1)">页面8</a></li>
+            <li><a href="#" onclick="showPageContent(2, 2)">页面9</a></li>
+        </ul>
+    </div>
+    <div class="main">
+        <div class="page-content active">这是标签3的页面1内容</div>
+        <div class="page-content">这是标签3的页面2内容</div>
+        <div class="page-content">这是标签3的页面3内容</div>
+    </div>
+</div>
+
+<!-- 继续为其他标签页添加内容 -->
+
+<style>
+
+
+</style>
+
+<script>
+   function showContent(index) {
+    var tabs = document.querySelectorAll('.tab');
+    var contents = document.querySelectorAll('.content');
+    tabs.forEach((tab, i) => {
+        tab.classList.toggle('active', i === index);
+    });
+    contents.forEach((content, i) => {
+        content.classList.toggle('active', i === index);
+        if (i === index) {
+            showPageContent(i, 0); // 显示每个内容的第一页
+        }
+    });
+}
+
+function showPageContent(tabIndex, pageIndex) {
+    var contents = document.querySelectorAll('.content')[tabIndex];
+    var pages = contents.querySelectorAll('.page-content');
+    pages.forEach((page, i) => {
+        page.classList.remove('active'); // 首先移除所有页面的active类
+    });
+    pages[pageIndex].classList.add('active'); // 然后为选定的页面添加active类
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+
+
+     var table1Data = [
+        /* 表格1数据 */
+        [0, 58.53609544, 0, 0, 34.94879282, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 9.001216621, 28.0177011, 22.27935563, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0.569674858, 0, 0, 0, 3.046645004, 0, 4.140725523, 0, 0, 0, 0, 0],
+        [0, 0, 0, 28.78310735, 0, 16.60303417, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5.28735531, 5.229154791, 11.48401676, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 12.56728246, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 5.591869607, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 2.642308341, 0, 0, 0, 3.442765352],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 2.19134919, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.962060937, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.224176274, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['节点1', '节点2', '节点3', '节点4', '节点5', '节点6', '节点7', '节点8', '节点9', '节点10', '节点11', '节点12', '节点13', '节点14'],
+            datasets: [] // 初始化数据集为空
+        },
+        options: {
+            responsive: true,  // 使图表响应式
+            maintainAspectRatio: false, // 不保持宽高比
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // 初始加载表格和折线图
+    updateTable(table1Data);
+    updateChart(table1Data);
+
+    // JavaScript 逻辑部分，处理表格和其他动态内容
+    function updateTable(data) {
+        var table = document.getElementById('data-table');
+        var tableHead = table.querySelector('thead');
+        var tableBody = table.querySelector('tbody');
+        tableHead.innerHTML = ''; // 清空表头
+        tableBody.innerHTML = ''; // 清空表格内容
+        var tableTitle = document.getElementById('table-title');
+        var headerRow = document.createElement('tr');
+        data[0].forEach(function(_, index) {
+            var headerCell = document.createElement('th');
+            headerCell.textContent = '节点' + (index + 1);
+            headerRow.appendChild(headerCell);
+        });
+        tableHead.appendChild(headerRow);
+        data.forEach(function(rowData) {
+            var row = document.createElement('tr');
+            rowData.forEach(function(cellData) {
+                var cell = document.createElement('td');
+                cell.textContent = cellData;
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
+        });
+    }
+    
+    function updateChart(data) {
+        myChart.data.datasets = [];
+        data.forEach(function(rowData, index) {
+            myChart.data.datasets.push({
+                label: '节点' + (index + 1),
+                data: rowData,
+                borderColor: 'hsla(' + ((index + 1) * 30 % 360) + ', 100%, 50%, 1)',
+                fill: false
+            });
+        });
+        myChart.update();
+    }
+
+
+
+
+    document.getElementById('fullscreenToggle').addEventListener('click', function() {
+    var page1 = document.getElementById('page1'); // 获取正确的页面元素
+
+    if (!document.fullscreenElement) {
+        // 尝试进入全屏
+        if (page1.requestFullscreen) {
+            page1.requestFullscreen();
+        } else if (page1.mozRequestFullScreen) { /* Firefox */
+            page1.mozRequestFullScreen();
+        } else if (page1.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            page1.webkitRequestFullscreen();
+        } else if (page1.msRequestFullscreen) { /* IE/Edge */
+            page1.msRequestFullscreen();
+        }
+    } else {
+        // 退出全屏
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+        }
+    }
+});
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

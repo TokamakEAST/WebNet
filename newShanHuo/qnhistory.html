@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>温湿度历史数据</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+        <style>td {text-align:center}</style>
+</head>
+
+<body>
+    <link rel="stylesheet" type="text/css" href="http://886la.cn/content/templates/colorful/style.css?v=20190714" >
+
+    <div id="wrapper">
+        <table width="100%" border="1">
+            <tr>
+                <td id=bg height="200" colspan="2" bgcolor="#000000" style="background-color: #AEAEAE; text-align: left; color: #000000;">
+                    <blockquote>
+                        <blockquote>
+                            <blockquote>
+                                <blockquote>
+                                    <h1 style="text-align:center">历史数据查询</h1>
+                                </blockquote>
+                            </blockquote>
+                        </blockquote>
+                    </blockquote>
+                </td>
+            </tr>
+            
+        </table>
+        
+        <style type="text/css">
+            .mytable{
+                width: 1000px;
+               
+                margin: 0 auto;
+            }
+        </style>
+        
+        
+        
+        <br><br>
+             
+            <script>
+                setInterval("showTemp()", 10000); //单位是毫秒
+
+                function showTemp() {
+                    var xmlhttp;
+                    if (window.XMLHttpRequest) {
+                        // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                        xmlhttp = new XMLHttpRequest();
+                    } else {
+                        // IE6, IE5 浏览器执行代码
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange = function() {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+                        }
+                    }
+                    xmlhttp.open("GET", "getqnHistory.php", true); //GET->格式   gettemp.php文件
+                    xmlhttp.send();
+                }
+            </script>
+            <div id="txtHint"></div>
+        </table>
+
+
+</body>
+
+</html>

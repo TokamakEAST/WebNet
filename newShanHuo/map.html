@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鸟害分布地图</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=17937f143a7e74decb294c5b4943a2eb"></script>
+    <style>
+        .leaflet-popup-content-wrapper, .leaflet-popup-content {
+            width: 800px;
+            height: 350px;
+            padding: 10px;
+            overflow: hidden;
+        }
+        .leaflet-popup-tip-container {
+            display: none;
+        }
+        #map {
+            margin-left: 50px;
+            height: 800px;
+        }
+        .popup-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .popup-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            padding: 10px;
+        }
+        .popup-item img {
+            max-width: 100px;
+            max-height: 100px;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        .popup-text {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-top: 5px;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            box-sizing: border-box;
+        }
+        .popup-button {
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            padding: 5px;
+            margin: 0 5px;
+            height: 150px;
+            width: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #sidebar {
+            width: 320px;
+            padding: 20px;
+            background-color: rgba(238, 238, 238, 0.8);
+            position: fixed;
+            left: -320px;
+            top: 0;
+            bottom: 0;
+            transition: left 0.3s ease;
+            z-index: 1;
+        }
+        #sidebar.visible {
+            left: 0;
+        }
+        button {
+            width: 100%;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        #toggleSidebarBtn {
+            position: fixed;
+            top: 500px;
+            left: 20px;
+            width: 80px;
+            height: 20px;
+            background-color: rgba(238, 238, 238, 0.2);
+            background-color: #EEEEEE;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 2;
+            transition: opacity 0.3s ease;
+            border: none;
+            border-radius: 25%;
+        }
+        @media screen and (max-width: 768px) {
+            #sidebar {
+                width: 100%;
+                height: 100%;
+                left: -100%;
+                transition: left 0.3s ease;
+            }
+            #sidebar.visible {
+                left: 0;
+            }
+            #content.hidden {
+                margin-left: 0;
+            }
+        }
+        .title {
+          margin-left: 50px;
+          transition: margin-left 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title" id="title">鸟害分布地图</h1>
+    <div id="sidebar">
+        <h2>装置信息</h2>
+        <button onclick="centerMap(106.320007,29.42026)">装置1信息</button>
+        <button onclick="centerMap(104.702328,31.535036)">装置2信息</button>
+        <button onclick="centerMap(104.696736,31.535670)">装置3信息</button>
+        <button id="toggleMarkersBtn" onclick="toggleMarkers()">历史测量</button>
+    </div>
+    <button id="toggleSidebarBtn" onclick="toggleSidebar()">展开--></button>
+    <div id="map"></div>
+    <script>
+        var map = new AMap.Map('map', {
+            zoom: 16,
+            center: [106.320657,29.420442],
+        });
+
+        var markers = [
+            new AMap.Marker({
+                position: [106.320007,29.42026],
+                map: map,
+                title: 'Pin 1'
+            }),
+            new AMap.Marker({
+                position: [104.702328,31.535036],
+                map: map,
+                title: 'Pin 2'
+            }),
+            new AMap.Marker({
+                position: [104.696736,31.535670],
+                map: map,
+                title: 'Pin 3'
+            })
+        ];
+
+        var data = [
+            { image: "birdphoto\\birdFinal1.png", text: "鸟害等级三" },
+            { image: "birdphoto\\birdFinal2.png", text: "鸟害等级一" },
+            { image: "birdphoto\\birdFinal3.png", text: "鸟害等级四" },
+            { image: "birdphoto\\birdFinal4.png", text: "鸟害等级二" },
+            { image: "birdphoto\\birdFianl5.png", text: "鸟害等级一" },
+            { image: "birdphoto\\birdFianl6.png", text: "鸟害等级三" },
+            { image: "birdphoto\\birdFianl7.png", text: "鸟害等级二" },
+            { image: "birdphoto\\birdFianl8.png", text: "鸟害等级四" },
+            { image: "birdphoto\\birdFianl9.png", text: "鸟害等级四" },
+            { image: "birdphoto\\birdFianl10.png", text: "鸟害等级一"},
+            { image: "birdphoto\\birdFianl12.png", text: "鸟害等级二"},
+            { image: "birdphoto\\birdFianl13.png", text: "鸟害等级二"},
+            { image: "birdphoto\\birdFianl14.png", text: "鸟害等级四"},
+            { image: "birdphoto\\birdFianl15.png", text: "鸟害等级一"},
+            { image: "birdphoto\\birdFianl16.png", text: "鸟害等级三"},
+        ];
+
+        var currentIndex = 0;
+
+        var infoWindow = new AMap.InfoWindow({
+            offset: new AMap.Pixel(0, -30),
+            autoMove: false,
+            closeWhenClickMap: true
+        });
+
+        map.setStatus({ scrollWheel: true, doubleClickZoom: false });
+
+        markers.forEach(marker => {
+            marker.on('click', function (e) {
+                updateContent(marker);
+                infoWindow.open(map, marker.getPosition());
+            });
+        });
+
+        function updateContent(marker) {
+            var content = '<div class="popup-content">';
+            content += '<div class="popup-button" onclick="moveLeft()">←</div>';
+            for (var i = 0; i < 3; i++) {
+                var index = (currentIndex + i) % data.length;
+                content += '<div class="popup-item">';
+                content += '<img src="' + data[index].image + '" alt="Image ' + (index + 1) + '">';
+                content += '<div class="popup-text">' + data[index].text + '</div>';
+                content += '</div>';
+            }
+            content += '<div class="popup-button" onclick="moveRight()">→</div>';
+            content += '</div>';
+            infoWindow.setContent(content);
+        }
+
+        function moveLeft() {
+            currentIndex = (currentIndex - 1 + data.length) % data.length;
+            updateContent();
+        }
+
+        function moveRight() {
+            currentIndex = (currentIndex + 1) % data.length;
+            updateContent();
+        }
+
+        function centerMap(lat, lng) {
+            map.setZoomAndCenter(16, [lat, lng]);
+        }
+
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var title = document.getElementById('title');
+            sidebar.classList.toggle('visible');
+            if (sidebar.classList.contains('visible')) {
+                title.style.marginLeft = '370px';
+            } else {
+                title.style.marginLeft = '50px';
+            }
+        }
+
+        var isMarkersVisible = true;
+        var originalMarkers = markers.slice();
+        var newMarkers = [];
+
+        function toggleMarkers() {
+            var toggleBtn = document.getElementById('toggleMarkersBtn');
+            if (isMarkersVisible) {
+                // 隐藏原有大头针，显示新的六个大头针
+                originalMarkers.forEach(marker => {
+                    map.remove(marker);
+                });
+                newMarkers = [
+                    new AMap.Marker({
+                        position: [104.702248,31.534576],
+                        map: map,
+                        title: 'Pin 4'
+                    }),
+                    new AMap.Marker({
+                        position: [104.717201,31.515718],
+                        map: map,
+                        title: 'Pin 5'
+                    }),
+                    new AMap.Marker({
+                        position: [104.719246,31.514889],
+                        map: map,
+                        title: 'Pin 6'
+                    }),
+                    new AMap.Marker({
+                        position: [104.720755,31.512536],
+                        map: map,
+                        title: 'Pin 7'
+                    }),
+                    new AMap.Marker({
+                        position: [104.720209,31.514745],
+                        map: map,
+                        title: 'Pin 8'
+                    }),
+                    new AMap.Marker({
+                        position: [104.715948,31.516598],
+                        map: map,
+                        title: 'Pin 9'
+                    })
+                ];
+                toggleBtn.innerText = '返回检测';
+                toggleBtn.onclick = restoreMarkers;
+                document.querySelectorAll('button').forEach(btn => {
+                    if (btn !== toggleBtn) {
+                        btn.disabled = true;
+                    }
+                });
+            } else {
+                // 隐藏新的大头针，恢复原有的三个大头针
+                newMarkers.forEach(marker => {
+                    map.remove(marker);
+                });
+                originalMarkers.forEach(marker => {
+                    map.add(marker);
+                });
+                toggleBtn.innerText = '历史测量';
+                toggleBtn.onclick = toggleMarkers;
+                document.querySelectorAll('button').forEach(btn => {
+                    btn.disabled = false;
+                });
+            }
+            isMarkersVisible = !isMarkersVisible;
+        }
+
+        function restoreMarkers() {
+            toggleMarkers();
+            document.querySelectorAll('button').forEach(btn => {
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
